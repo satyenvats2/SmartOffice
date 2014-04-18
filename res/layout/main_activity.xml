@@ -31,6 +31,19 @@
                 android:onClick="onOpenLeftDrawer"
                 android:scaleType="fitXY"
                 android:src="@drawable/drawer_left" />
+            
+            <ImageButton
+                android:id="@+id/create_mail_or_meeting_button"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:background="@null"
+                android:onClick="onComposeEmailOrMeeting"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_launcher" />
+            
         </RelativeLayout>
 
         <FrameLayout

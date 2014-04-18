@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,23 +14,23 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mw.smartoff.model.Email;
 import com.mw.smartoffice.R;
-import com.parse.ParseObject;
 
 public class EmailsAdapter extends BaseAdapter {
 
 	Context context;
-	List<ParseObject> emailPOList;
+	List<Email> emailList;
 	LayoutInflater inflater;
 
 	Date todayDate;
-	
-	public EmailsAdapter(Context context, List<ParseObject> emailPOList) {
+
+	public EmailsAdapter(Context context, List<Email> emailList) {
 		super();
 		this.context = context;
-		this.emailPOList = emailPOList;
+		this.emailList = emailList;
 		todayDate = new Date();
-		}
+	}
 
 	static class ViewHolder {
 		protected ImageView senderIV;
@@ -62,32 +63,29 @@ public class EmailsAdapter extends BaseAdapter {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		ParseObject temp = emailPOList.get(position);
-if(temp == null)
-	System.out.println("temp is null");
-else
-	System.out.println("temp is not null");
-//		temp.getParseObject("User").fetchIfNeededInBackground(new GetCallback<ParseObject>() {
-//	        public void done(ParseObject object, ParseException e) {
-////	            String title = object.getString("title");
-////	        	viewHolder.nameTV.setText(object.getString("username"));
-//	          }
-//	      });
-    	viewHolder.nameTV.setText("Name");
-	
-		viewHolder.subjectTV.setText(temp.getString("subject"));
-//		viewHolder.dateTV.setText(temp.getCreatedAt().toString());
+		Email temp = emailList.get(position);
+		if (temp == null)
+			System.out.println("temp is null");
+		else
+			System.out.println("temp is not null");
+
+		viewHolder.nameTV.setText("Name");
+		if (!temp.isEmailRead()) {
+			System.out.println("bolding");
+			viewHolder.nameTV.setTypeface(null, Typeface.BOLD);
+		}
+		viewHolder.subjectTV.setText(temp.getSubject());
+		// viewHolder.dateTV.setText(temp.getCreatedAt().toString());
 		viewHolder.dateTV.setText(formatDate(temp.getCreatedAt()));
 
 		return convertView;
 	}
 
-	private String formatDate(Date date)
-	{
+	private String formatDate(Date date) {
 		String OLD_FORMAT = "EEE MMM dd HH:mm:ss zzz yyyy";
-		
+
 		SimpleDateFormat formatter = new SimpleDateFormat(OLD_FORMAT);
-		
+
 		Date tempDate = null;
 		Date tempTodayDate = null;
 		try {
@@ -98,21 +96,21 @@ else
 			e.printStackTrace();
 		}
 		String NEW_FORMAT = null;
-		if(tempDate.compareTo(tempTodayDate) == 0)
+		if (tempDate.compareTo(tempTodayDate) == 0)
 			NEW_FORMAT = "HH:mm";
 		else
 			NEW_FORMAT = "dd/MM";
 
 		formatter.applyPattern(NEW_FORMAT);
-		
-		String newDateString  = formatter.format(tempDate);
-		
+
+		String newDateString = formatter.format(tempDate);
+
 		return newDateString;
 	}
-	
+
 	@Override
 	public int getCount() {
-		return emailPOList.size();
+		return emailList.size();
 	}
 
 	@Override

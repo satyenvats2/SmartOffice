@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.mw.smartoff.adapter.NavDrawerListAdapter;
 import com.mw.smartoff.fragments.DashboardFragment;
 import com.mw.smartoff.fragments.EmailFragment;
+import com.mw.smartoff.fragments.MeetingFragment;
 import com.mw.smartoff.model.NavDrawerItem;
 import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
@@ -98,7 +99,7 @@ public class MainActivity extends Activity {
 			fragment = new EmailFragment();
 			break;
 		case 2:
-			fragment = new DashboardFragment();
+			fragment = new MeetingFragment();
 			break;
 		case 3:
 			fragment = new DashboardFragment();

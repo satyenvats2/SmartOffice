@@ -5,7 +5,6 @@ import java.util.List;
 
 import android.content.Context;
 
-import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -39,22 +38,10 @@ public class EmailDAO {
 		mainQuery.orderByAscending("createdAt");
 		try {
 			emailList = mainQuery.find();
-} catch (ParseException e) {
+		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 
-//		 mainQuery.findInBackground(new FindCallback<ParseObject>() {
-//		 public void done(List<ParseObject> results, ParseException e) {
-//		 // results has the list of players that win a lot or haven't won much 
-//		System.out.println("dao sixze is : " + results.size());
-//		if(e == null)
-//			System.out.println("no exception");
-//		else
-//			System.out.println("excepotion");
-//		 }
-//		 });
-		
-		
 		return emailList;
 	}
 }

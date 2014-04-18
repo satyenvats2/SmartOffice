@@ -23,7 +23,7 @@ public class LoginActivity extends Activity {
 	EditText emailET;
 	EditText passwordET;
 
-	UserDAO dao;
+	UserDAO userDAO;
 
 	GlobalVariable globalVariable;
 	Intent nextIntent;
@@ -70,7 +70,7 @@ public class LoginActivity extends Activity {
 	}
 
 	private void initThings() {
-		dao = new UserDAO(this);
+		userDAO = new UserDAO(this);
 		globalVariable = new GlobalVariable();
 	}
 
@@ -124,7 +124,7 @@ public class LoginActivity extends Activity {
 		// ParseUser user;
 		@Override
 		protected ParseUser doInBackground(String... params) {
-			ParseUser user = dao.loginUser(emailET.getText().toString().trim(),
+			ParseUser user = userDAO.loginUser(emailET.getText().toString().trim(),
 					passwordET.getText().toString());
 
 			return user;
