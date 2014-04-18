@@ -29,7 +29,10 @@ public class MeetingsAdapter extends BaseAdapter {
 	}
 
 	static class ViewHolder {
-		protected TextView nameTV;
+		protected TextView subjectTV;
+		protected TextView descriptionTV;
+		protected TextView dateTV;
+		protected TextView locationTV;
 	}
 
 	@Override
@@ -39,11 +42,17 @@ public class MeetingsAdapter extends BaseAdapter {
 			inflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			viewHolder = new ViewHolder();
-			convertView = inflater.inflate(R.layout.email_list_element, parent,
+			convertView = inflater.inflate(R.layout.meeting_list_element, parent,
 					false);
 
-			viewHolder.nameTV = (TextView) convertView
-					.findViewById(R.id.name_TV);
+			viewHolder.subjectTV = (TextView) convertView
+					.findViewById(R.id.subject_TV);
+			viewHolder.descriptionTV = (TextView) convertView
+					.findViewById(R.id.description_TV);
+			viewHolder.dateTV = (TextView) convertView
+					.findViewById(R.id.date_TV);
+			viewHolder.locationTV = (TextView) convertView
+					.findViewById(R.id.location_TV);
 
 			convertView.setTag(viewHolder);
 		} else {
@@ -51,7 +60,10 @@ public class MeetingsAdapter extends BaseAdapter {
 		}
 
 		Meeting temp = meetingList.get(position);
-		viewHolder.nameTV.setText(temp.getSubject());
+		viewHolder.subjectTV.setText(temp.getSubject());
+		viewHolder.descriptionTV.setText(temp.getContent());
+		viewHolder.dateTV.setText(temp.getStartTime().toString());
+		viewHolder.locationTV.setText(temp.getLocation());
 
 		return convertView;
 	}

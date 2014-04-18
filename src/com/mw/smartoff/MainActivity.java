@@ -7,7 +7,6 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.provider.Settings.Global;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
