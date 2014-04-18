@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <RelativeLayout
+            android:id="@+id/fakeActionBarRL"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#0000ff"
+            android:orientation="horizontal"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp" >
+
+            <!--  -->
+
+            <ImageButton
+                android:id="@+id/left_drawer_button"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:onClick="onOpenLeftDrawer"
+                android:scaleType="fitXY"
+                android:src="@drawable/drawer_left" />
+        </RelativeLayout>
+
+        <FrameLayout
+            android:id="@+id/frame_to_be_replaced"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/fakeActionBarRL" />
+    </RelativeLayout>
+
+<!--     left drawer -->
+    <RelativeLayout
+        android:id="@+id/leftDrawer_RL"
+        android:layout_width="290dp"
+        android:background="#ff0000"
+        android:layout_height="match_parent"
+        android:layout_gravity="start" >
+
+        <ListView
+            android:id="@+id/leftDrawer_LV"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:choiceMode="singleChoice"
+            android:divider="@android:color/black"
+            android:dividerHeight="1dp" />
+<!-- android:background="@color/blue_dark_applevel" -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp" 
+            android:paddingLeft="15dp"
+            android:clickable="true"
+            android:onClick="onLogOut" >
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/settings_logout" 
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:gravity="center_vertical"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" 
+                android:text="Logout"/>
+        </LinearLayout>
+    </RelativeLayout>
+    
+</android.support.v4.widget.DrawerLayout>
