@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -34,7 +35,8 @@ public class MainActivity extends Activity {
 	ArrayList<NavDrawerItem> navDrawerItemList;
 
 	GlobalVariable globalVariable;
-	
+	Intent nextIntent;
+
 	private void findThings() {
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		leftDrawerRLData = (RelativeLayout) findViewById(R.id.leftDrawer_RL);
@@ -85,6 +87,7 @@ public class MainActivity extends Activity {
 	}
 
 	Fragment fragment;
+	String tag;
 
 	private void displayView(int position) {
 		// update the main content by replacing fragments
@@ -93,12 +96,15 @@ public class MainActivity extends Activity {
 		switch (position) {
 		case 0:
 			fragment = new DashboardFragment();
+			tag = "DASHBOARD";
 			break;
 		case 1:
 			fragment = new EmailFragment();
+			tag = "EMAIL";
 			break;
 		case 2:
 			fragment = new MeetingFragment();
+			tag = "MEETING";
 			break;
 		case 3:
 			fragment = new DashboardFragment();
@@ -113,9 +119,9 @@ public class MainActivity extends Activity {
 
 		if (fragment != null) {
 
-			FragmentManager fragmentManager = getFragmentManager();
+			fragmentManager = getFragmentManager();
 			fragmentManager.beginTransaction()
-					.replace(R.id.frame_to_be_replaced, fragment).commit();
+					.replace(R.id.frame_to_be_replaced, fragment, tag).commit();
 
 			leftDrawerLV.setItemChecked(position, true);
 			leftDrawerLV.setSelection(position);
@@ -126,14 +132,14 @@ public class MainActivity extends Activity {
 		}
 	}
 
-	// private void setFragementTag(String tag)
-	// {
+	FragmentManager fragmentManager;
+
+	// private void setFragementTag(String tag) {
 	// if (fragment != null) {
 	//
 	// FragmentManager fragmentManager = getFragmentManager();
 	// fragmentManager.beginTransaction()
 	// .replace(R.id.frame_to_be_replaced, fragment, tag).commit();
-	//
 	//
 	// } else {
 	// // error in creating fragment
@@ -169,5 +175,31 @@ public class MainActivity extends Activity {
 	public void onLogOut(View view) {
 		Toast.makeText(this, "put logout functionality", Toast.LENGTH_SHORT)
 				.show();
+	}
+
+	// public void onComposeEmailOrMeeting(View view) {
+	// Toast.makeText(this, "put compose functionality", Toast.LENGTH_SHORT)
+	// .show();
+	// // EmailFragment fragment =
+	// // (EmailFragment)getFragmentManager().findFragmentByTag("EMAIL");
+	// DashboardFragment fragment = (DashboardFragment) fragmentManager
+	// .findFragmentByTag("DASHBOARD");
+	//
+	// if (fragment.isVisible())
+	// Toast.makeText(this, "if", Toast.LENGTH_SHORT)
+	// .show();
+	// else
+	// Toast.makeText(this, "else", Toast.LENGTH_SHORT)
+	// .show();
+	// }
+
+	public void onEmail(View view) {
+		nextIntent = new Intent(this, CreateEmailActivity.class);
+		startActivity(nextIntent);
+	}
+
+	public void onMeeting(View view) {
+		nextIntent = new Intent(this, CreateMeetingActivity.class);
+		startActivity(nextIntent);
 	}
 }

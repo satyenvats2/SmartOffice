@@ -9,11 +9,14 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mw.smartoff.DisplayMeetingActivity;
 import com.mw.smartoff.DAO.MeetingDAO;
@@ -32,6 +35,7 @@ public class MeetingFragment extends Fragment {
 	MeetingsAdapter adapter;
 	Intent nextIntent;
 
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -46,6 +50,7 @@ public class MeetingFragment extends Fragment {
 		super.onViewCreated(view, savedInstanceState);
 		findThings();
 		initThings();
+		myOwnListeners();
 		FetchMeetingsAsynTask asynTask = new FetchMeetingsAsynTask();
 		asynTask.execute(new String[] { "Hello World" });
 
@@ -108,5 +113,17 @@ public class MeetingFragment extends Fragment {
 		return new Meeting(meetingPO.getString("subject"),
 				meetingPO.getString("description"),
 				meetingPO.getString("location"), meetingPO.getDate("startTime"));
+	}
+	
+	private void myOwnListeners() {
+
+//		acceptMeeting.setOnClickListener(new OnClickListener() {
+//
+//			@Override
+//			public void onClick(View arg0) {
+//				Toast.makeText(getActivity(), "Put accept functionality", Toast.LENGTH_SHORT).show();
+//			}
+//		});
+
 	}
 }

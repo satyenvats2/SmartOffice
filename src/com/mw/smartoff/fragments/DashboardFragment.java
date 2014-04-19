@@ -27,7 +27,7 @@ public class DashboardFragment extends Fragment {
 		welcomeDashTV = (TextView) getActivity().findViewById(R.id.welcome_dash_TV);
 
 		ParseUser currentUser = ParseUser.getCurrentUser();
-		welcomeDashTV.setText(currentUser.getUsername());
+		welcomeDashTV.setText("Welcome : " + currentUser.getUsername());
 	}
 	
 	

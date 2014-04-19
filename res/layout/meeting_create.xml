@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:id="@+id/from_RL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp" >
+
+            <ImageView
+                android:id="@+id/from_IV"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_alignParentLeft="true"
+                android:background="@null"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_launcher" />
+
+            <EditText
+                android:id="@+id/from_TV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/from_IV"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:text="pranavmahajan21@gmail.com" />
+        </RelativeLayout>
+
+        <EditText
+            android:id="@+id/to_TV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/from_RL"
+            android:layout_marginTop="8dp"
+            android:hint="To" />
+
+        <EditText
+            android:id="@+id/location_TV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/to_TV"
+            android:layout_marginTop="8dp"
+            android:hint="Location" />
+
+        <LinearLayout
+            android:id="@+id/startDate_LL"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/location_TV"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:weightSum="1" >
+
+            <EditText
+                android:id="@+id/start_date_ET"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight=".5"
+                android:gravity="center"
+                android:hint="start date"
+                android:maxLines="1"
+                android:textColor="#0669b1" />
+
+            <EditText
+                android:id="@+id/start_time_ET"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight=".5"
+                android:gravity="center"
+                android:hint="start time"
+                android:maxLines="1"
+                android:textColor="#0669b1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/endDate_LL"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/startDate_LL"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:weightSum="1" >
+
+            <EditText
+                android:id="@+id/end_date_ET"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight=".5"
+                android:gravity="center"
+                android:hint="start date"
+                android:maxLines="1"
+                android:textColor="#0669b1" />
+
+            <EditText
+                android:id="@+id/end_time_ET"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight=".5"
+                android:gravity="center"
+                android:hint="start time"
+                android:maxLines="1"
+                android:textColor="#0669b1" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/subject_TV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/endDate_LL"
+            android:layout_marginTop="8dp"
+            android:hint="Subject" />
+
+        <EditText
+            android:id="@+id/content_TV"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/subject_TV"
+            android:layout_marginTop="8dp"
+            android:hint="Compose meeting" />
+    </RelativeLayout>
+
+</ScrollView>

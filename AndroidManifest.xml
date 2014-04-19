@@ -52,6 +52,21 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name="com.mw.smartoff.DisplayMeetingActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.mw.smartoff.CreateEmailActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        
+        <activity
+            android:name="com.mw.smartoff.CreateMeetingActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        
         <service android:name="com.parse.PushService" />
 
         <receiver android:name="com.parse.ParseBroadcastReceiver" >
