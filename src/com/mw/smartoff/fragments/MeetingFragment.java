@@ -3,39 +3,40 @@ package com.mw.smartoff.fragments;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Fragment;
+//import android.app.Fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mw.smartoff.DisplayMeetingActivity;
 import com.mw.smartoff.DAO.MeetingDAO;
+import com.mw.smartoff.DAO.ResponseToMeetingDAO;
 import com.mw.smartoff.adapter.MeetingsAdapter;
 import com.mw.smartoff.model.Meeting;
+import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 public class MeetingFragment extends Fragment {
 
 	ListView meetingLV;
-	// GlobalVariable globalVariable;
+	GlobalVariable globalVariable;
 	MeetingDAO dao;
+	ResponseToMeetingDAO dao2;
 	TextView notifyMeetingTV;
 
 	MeetingsAdapter adapter;
 	Intent nextIntent;
 
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -63,36 +64,47 @@ public class MeetingFragment extends Fragment {
 	}
 
 	private void initThings() {
-		// globalVariable = (GlobalVariable)
-		// getActivity().getApplicationContext();
+		globalVariable = (GlobalVariable) getActivity().getApplicationContext();
 		dao = new MeetingDAO(getActivity());
+		dao2 = new ResponseToMeetingDAO(getActivity());
 	}
 
 	private class FetchMeetingsAsynTask extends
-			AsyncTask<String, Void, List<ParseObject>> {
+			AsyncTask<String, Void, List<Meeting>> {
 		// ParseUser user;
 		@Override
-		protected List<ParseObject> doInBackground(String... params) {
-
+		protected List<Meeting> doInBackground(String... params) {
+			List<Meeting> meetingList = new ArrayList<Meeting>();
 			List<ParseObject> meetingsPOList = dao
-					.getMeetingsForUser("user1@gmail.com");
-			// System.out.println("size is : " + asdf.size());
+					.getMeetingsForUser(globalVariable.getUser().getEmail());
 
-			return meetingsPOList;
+			for (int i = 0; i < meetingsPOList.size(); i++) {
+				ParseObject tempMeetingPO = meetingsPOList.get(i);
+				Meeting tempMeeting = globalVariable
+						.convertPOtoMeeting(meetingsPOList.get(i));
+				ParseObject checkResponsePO = dao2
+						.getCurrentResponseForMeeting(
+								ParseUser.getCurrentUser(), tempMeetingPO);
+				if (checkResponsePO != null) {
+					tempMeeting.setHasBeenResponsedTo(true);
+					tempMeeting.setCurrentResponse(checkResponsePO
+							.getBoolean("isAttending"));
+				}
+				meetingList.add(tempMeeting);
+			}
+
+			return meetingList;
 		}
 
 		@Override
-		protected void onPostExecute(List<ParseObject> meetingsPOList) {
-			super.onPostExecute(meetingsPOList);
-			if (meetingsPOList.size() == 0) {
-				notifyMeetingTV.setText("No emails found");
+		protected void onPostExecute(List<Meeting> meetingsList) {
+			super.onPostExecute(meetingsList);
+			if (meetingsList.size() == 0) {
+				notifyMeetingTV.setText("No meetings found");
 				notifyMeetingTV.setVisibility(View.VISIBLE);
 			} else {
-				List<Meeting> meetingList = new ArrayList<Meeting>();
-				for (int i = 0; i < meetingsPOList.size(); i++) {
-					meetingList.add(convertPOtoMeeting(meetingsPOList.get(i)));
-				}
-				adapter = new MeetingsAdapter(getActivity(), meetingList);
+
+				adapter = new MeetingsAdapter(getActivity(), meetingsList);
 				meetingLV.setAdapter(adapter);
 
 				meetingLV.setOnItemClickListener(new OnItemClickListener() {
@@ -114,16 +126,17 @@ public class MeetingFragment extends Fragment {
 				meetingPO.getString("description"),
 				meetingPO.getString("location"), meetingPO.getDate("startTime"));
 	}
-	
+
 	private void myOwnListeners() {
 
-//		acceptMeeting.setOnClickListener(new OnClickListener() {
-//
-//			@Override
-//			public void onClick(View arg0) {
-//				Toast.makeText(getActivity(), "Put accept functionality", Toast.LENGTH_SHORT).show();
-//			}
-//		});
+		// acceptMeeting.setOnClickListener(new OnClickListener() {
+		//
+		// @Override
+		// public void onClick(View arg0) {
+		// Toast.makeText(getActivity(), "Put accept functionality",
+		// Toast.LENGTH_SHORT).show();
+		// }
+		// });
 
 	}
 }

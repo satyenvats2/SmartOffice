@@ -38,7 +38,7 @@
                 android:text="pranavmahajan21@gmail.com" />
         </RelativeLayout>
 
-        <EditText
+        <com.mw.smartoff.services.UserAutoCompleteTextView
             android:id="@+id/to_TV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

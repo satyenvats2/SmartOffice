@@ -11,6 +11,9 @@ public class Meeting implements Serializable {
 	String description;
 	String location;
 	Date startTime;
+	
+	boolean hasBeenResponsedTo;
+	boolean currentResponse;
 
 	public Meeting(String subject, String description, String location,
 			Date startTime) {
@@ -19,6 +22,41 @@ public class Meeting implements Serializable {
 		this.description = description;
 		this.location = location;
 		this.startTime = startTime;
+	}
+
+	public Meeting(String subject, String description, String location,
+			Date startTime, boolean currentResponse) {
+		super();
+		this.subject = subject;
+		this.description = description;
+		this.location = location;
+		this.startTime = startTime;
+		this.currentResponse = currentResponse;
+	}
+
+	
+	public boolean isHasBeenResponsedTo() {
+		return hasBeenResponsedTo;
+	}
+
+	public void setHasBeenResponsedTo(boolean hasBeenResponsedTo) {
+		this.hasBeenResponsedTo = hasBeenResponsedTo;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public boolean isCurrentResponse() {
+		return currentResponse;
+	}
+
+	public void setCurrentResponse(boolean currentResponse) {
+		this.currentResponse = currentResponse;
 	}
 
 	public String getSubject() {

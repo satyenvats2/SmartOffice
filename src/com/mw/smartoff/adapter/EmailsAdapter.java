@@ -32,6 +32,10 @@ public class EmailsAdapter extends BaseAdapter {
 		todayDate = new Date();
 	}
 
+	public void swapData(List<Email> emailList) {
+		this.emailList = emailList;
+	}
+	
 	static class ViewHolder {
 		protected ImageView senderIV;
 		protected TextView nameTV;
@@ -63,20 +67,20 @@ public class EmailsAdapter extends BaseAdapter {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		Email temp = emailList.get(position);
-		if (temp == null)
+		Email tempEmail = emailList.get(position);
+		if (tempEmail == null)
 			System.out.println("temp is null");
 		else
 			System.out.println("temp is not null");
 
-		viewHolder.nameTV.setText("Name");
-		if (!temp.isEmailRead()) {
+		viewHolder.nameTV.setText(tempEmail.getFrom().getUsername());
+		if (!tempEmail.isEmailRead()) {
 			System.out.println("bolding");
 			viewHolder.nameTV.setTypeface(null, Typeface.BOLD);
 		}
-		viewHolder.subjectTV.setText(temp.getSubject());
+		viewHolder.subjectTV.setText(tempEmail.getSubject());
 		// viewHolder.dateTV.setText(temp.getCreatedAt().toString());
-		viewHolder.dateTV.setText(formatDate(temp.getCreatedAt()));
+		viewHolder.dateTV.setText(formatDate(tempEmail.getCreatedAt()));
 
 		return convertView;
 	}

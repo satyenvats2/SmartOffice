@@ -25,7 +25,8 @@ public class MeetingDAO {
 		System.out.println("email is : " + emailID);
 		List<ParseObject> meetingList = null;
 		query.whereEqualTo("to", emailID);
-
+		query.orderByAscending("createdAt");
+		
 		try {
 			meetingList = query.find();
 		} catch (ParseException e) {
@@ -35,4 +36,9 @@ public class MeetingDAO {
 		return meetingList;
 	}
 
+	public void repondToMeeting()
+	{
+		
+		
+	}
 }

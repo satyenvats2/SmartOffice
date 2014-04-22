@@ -3,10 +3,11 @@ package com.mw.smartoff.fragments;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Fragment;
+//import android.app.Fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mw.smartoff.DisplayEmailActivity;
 import com.mw.smartoff.DAO.EmailDAO;
@@ -21,7 +23,10 @@ import com.mw.smartoff.adapter.EmailsAdapter;
 import com.mw.smartoff.model.Email;
 import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
+import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 public class EmailFragment extends Fragment {
 	ListView emailLV;
@@ -32,12 +37,11 @@ public class EmailFragment extends Fragment {
 	EmailsAdapter adapter;
 	Intent nextIntent;
 
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.email_list_fragment, container,
-				false);
+		View rootView = inflater.inflate(R.layout.email_list_fragment,
+				container, false);
 		return rootView;
 
 	}
@@ -55,7 +59,6 @@ public class EmailFragment extends Fragment {
 		emailLV = (ListView) getActivity().findViewById(R.id.email_LV);
 		notifyEmailTV = (TextView) getActivity().findViewById(
 				R.id.notify_email_TV);
-
 	}
 
 	private void initThings() {
@@ -69,23 +72,23 @@ public class EmailFragment extends Fragment {
 		@Override
 		protected List<ParseObject> doInBackground(String... params) {
 
-			List<ParseObject> emailPOList = dao
-					.getEmailsForUser("user1@gmail.com");
+			List<ParseObject> emailPOList = dao.getEmailsForUser(globalVariable
+					.getUser().getEmail());
 			// System.out.println("size is : " + asdf.size());
 			return emailPOList;
 		}
 
-
 		@Override
-		protected void onPostExecute(List<ParseObject> emailPOList) {
+		protected void onPostExecute(final List<ParseObject> emailPOList) {
 			super.onPostExecute(emailPOList);
 			if (emailPOList.size() == 0) {
 				notifyEmailTV.setText("No emails found");
 				notifyEmailTV.setVisibility(View.VISIBLE);
 			} else {
-				List<Email> emailList = new ArrayList<Email>();
+				final List<Email> emailList = new ArrayList<Email>();
 				for (int i = 0; i < emailPOList.size(); i++) {
-					emailList.add(convertPOtoEmail(emailPOList.get(i)));
+					emailList.add(globalVariable.convertPOtoEmail(emailPOList
+							.get(i)));
 				}
 				adapter = new EmailsAdapter(getActivity(), emailList);
 				emailLV.setAdapter(adapter);
@@ -94,6 +97,16 @@ public class EmailFragment extends Fragment {
 					@Override
 					public void onItemClick(AdapterView<?> parent, View v,
 							int position, long id) {
+						if (!emailList.get(position).isEmailRead()) {
+
+							emailList.get(position).setEmailRead(true);
+							adapter.swapData(emailList);
+							adapter.notifyDataSetChanged();
+
+							MarkEmailAsReadAsynTask asynTask = new MarkEmailAsReadAsynTask();
+							asynTask.execute(new ParseObject[] { emailPOList
+									.get(position) });
+						}
 						nextIntent = new Intent(getActivity(),
 								DisplayEmailActivity.class);
 						startActivity(nextIntent);
@@ -104,10 +117,41 @@ public class EmailFragment extends Fragment {
 
 	}// Asyn
 
-	private Email convertPOtoEmail(ParseObject emailPO) {
-		return new Email(emailPO.getString("subject"),
-				emailPO.getString("content"), emailPO.getBoolean("isMailRead"),
-				emailPO.getCreatedAt());
-	}
+	// private Email convertPOtoEmail(ParseObject emailPO) {
+	//
+	// ParseUser dsadsadsa = emailPO.getParseUser("from");
+	// System.out.println("sender'd email   :  " + dsadsadsa.getEmail());
+	// return new Email(emailPO.getObjectId(),
+	// globalVariable.convertParseObjectToUser(emailPO
+	// .getParseUser("from")), emailPO.getString("subject"),
+	// emailPO.getString("content"), emailPO.getBoolean("isMailRead"),
+	// emailPO.getCreatedAt());
+	// }
 
+	private class MarkEmailAsReadAsynTask extends
+			AsyncTask<ParseObject, Void, Void> {
+		// ParseUser user;
+		@Override
+		protected Void doInBackground(ParseObject... params) {
+			ParseObject emailPO = params[0];
+			emailPO.put("isMailRead", true);
+			emailPO.saveEventually(new SaveCallback() {
+
+				@Override
+				public void done(ParseException arg0) {
+					Toast.makeText(getActivity(), "mark as read",
+							Toast.LENGTH_SHORT).show();
+
+				}
+			});
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void emailPOList) {
+			super.onPostExecute(emailPOList);
+
+		}
+
+	}
 }

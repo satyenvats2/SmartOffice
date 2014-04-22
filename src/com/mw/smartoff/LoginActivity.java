@@ -71,7 +71,7 @@ public class LoginActivity extends Activity {
 
 	private void initThings() {
 		userDAO = new UserDAO(this);
-		globalVariable = new GlobalVariable();
+		globalVariable = (GlobalVariable) getApplicationContext();
 	}
 
 	@Override
@@ -139,7 +139,7 @@ public class LoginActivity extends Activity {
 						Toast.LENGTH_SHORT).show();
 				User currentUser = new User(user.getEmail(), user.getUsername());
 				globalVariable.setUser(currentUser);
-				System.out.println("username : " + user.getUsername() + "email : " + globalVariable.getUser().getEmail());
+				System.out.println("username : " + user.getEmail() + "email : " + globalVariable.getUser().getUsername());
 				nextIntent = new Intent(LoginActivity.this, MainActivity.class);
 				startActivity(nextIntent);
 			} else

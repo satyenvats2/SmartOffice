@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mw.smartoff.model.Meeting;
@@ -33,6 +34,8 @@ public class MeetingsAdapter extends BaseAdapter {
 		protected TextView descriptionTV;
 		protected TextView dateTV;
 		protected TextView locationTV;
+		protected ImageView statusDotIV;
+
 	}
 
 	@Override
@@ -42,8 +45,8 @@ public class MeetingsAdapter extends BaseAdapter {
 			inflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			viewHolder = new ViewHolder();
-			convertView = inflater.inflate(R.layout.meeting_list_element, parent,
-					false);
+			convertView = inflater.inflate(R.layout.meeting_list_element,
+					parent, false);
 
 			viewHolder.subjectTV = (TextView) convertView
 					.findViewById(R.id.subject_TV);
@@ -53,7 +56,8 @@ public class MeetingsAdapter extends BaseAdapter {
 					.findViewById(R.id.date_TV);
 			viewHolder.locationTV = (TextView) convertView
 					.findViewById(R.id.location_TV);
-
+			viewHolder.statusDotIV = (ImageView) convertView
+					.findViewById(R.id.status_dot_IV);
 			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
@@ -64,7 +68,16 @@ public class MeetingsAdapter extends BaseAdapter {
 		viewHolder.descriptionTV.setText(temp.getContent());
 		viewHolder.dateTV.setText(temp.getStartTime().toString());
 		viewHolder.locationTV.setText(temp.getLocation());
-
+		if (temp.isHasBeenResponsedTo())
+			if (temp.isCurrentResponse())
+				viewHolder.statusDotIV.setImageDrawable(context.getResources()
+						.getDrawable(R.drawable.dot_green));
+			else
+				viewHolder.statusDotIV.setImageDrawable(context.getResources()
+						.getDrawable(R.drawable.dot_red));
+		else
+			viewHolder.statusDotIV.setImageDrawable(context.getResources()
+					.getDrawable(R.drawable.dot_orange));
 		return convertView;
 	}
 

@@ -16,6 +16,7 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
+        android:layout_toLeftOf="@+id/status_dot_IV"
         android:layout_toRightOf="@+id/sender_IV" >
 
         <TextView
@@ -54,5 +55,11 @@
             android:text="subject"
             android:textSize="15sp" />
     </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/status_dot_IV"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_alignParentRight="true" />
 
 </RelativeLayout>

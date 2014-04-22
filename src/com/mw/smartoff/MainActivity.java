@@ -2,12 +2,12 @@ package com.mw.smartoff;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
@@ -26,7 +26,7 @@ import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
 import com.parse.ParseAnalytics;
 
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity {
 
 	DrawerLayout mDrawerLayout;
 	RelativeLayout leftDrawerRLData;
@@ -37,6 +37,9 @@ public class MainActivity extends Activity {
 	GlobalVariable globalVariable;
 	Intent nextIntent;
 
+	Fragment fragment;
+	String tag;
+	
 	private void findThings() {
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		leftDrawerRLData = (RelativeLayout) findViewById(R.id.leftDrawer_RL);
@@ -45,9 +48,6 @@ public class MainActivity extends Activity {
 
 	private void initializeThings() {
 		globalVariable = (GlobalVariable) getApplicationContext();
-		System.out.println("hello");
-		System.out.println("hello  : " + globalVariable.getUser() == null);
-		System.out.println("hello");
 	}
 
 	@Override
@@ -86,8 +86,7 @@ public class MainActivity extends Activity {
 
 	}
 
-	Fragment fragment;
-	String tag;
+	
 
 	private void displayView(int position) {
 		// update the main content by replacing fragments
@@ -119,7 +118,7 @@ public class MainActivity extends Activity {
 
 		if (fragment != null) {
 
-			fragmentManager = getFragmentManager();
+			fragmentManager = getSupportFragmentManager();
 			fragmentManager.beginTransaction()
 					.replace(R.id.frame_to_be_replaced, fragment, tag).commit();
 
