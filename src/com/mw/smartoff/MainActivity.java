@@ -25,6 +25,7 @@ import com.mw.smartoff.model.NavDrawerItem;
 import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
 import com.parse.ParseAnalytics;
+import com.parse.ParseUser;
 
 public class MainActivity extends FragmentActivity {
 
@@ -174,6 +175,7 @@ public class MainActivity extends FragmentActivity {
 	public void onLogOut(View view) {
 		Toast.makeText(this, "put logout functionality", Toast.LENGTH_SHORT)
 				.show();
+		ParseUser.logOut();finish();
 	}
 
 	// public void onComposeEmailOrMeeting(View view) {

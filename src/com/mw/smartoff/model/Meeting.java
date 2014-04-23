@@ -9,6 +9,8 @@ public class Meeting implements Serializable {
 
 	String ID;
 
+	User from;
+	
 	String subject;
 	String description;
 	String location;
@@ -17,14 +19,23 @@ public class Meeting implements Serializable {
 	boolean hasBeenResponsedTo;
 	boolean currentResponse;
 
-	public Meeting(String ID, String subject, String description,
+	public Meeting(String ID, User from, String subject, String description,
 			String location, Date startTime) {
 		super();
+		this.from = from;
 		this.ID = ID;
 		this.subject = subject;
 		this.description = description;
 		this.location = location;
 		this.startTime = startTime;
+	}
+
+	public User getFrom() {
+		return from;
+	}
+
+	public void setFrom(User from) {
+		this.from = from;
 	}
 
 	public String getID() {

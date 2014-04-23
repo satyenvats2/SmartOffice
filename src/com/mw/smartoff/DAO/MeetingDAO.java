@@ -26,7 +26,7 @@ public class MeetingDAO {
 		List<ParseObject> meetingList = null;
 		query.whereEqualTo("to", emailID);
 		query.orderByAscending("createdAt");
-
+		query.include("from");
 		try {
 			meetingList = query.find();
 		} catch (ParseException e) {

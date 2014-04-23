@@ -72,8 +72,7 @@ public class EmailFragment extends Fragment {
 		@Override
 		protected List<ParseObject> doInBackground(String... params) {
 
-			List<ParseObject> emailPOList = dao.getEmailsForUser(globalVariable
-					.getUser().getEmail());
+			List<ParseObject> emailPOList = dao.getEmailsForUser(ParseUser.getCurrentUser().getEmail());
 			// System.out.println("size is : " + asdf.size());
 			return emailPOList;
 		}

@@ -1,5 +1,7 @@
 package com.mw.smartoff.services;
 
+import java.util.List;
+
 import android.app.Application;
 
 import com.mw.smartoff.model.Email;
@@ -10,24 +12,36 @@ import com.parse.ParseUser;
 
 public class GlobalVariable extends Application {
 
-	ParseObject userPO;
-	User user;
+//	ParseObject userPO;
+//	User user;
 
-	public ParseObject getUserPO() {
-		return userPO;
+	List<Meeting> meetingList;
+	
+	
+	
+	public List<Meeting> getMeetingList() {
+		return meetingList;
 	}
 
-	public void setUserPO(ParseObject userPO) {
-		this.userPO = userPO;
+	public void setMeetingList(List<Meeting> meetingList) {
+		this.meetingList = meetingList;
 	}
 
-	public User getUser() {
-		return user;
-	}
+//	public ParseObject getUserPO() {
+//		return userPO;
+//	}
+//
+//	public void setUserPO(ParseObject userPO) {
+//		this.userPO = userPO;
+//	}
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+//	public User getUser() {
+//		return user;
+//	}
+//
+//	public void setUser(User user) {
+//		this.user = user;
+//	}
 
 	public Email convertPOtoEmail(ParseObject emailPO) {
 
@@ -45,7 +59,7 @@ public class GlobalVariable extends Application {
 	}
 
 	public Meeting convertPOtoMeeting(ParseObject meetingPO) {
-		return new Meeting(meetingPO.getObjectId(),
+		return new Meeting(meetingPO.getObjectId(),convertParseObjectToUser(meetingPO.getParseUser("from")),
 				meetingPO.getString("subject"),
 				meetingPO.getString("description"),
 				meetingPO.getString("location"), meetingPO.getDate("startTime"));

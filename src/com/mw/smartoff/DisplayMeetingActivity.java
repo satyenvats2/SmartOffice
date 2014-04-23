@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mw.smartoff.DAO.MeetingDAO;
@@ -27,6 +28,11 @@ public class DisplayMeetingActivity extends Activity {
 	Button rejectB;
 	Button updateB;
 
+	TextView meetingSubjectTV;
+	TextView senderNameTV;
+	TextView senderEmailIDTV;
+	TextView messageTV;
+
 	Intent previousIntent;
 	Meeting selectedMeeting;
 
@@ -41,10 +47,16 @@ public class DisplayMeetingActivity extends Activity {
 	EditText notesET;
 	LinearLayout.LayoutParams lp;
 
+	ParseObject selectedMeetingPO;
+
 	private void findThings() {
 		acceptB = (Button) findViewById(R.id.accept_Button);
 		rejectB = (Button) findViewById(R.id.reject_Button);
 		updateB = (Button) findViewById(R.id.update_Button);
+		meetingSubjectTV = (TextView) findViewById(R.id.header_meeting_subject_TV);
+		senderNameTV = (TextView) findViewById(R.id.sender_name_TV);
+		senderEmailIDTV = (TextView) findViewById(R.id.sender_emailID_TV);
+		messageTV = (TextView) findViewById(R.id.message_real_message_TV);
 	}
 
 	private void initThings() {
@@ -79,6 +91,12 @@ public class DisplayMeetingActivity extends Activity {
 		} else
 			updateB.setVisibility(View.INVISIBLE);
 
+		meetingSubjectTV.setText(selectedMeeting.getSubject());
+		senderNameTV.setText(selectedMeeting.getFrom().getUsername());
+		senderEmailIDTV.setText(selectedMeeting.getFrom().getEmail());
+		messageTV.setText(selectedMeeting.getContent());
+		
+		
 	}
 
 	@Override
@@ -90,40 +108,17 @@ public class DisplayMeetingActivity extends Activity {
 		initialVisibilityOfViews();
 	}
 
-	ParseObject selectedMeetingPO;
 
 	public void onAccept(View view) {
 		Toast.makeText(this, "accept", Toast.LENGTH_SHORT).show();
+		previousIntent.putExtra("isAttending", true);
 		showPopupForNotes("Accept Invite", true);
 	}
 
 	public void onReject(View view) {
 		Toast.makeText(this, "reject", Toast.LENGTH_SHORT).show();
+		previousIntent.putExtra("isAttending", false);
 		showPopupForNotes("Reject Invite", false);
-		// selectedMeetingPO = dao.getMeetingByID(selectedMeeting.getID());
-		//
-		// alertDialogBuilder.setNegativeButton("Reject Invite",
-		// new DialogInterface.OnClickListener() {
-		// public void onClick(DialogInterface dialog, int id) {
-		//
-		// selectedMeetingPO = dao.getMeetingByID(selectedMeeting
-		// .getID());
-		// if (notesET.getText().toString().trim().length() > 0)
-		// dao2.repondToMeeting(ParseUser.getCurrentUser(),
-		// selectedMeetingPO, false, notesET.getText()
-		// .toString().trim());
-		// else
-		// dao2.repondToMeeting(ParseUser.getCurrentUser(),
-		// selectedMeetingPO, true, null);
-		// dialog.dismiss();
-		// }
-		// });
-		//
-		// alertDialog = alertDialogBuilder.create();
-		// if ((ViewGroup) notesET.getParent() != null)
-		// ((ViewGroup) notesET.getParent()).removeView(notesET);
-		// alertDialog.setView(notesET);
-		// alertDialog.show();
 	}
 
 	private void showPopupForNotes(String buttonTitle, final boolean isAttending) {
@@ -143,7 +138,7 @@ public class DisplayMeetingActivity extends Activity {
 						acceptB.setVisibility(View.INVISIBLE);
 						rejectB.setVisibility(View.INVISIBLE);
 						updateB.setVisibility(View.VISIBLE);
-						
+
 						dialog.dismiss();
 					}
 				});
@@ -162,4 +157,12 @@ public class DisplayMeetingActivity extends Activity {
 		rejectB.setVisibility(View.VISIBLE);
 		updateB.setVisibility(View.INVISIBLE);
 	}
+
+
+	@Override
+	public void onBackPressed() {
+		this.setResult(RESULT_OK, previousIntent);
+finish();
+	}
+
 }

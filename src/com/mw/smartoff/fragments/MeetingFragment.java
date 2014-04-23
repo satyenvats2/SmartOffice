@@ -3,14 +3,12 @@ package com.mw.smartoff.fragments;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
+import android.app.Activity;
 //import android.app.Fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,9 +28,9 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 public class MeetingFragment extends Fragment {
-	private static final String[] CONTENT = new String[] { "All", "Pending",
-	"My Meetings" };
-	
+
+	static int DISPLAY_MEETING = 1;
+
 	ListView meetingLV;
 	GlobalVariable globalVariable;
 	MeetingDAO dao;
@@ -56,7 +54,7 @@ public class MeetingFragment extends Fragment {
 		super.onViewCreated(view, savedInstanceState);
 		findThings();
 		initThings();
-//		myOwnListeners();
+		myOwnListeners();
 		FetchMeetingsAsynTask asynTask = new FetchMeetingsAsynTask();
 		asynTask.execute(new String[] { "Hello World" });
 
@@ -80,8 +78,11 @@ public class MeetingFragment extends Fragment {
 		@Override
 		protected List<Meeting> doInBackground(String... params) {
 			final List<Meeting> meetingList = new ArrayList<Meeting>();
-			List<ParseObject> meetingsPOList = dao
-					.getMeetingsForUser(globalVariable.getUser().getEmail());
+			// List<ParseObject> meetingsPOList = dao
+			// .getMeetingsForUser(globalVariable.getUser().getEmail());
+
+			List<ParseObject> meetingsPOList = dao.getMeetingsForUser(ParseUser
+					.getCurrentUser().getEmail());
 
 			// make a list of meetings including response
 			for (int i = 0; i < meetingsPOList.size(); i++) {
@@ -103,14 +104,15 @@ public class MeetingFragment extends Fragment {
 		}
 
 		@Override
-		protected void onPostExecute(final List<Meeting> meetingList) {
+		protected void onPostExecute(List<Meeting> meetingList) {
 			super.onPostExecute(meetingList);
-			if (meetingList.size() == 0) {
+			meetingList1 = meetingList;
+			if (meetingList1.size() == 0) {
 				notifyMeetingTV.setText("No meetings found");
 				notifyMeetingTV.setVisibility(View.VISIBLE);
 			} else {
 
-				adapter = new MeetingsAdapter(getActivity(), meetingList);
+				adapter = new MeetingsAdapter(getActivity(), meetingList1);
 				meetingLV.setAdapter(adapter);
 
 				meetingLV.setOnItemClickListener(new OnItemClickListener() {
@@ -119,15 +121,38 @@ public class MeetingFragment extends Fragment {
 							int position, long id) {
 						nextIntent = new Intent(getActivity(),
 								DisplayMeetingActivity.class);
+						nextIntent.putExtra("position", position);
 						nextIntent.putExtra("selected_meeting",
-								meetingList.get(position));
-						startActivity(nextIntent);
+								meetingList1.get(position));
+						startActivityForResult(nextIntent, DISPLAY_MEETING);
 					}
 				});
 			}
 		}// onPostExec
 
 	}// Asyn
+	List<Meeting> meetingList1;
+	private void myOwnListeners() {
 
-	
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+//		super.onActivityResult(requestCode, resultCode, intent);
+		System.out.println("onActivityResult  :  " + resultCode);
+		if (requestCode == DISPLAY_MEETING) {
+			if (resultCode == Activity.RESULT_OK) {
+				// update list
+				System.out.println("heheheheh");
+				Meeting tempMeeting = meetingList1.get(intent.getIntExtra("position", -1));
+				if (intent.hasExtra("isAttending")) {
+					tempMeeting.setHasBeenResponsedTo(true);
+					tempMeeting.setCurrentResponse(intent.getBooleanExtra("isAttending", false));
+				}
+				meetingList1.set(intent.getIntExtra("position", -1), tempMeeting);
+				adapter.notifyDataSetChanged();
+			}
+		}
+	}
+
 }

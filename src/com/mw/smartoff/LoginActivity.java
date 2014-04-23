@@ -2,8 +2,11 @@ package com.mw.smartoff;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -28,6 +31,9 @@ public class LoginActivity extends Activity {
 	GlobalVariable globalVariable;
 	Intent nextIntent;
 
+	SharedPreferences sharedPreferences;
+	Editor editor;
+	
 	private void findThings() {
 		emailET = (EditText) findViewById(R.id.email_ET);
 		passwordET = (EditText) findViewById(R.id.password_ET);
@@ -72,6 +78,11 @@ public class LoginActivity extends Activity {
 	private void initThings() {
 		userDAO = new UserDAO(this);
 		globalVariable = (GlobalVariable) getApplicationContext();
+		sharedPreferences = PreferenceManager
+				.getDefaultSharedPreferences(this
+						.getApplicationContext());
+		editor = sharedPreferences.edit();
+		nextIntent = new Intent(LoginActivity.this, MainActivity.class);
 	}
 
 	@Override
@@ -92,11 +103,14 @@ public class LoginActivity extends Activity {
 
 		// PushService.setDefaultPushCallback(this. YourActivity.class);
 		// ParseInstallation.getCurrentInstallation().saveInBackground();
-
 		setContentView(R.layout.login_page);
 		findThings();
 		myOwnListeners();
 		initThings();
+
+		if(ParseUser.getCurrentUser() != null)
+		startActivity(nextIntent);
+
 	}
 
 	public void onLogin(View view) {
@@ -138,9 +152,9 @@ public class LoginActivity extends Activity {
 				Toast.makeText(LoginActivity.this, "Login Successfull",
 						Toast.LENGTH_SHORT).show();
 				User currentUser = new User(user.getEmail(), user.getUsername());
-				globalVariable.setUser(currentUser);
-				System.out.println("username : " + user.getEmail() + "email : " + globalVariable.getUser().getUsername());
-				nextIntent = new Intent(LoginActivity.this, MainActivity.class);
+//				globalVariable.setUser(currentUser);
+//				System.out.println("username : " + user.getEmail() + "email : " + globalVariable.getUser().getUsername());
+//				nextIntent = new Intent(LoginActivity.this, MainActivity.class);
 				startActivity(nextIntent);
 			} else
 				System.out.println("im nulll");
