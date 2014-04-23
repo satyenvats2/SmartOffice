@@ -26,7 +26,7 @@ public class MeetingDAO {
 		List<ParseObject> meetingList = null;
 		query.whereEqualTo("to", emailID);
 		query.orderByAscending("createdAt");
-		
+
 		try {
 			meetingList = query.find();
 		} catch (ParseException e) {
@@ -36,9 +36,19 @@ public class MeetingDAO {
 		return meetingList;
 	}
 
-	public void repondToMeeting()
-	{
-		
-		
+	public ParseObject getMeetingByID(String id) {
+		System.out.println("meeting id is  :  " + id);
+		ParseObject meetingList = null;
+		try {
+			meetingList = query.get(id);
+
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		if (meetingList != null)
+			return meetingList;
+		else
+			return null;
+
 	}
 }

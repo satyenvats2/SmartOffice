@@ -45,7 +45,8 @@ public class GlobalVariable extends Application {
 	}
 
 	public Meeting convertPOtoMeeting(ParseObject meetingPO) {
-		return new Meeting(meetingPO.getString("subject"),
+		return new Meeting(meetingPO.getObjectId(),
+				meetingPO.getString("subject"),
 				meetingPO.getString("description"),
 				meetingPO.getString("location"), meetingPO.getDate("startTime"));
 	}

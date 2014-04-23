@@ -7,34 +7,34 @@ public class Meeting implements Serializable {
 
 	private static final long serialVersionUID = 3194600827024763515L;
 
+	String ID;
+
 	String subject;
 	String description;
 	String location;
 	Date startTime;
-	
+
 	boolean hasBeenResponsedTo;
 	boolean currentResponse;
 
-	public Meeting(String subject, String description, String location,
-			Date startTime) {
+	public Meeting(String ID, String subject, String description,
+			String location, Date startTime) {
 		super();
+		this.ID = ID;
 		this.subject = subject;
 		this.description = description;
 		this.location = location;
 		this.startTime = startTime;
 	}
 
-	public Meeting(String subject, String description, String location,
-			Date startTime, boolean currentResponse) {
-		super();
-		this.subject = subject;
-		this.description = description;
-		this.location = location;
-		this.startTime = startTime;
-		this.currentResponse = currentResponse;
+	public String getID() {
+		return ID;
 	}
 
-	
+	public void setID(String iD) {
+		ID = iD;
+	}
+
 	public boolean isHasBeenResponsedTo() {
 		return hasBeenResponsedTo;
 	}

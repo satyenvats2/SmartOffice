@@ -14,6 +14,7 @@ import com.parse.ParseUser;
 public class UserDAO {
 
 	ParseQuery<ParseUser> query;
+	boolean found = false;
 
 	public UserDAO(Context context) {
 		super();
@@ -21,7 +22,6 @@ public class UserDAO {
 		query = ParseUser.getQuery();
 	}
 
-	boolean found = false;
 	public ParseUser loginUser(String userName, String password) {
 		ParseUser.logInInBackground(userName, password, new LogInCallback() {
 			  public void done(ParseUser user, ParseException e) {

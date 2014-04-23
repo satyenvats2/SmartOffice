@@ -38,8 +38,8 @@ import com.viewpagerindicator.TabPageIndicator;
 
 public class DashboardFragment extends Fragment {
 	TextView welcomeDashTV;
-	private static final String[] CONTENT = new String[] { "Recent", "Artists",
-			"Albums", "Songs", "Playlists", "Genres" };
+	private static final String[] CONTENT = new String[] { "All", "Pending",
+			"My Meetings" };
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,13 +56,6 @@ public class DashboardFragment extends Fragment {
 
 		FragmentPagerAdapter adapter = new GoogleMusicAdapter(getActivity()
 				.getSupportFragmentManager());
-
-		// FragmentPagerAdapter adapter = new
-		// TabsPagerAdapter(this.getFragmentManager());
-		// FragmentPagerAdapter adapter = new
-		// TabsPagerAdapter(getSupportFragmentManager());
-		// FragmentPagerAdapter adapter = new
-		// TabsPagerAdapter(getChildFragmentManager());
 
 		ViewPager pager = (ViewPager) getActivity().findViewById(R.id.pager);
 		pager.setAdapter(adapter);

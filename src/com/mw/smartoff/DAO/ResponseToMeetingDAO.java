@@ -41,7 +41,19 @@ public class ResponseToMeetingDAO {
 
 	}
 
-	public void repondToMeeting() {
+	public void repondToMeeting(ParseUser user, ParseObject meetingPO,
+			boolean isAttending, String notes) {
+		ParseObject responsePO;
+		responsePO = getCurrentResponseForMeeting(user, meetingPO);
 
+		if (responsePO == null)
+			responsePO = new ParseObject("ResponseToMeeting");
+		responsePO.put("responseFrom", user);
+		responsePO.put("meeting", meetingPO);
+		responsePO.put("isAttending", isAttending);
+		if (notes != null)
+			responsePO.put("notes", notes);
+		responsePO.saveEventually();
 	}
+
 }

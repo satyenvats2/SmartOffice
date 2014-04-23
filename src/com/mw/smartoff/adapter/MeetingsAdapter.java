@@ -77,7 +77,7 @@ public class MeetingsAdapter extends BaseAdapter {
 						.getDrawable(R.drawable.dot_red));
 		else
 			viewHolder.statusDotIV.setImageDrawable(context.getResources()
-					.getDrawable(R.drawable.dot_orange));
+					.getDrawable(R.drawable.dot_blue));
 		return convertView;
 	}
 
