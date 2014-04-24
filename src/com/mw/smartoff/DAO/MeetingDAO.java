@@ -8,6 +8,7 @@ import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 public class MeetingDAO {
 
@@ -36,6 +37,20 @@ public class MeetingDAO {
 		return meetingList;
 	}
 
+	public List<ParseObject> getOwnMeetingsForUser(ParseUser user) {
+		List<ParseObject> meetingList = null;
+		
+		query.whereEqualTo("from", user);
+		query.orderByAscending("createdAt");
+		try {
+			meetingList = query.find();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		return meetingList;
+	}
+	
 	public ParseObject getMeetingByID(String id) {
 		System.out.println("meeting id is  :  " + id);
 		ParseObject meetingList = null;

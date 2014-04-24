@@ -10,9 +10,9 @@
 
         <RelativeLayout
             android:id="@+id/fakeActionBarRL"
-    android:background="#FFFFFF"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:background="#FFFFFF"
             android:orientation="horizontal"
             android:paddingBottom="10dp"
             android:paddingTop="10dp" >
@@ -28,19 +28,19 @@
                 android:gravity="center_vertical"
                 android:onClick="onOpenLeftDrawer"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_launcher" />
+                android:src="@drawable/menu_green" />
 
             <ImageButton
                 android:id="@+id/create_mail_or_meeting_button1"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_toLeftOf="@+id/create_mail_or_meeting_button2"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@+id/create_mail_or_meeting_button2"
                 android:background="@null"
                 android:onClick="onMeeting"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_launcher" />
+                android:src="@drawable/compose_meeting_green" />
 
             <ImageButton
                 android:id="@+id/create_mail_or_meeting_button2"
@@ -52,8 +52,7 @@
                 android:background="@null"
                 android:onClick="onEmail"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_launcher" />
-
+                android:src="@drawable/compose_email_green" />
         </RelativeLayout>
 
         <FrameLayout
@@ -63,34 +62,35 @@
             android:layout_below="@+id/fakeActionBarRL" />
     </RelativeLayout>
 
-<!--     left drawer -->
+    <!-- left drawer -->
+
     <RelativeLayout
         android:id="@+id/leftDrawer_RL"
         android:layout_width="290dp"
         android:layout_height="match_parent"
-        android:background="#555555"
-        android:layout_gravity="start" >
+        android:layout_gravity="start"
+        android:background="#555555" >
 
-         <ListView
+        <ListView
             android:id="@+id/leftDrawer_LV"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_above="@+id/leftDrawer_logout_LL"
             android:layout_gravity="start"
             android:choiceMode="singleChoice"
             android:divider="@android:color/black"
-            android:dividerHeight="1dp"
-            android:layout_above="@+id/leftDrawer_logout_LL"/>
+            android:dividerHeight="1dp" />
 
         <LinearLayout
             android:id="@+id/leftDrawer_logout_LL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:clickable="true"
+            android:onClick="onLogOut"
             android:orientation="horizontal"
             android:paddingBottom="8dp"
-            android:paddingTop="8dp"
-            android:clickable="true"
-            android:onClick="onLogOut" >
+            android:paddingTop="8dp" >
 
             <ImageView
                 android:layout_width="40dp"
@@ -98,19 +98,18 @@
                 android:layout_marginLeft="10dp"
                 android:background="@null"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_launcher"
-                />
+                android:src="@drawable/logout" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="8dp"
                 android:layout_marginLeft="16dp"
                 android:gravity="center_vertical"
+                android:paddingTop="8dp"
+                android:text="Logout"
                 android:textSize="20sp"
-                android:textStyle="bold" 
-                android:text="Logout"/>
+                android:textStyle="bold" />
         </LinearLayout>
     </RelativeLayout>
-    
+
 </android.support.v4.widget.DrawerLayout>

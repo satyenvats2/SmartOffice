@@ -1,6 +1,5 @@
 package com.mw.smartoff.fragments;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,8 +44,8 @@ public class MeetingFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		initThings();
-		FetchMeetingsAsynTask asynTask = new FetchMeetingsAsynTask();
-		asynTask.execute(new String[] { "Hello World" });
+//		FetchMeetingsAsynTask asynTask = new FetchMeetingsAsynTask();
+//		asynTask.execute(new String[] { "Hello World" });
 
 		View rootView = inflater.inflate(R.layout.meeting_list_fragment,
 				container, false);
@@ -70,12 +69,6 @@ public class MeetingFragment extends Fragment {
 
 	}
 
-	// private void findThings() {
-	// meetingLV = (ListView) getActivity().findViewById(R.id.meeting_LV);
-	// notifyMeetingTV = (TextView) getActivity().findViewById(
-	// R.id.notify_meeting_TV);
-	// }
-	//
 	private void initThings() {
 		globalVariable = (GlobalVariable) getActivity().getApplicationContext();
 		dao = new MeetingDAO(getActivity());
@@ -149,22 +142,6 @@ public class MeetingFragment extends Fragment {
 		}// onPostExec
 
 	}// Asyn
-//
-//	@Override
-//	public void onDetach() {
-//	    super.onDetach();
-//
-//	    try {
-//	        Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
-//	        childFragmentManager.setAccessible(true);
-//	        childFragmentManager.set(this, null);
-//
-//	    } catch (NoSuchFieldException e) {
-//	        throw new RuntimeException(e);
-//	    } catch (IllegalAccessException e) {
-//	        throw new RuntimeException(e);
-//	    }
-//	}
 	
 	class GoogleMusicAdapter extends FragmentPagerAdapter {
 		public GoogleMusicAdapter(

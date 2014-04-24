@@ -16,9 +16,16 @@ public class GlobalVariable extends Application {
 //	User user;
 
 	List<Meeting> meetingList;
+	List<Meeting> meetingOwnList;
 	
-	
-	
+	public List<Meeting> getMeetingOwnList() {
+		return meetingOwnList;
+	}
+
+	public void setMeetingOwnList(List<Meeting> meetingOwnList) {
+		this.meetingOwnList = meetingOwnList;
+	}
+
 	public List<Meeting> getMeetingList() {
 		return meetingList;
 	}
