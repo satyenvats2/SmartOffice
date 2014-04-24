@@ -1,23 +1,22 @@
 package com.mw.smartoff.fragments;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 //import android.app.Fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.mw.smartoff.DisplayMeetingActivity;
 import com.mw.smartoff.DAO.MeetingDAO;
 import com.mw.smartoff.DAO.ResponseToMeetingDAO;
 import com.mw.smartoff.adapter.MeetingsAdapter;
@@ -26,16 +25,18 @@ import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.viewpagerindicator.TabPageIndicator;
 
 public class MeetingFragment extends Fragment {
-
-	static int DISPLAY_MEETING = 1;
+	private static final String[] CONTENT = new String[] { "All", "Pending",
+			"My Meetings" };
 
 	ListView meetingLV;
+	TextView notifyMeetingTV;
+
 	GlobalVariable globalVariable;
 	MeetingDAO dao;
 	ResponseToMeetingDAO dao2;
-	TextView notifyMeetingTV;
 
 	MeetingsAdapter adapter;
 	Intent nextIntent;
@@ -43,6 +44,10 @@ public class MeetingFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		initThings();
+		FetchMeetingsAsynTask asynTask = new FetchMeetingsAsynTask();
+		asynTask.execute(new String[] { "Hello World" });
+
 		View rootView = inflater.inflate(R.layout.meeting_list_fragment,
 				container, false);
 		return rootView;
@@ -52,37 +57,40 @@ public class MeetingFragment extends Fragment {
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		findThings();
-		initThings();
-		myOwnListeners();
-		FetchMeetingsAsynTask asynTask = new FetchMeetingsAsynTask();
-		asynTask.execute(new String[] { "Hello World" });
+
+		FragmentPagerAdapter adapter = new GoogleMusicAdapter(getActivity()
+				.getSupportFragmentManager());
+
+		ViewPager pager = (ViewPager) getActivity().findViewById(R.id.pager);
+		pager.setAdapter(adapter);
+
+		TabPageIndicator indicator = (TabPageIndicator) getActivity()
+				.findViewById(R.id.indicator);
+		indicator.setViewPager(pager);
 
 	}
 
-	private void findThings() {
-		meetingLV = (ListView) getActivity().findViewById(R.id.meeting_LV);
-		notifyMeetingTV = (TextView) getActivity().findViewById(
-				R.id.notify_meeting_TV);
-	}
-
+	// private void findThings() {
+	// meetingLV = (ListView) getActivity().findViewById(R.id.meeting_LV);
+	// notifyMeetingTV = (TextView) getActivity().findViewById(
+	// R.id.notify_meeting_TV);
+	// }
+	//
 	private void initThings() {
 		globalVariable = (GlobalVariable) getActivity().getApplicationContext();
 		dao = new MeetingDAO(getActivity());
 		dao2 = new ResponseToMeetingDAO(getActivity());
 	}
 
+	//
 	private class FetchMeetingsAsynTask extends
 			AsyncTask<String, Void, List<Meeting>> {
 
 		@Override
 		protected List<Meeting> doInBackground(String... params) {
-			final List<Meeting> meetingList = new ArrayList<Meeting>();
-			// List<ParseObject> meetingsPOList = dao
-			// .getMeetingsForUser(globalVariable.getUser().getEmail());
-
-			List<ParseObject> meetingsPOList = dao.getMeetingsForUser(ParseUser
-					.getCurrentUser().getEmail());
+			List<Meeting> meetingList = new ArrayList<Meeting>();
+			List<ParseObject> meetingsPOList = dao
+					.getMeetingsForUser(ParseUser.getCurrentUser().getEmail());
 
 			// make a list of meetings including response
 			for (int i = 0; i < meetingsPOList.size(); i++) {
@@ -99,59 +107,92 @@ public class MeetingFragment extends Fragment {
 				}
 				meetingList.add(tempMeeting);
 			}// for()
-
+			globalVariable.setMeetingList(meetingList);
 			return meetingList;
 		}
 
 		@Override
-		protected void onPostExecute(List<Meeting> meetingList) {
+		protected void onPostExecute(final List<Meeting> meetingList) {
 			super.onPostExecute(meetingList);
-			meetingList1 = meetingList;
-			if (meetingList1.size() == 0) {
-				notifyMeetingTV.setText("No meetings found");
-				notifyMeetingTV.setVisibility(View.VISIBLE);
-			} else {
+			
+			FragmentPagerAdapter adapter = new GoogleMusicAdapter(getActivity()
+					.getSupportFragmentManager());
 
-				adapter = new MeetingsAdapter(getActivity(), meetingList1);
-				meetingLV.setAdapter(adapter);
+			ViewPager pager = (ViewPager) getActivity().findViewById(R.id.pager);
+			pager.setAdapter(adapter);
 
-				meetingLV.setOnItemClickListener(new OnItemClickListener() {
-					@Override
-					public void onItemClick(AdapterView<?> parent, View v,
-							int position, long id) {
-						nextIntent = new Intent(getActivity(),
-								DisplayMeetingActivity.class);
-						nextIntent.putExtra("position", position);
-						nextIntent.putExtra("selected_meeting",
-								meetingList1.get(position));
-						startActivityForResult(nextIntent, DISPLAY_MEETING);
-					}
-				});
-			}
+			TabPageIndicator indicator = (TabPageIndicator) getActivity()
+					.findViewById(R.id.indicator);
+			indicator.setViewPager(pager);
+			
+			
+			// if (meetingList.size() == 0) {
+			// notifyMeetingTV.setText("No meetings found");
+			// notifyMeetingTV.setVisibility(View.VISIBLE);
+			// } else {
+			//
+			// adapter = new MeetingsAdapter(getActivity(), meetingList);
+			// meetingLV.setAdapter(adapter);
+			//
+			// meetingLV.setOnItemClickListener(new OnItemClickListener() {
+			// @Override
+			// public void onItemClick(AdapterView<?> parent, View v,
+			// int position, long id) {
+			// nextIntent = new Intent(getActivity(),
+			// DisplayMeetingActivity.class);
+			// nextIntent.putExtra("selected_meeting",
+			// meetingList.get(position));
+			// startActivity(nextIntent);
+			// }
+			// });
+			// }
 		}// onPostExec
 
 	}// Asyn
-	List<Meeting> meetingList1;
-	private void myOwnListeners() {
+//
+//	@Override
+//	public void onDetach() {
+//	    super.onDetach();
+//
+//	    try {
+//	        Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
+//	        childFragmentManager.setAccessible(true);
+//	        childFragmentManager.set(this, null);
+//
+//	    } catch (NoSuchFieldException e) {
+//	        throw new RuntimeException(e);
+//	    } catch (IllegalAccessException e) {
+//	        throw new RuntimeException(e);
+//	    }
+//	}
+	
+	class GoogleMusicAdapter extends FragmentPagerAdapter {
+		public GoogleMusicAdapter(
+				android.support.v4.app.FragmentManager fragmentManager) {
+			super(fragmentManager);
+		}
 
-	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-//		super.onActivityResult(requestCode, resultCode, intent);
-		System.out.println("onActivityResult  :  " + resultCode);
-		if (requestCode == DISPLAY_MEETING) {
-			if (resultCode == Activity.RESULT_OK) {
-				// update list
-				System.out.println("heheheheh");
-				Meeting tempMeeting = meetingList1.get(intent.getIntExtra("position", -1));
-				if (intent.hasExtra("isAttending")) {
-					tempMeeting.setHasBeenResponsedTo(true);
-					tempMeeting.setCurrentResponse(intent.getBooleanExtra("isAttending", false));
-				}
-				meetingList1.set(intent.getIntExtra("position", -1), tempMeeting);
-				adapter.notifyDataSetChanged();
+		@Override
+		public android.support.v4.app.Fragment getItem(int position) {
+			switch (position) {
+			case 0:
+				return new TestFragment();
+			case 1:
+				return new TestFragment2();
+			case 2:
+				return new TestFragment3();
 			}
+			return null;
+		}
+
+		@Override
+		public CharSequence getPageTitle(int position) {
+			return CONTENT[position % CONTENT.length].toUpperCase();
+		}
+
+		@Override
+		public int getCount() {
+			return CONTENT.length;
 		}
 	}
 

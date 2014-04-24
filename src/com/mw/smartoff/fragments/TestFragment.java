@@ -37,6 +37,7 @@ public class TestFragment extends Fragment {
 
 	private void initThings() {
 		globalVariable = (GlobalVariable) getActivity().getApplicationContext();
+		while(meetingList == null)
 		meetingList = globalVariable.getMeetingList();
 		// dao = new MeetingDAO(getActivity());
 		// dao2 = new ResponseToMeetingDAO(getActivity());
