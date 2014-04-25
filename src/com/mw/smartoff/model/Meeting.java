@@ -2,6 +2,9 @@ package com.mw.smartoff.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
+import com.parse.ParseObject;
 
 public class Meeting implements Serializable {
 
@@ -10,14 +13,18 @@ public class Meeting implements Serializable {
 	String ID;
 
 	User from;
-	
+
 	String subject;
 	String description;
 	String location;
 	Date startTime;
 
+	// used for meeting invitations
 	boolean hasBeenResponsedTo;
 	boolean currentResponse;
+
+	// used for my meeting
+	List<ParseObject> responses;
 
 	public Meeting(String ID, User from, String subject, String description,
 			String location, Date startTime) {
@@ -28,6 +35,14 @@ public class Meeting implements Serializable {
 		this.description = description;
 		this.location = location;
 		this.startTime = startTime;
+	}
+
+	public List<ParseObject> getResponses() {
+		return responses;
+	}
+
+	public void setResponses(List<ParseObject> responses) {
+		this.responses = responses;
 	}
 
 	public User getFrom() {

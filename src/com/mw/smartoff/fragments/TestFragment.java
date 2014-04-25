@@ -78,10 +78,10 @@ public class TestFragment extends Fragment {
 	}
 
 	private class FetchMeetingsAsynTask extends
-			AsyncTask<String, Void, List<Meeting>> {
+			AsyncTask<String, Void, Void> {
 
 		@Override
-		protected List<Meeting> doInBackground(String... params) {
+		protected Void doInBackground(String... params) {
 			List<Meeting> meetingList = new ArrayList<Meeting>();
 			List<ParseObject> meetingsPOList = dao.getMeetingsForUser(ParseUser
 					.getCurrentUser().getEmail());
@@ -102,11 +102,11 @@ public class TestFragment extends Fragment {
 				meetingList.add(tempMeeting);
 			}// for()
 			globalVariable.setMeetingList(meetingList);
-			return meetingList;
+			return null;
 		}
 
 		@Override
-		protected void onPostExecute(List<Meeting> result) {
+		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
 			final List<Meeting> meetingList = globalVariable.getMeetingList();
 			if (meetingList.size() == 0) {
@@ -123,8 +123,9 @@ public class TestFragment extends Fragment {
 							int position, long id) {
 						nextIntent = new Intent(getActivity(),
 								DisplayMeetingActivity.class);
-						nextIntent.putExtra("selected_meeting",
-								meetingList.get(position));
+						nextIntent.putExtra("position", position);
+//						nextIntent.putExtra("selected_meeting",
+//								meetingList.get(position));
 						startActivity(nextIntent);
 					}
 				});

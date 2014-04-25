@@ -56,4 +56,20 @@ public class ResponseToMeetingDAO {
 		responsePO.saveEventually();
 	}
 
+	public List<ParseObject> getAllResponsesForMeeting(ParseObject meetingPO) {
+		List<ParseObject> tempList = null;
+		query.whereEqualTo("meeting", meetingPO);
+		query.include("responseFrom");
+
+		try {
+			tempList = query.find();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		if (tempList != null && tempList.size() > 0)
+			return tempList;
+		else
+			return null;
+	}
 }

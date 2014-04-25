@@ -72,7 +72,19 @@ public class EmailFragment extends Fragment {
 		@Override
 		protected List<ParseObject> doInBackground(String... params) {
 
-			List<ParseObject> emailPOList = dao.getEmailsForUser(ParseUser.getCurrentUser().getEmail());
+			List<Email> emailList = new ArrayList<Email>();
+			List<ParseObject> emailPOList = dao.getEmailsForUser(ParseUser
+					.getCurrentUser().getEmail());
+			if (emailPOList != null) {
+				for (int i = 0; i < emailPOList.size(); i++) {
+					ParseObject tempEmailPO = emailPOList.get(i);
+					Email tempMeeting = globalVariable
+							.convertPOtoEmail(tempEmailPO);
+					emailList.add(tempMeeting);
+				}
+				globalVariable.setEmailList(emailList);
+			}
+			// globalVariable.setEmailList(emailList);
 			// System.out.println("size is : " + asdf.size());
 			return emailPOList;
 		}
@@ -80,15 +92,11 @@ public class EmailFragment extends Fragment {
 		@Override
 		protected void onPostExecute(final List<ParseObject> emailPOList) {
 			super.onPostExecute(emailPOList);
-			if (emailPOList.size() == 0) {
+			final List<Email> emailList = globalVariable.getEmailList();
+			if (emailList.size() == 0) {
 				notifyEmailTV.setText("No emails found");
 				notifyEmailTV.setVisibility(View.VISIBLE);
 			} else {
-				final List<Email> emailList = new ArrayList<Email>();
-				for (int i = 0; i < emailPOList.size(); i++) {
-					emailList.add(globalVariable.convertPOtoEmail(emailPOList
-							.get(i)));
-				}
 				adapter = new EmailsAdapter(getActivity(), emailList);
 				emailLV.setAdapter(adapter);
 
@@ -108,6 +116,7 @@ public class EmailFragment extends Fragment {
 						}
 						nextIntent = new Intent(getActivity(),
 								DisplayEmailActivity.class);
+						nextIntent.putExtra("position", position);
 						startActivity(nextIntent);
 					}
 				});
@@ -115,17 +124,6 @@ public class EmailFragment extends Fragment {
 		}
 
 	}// Asyn
-
-	// private Email convertPOtoEmail(ParseObject emailPO) {
-	//
-	// ParseUser dsadsadsa = emailPO.getParseUser("from");
-	// System.out.println("sender'd email   :  " + dsadsadsa.getEmail());
-	// return new Email(emailPO.getObjectId(),
-	// globalVariable.convertParseObjectToUser(emailPO
-	// .getParseUser("from")), emailPO.getString("subject"),
-	// emailPO.getString("content"), emailPO.getBoolean("isMailRead"),
-	// emailPO.getCreatedAt());
-	// }
 
 	private class MarkEmailAsReadAsynTask extends
 			AsyncTask<ParseObject, Void, Void> {

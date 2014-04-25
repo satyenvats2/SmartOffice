@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mw.smartoff.model.Meeting;
+import com.mw.smartoff.services.CharacterDrawable;
 import com.mw.smartoffice.R;
 
 public class MeetingsAdapter extends BaseAdapter {
@@ -30,8 +31,9 @@ public class MeetingsAdapter extends BaseAdapter {
 	}
 
 	static class ViewHolder {
+		protected ImageView profilePicIV;
 		protected TextView subjectTV;
-		protected TextView descriptionTV;
+		protected TextView senderUsernameTV;
 		protected TextView dateTV;
 		protected TextView locationTV;
 		protected ImageView statusDotIV;
@@ -48,9 +50,11 @@ public class MeetingsAdapter extends BaseAdapter {
 			convertView = inflater.inflate(R.layout.meeting_list_element,
 					parent, false);
 
+			viewHolder.profilePicIV = (ImageView) convertView
+					.findViewById(R.id.sender_IV);
 			viewHolder.subjectTV = (TextView) convertView
 					.findViewById(R.id.subject_TV);
-			viewHolder.descriptionTV = (TextView) convertView
+			viewHolder.senderUsernameTV = (TextView) convertView
 					.findViewById(R.id.description_TV);
 			viewHolder.dateTV = (TextView) convertView
 					.findViewById(R.id.date_TV);
@@ -63,13 +67,17 @@ public class MeetingsAdapter extends BaseAdapter {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		Meeting temp = meetingList.get(position);
-		viewHolder.subjectTV.setText(temp.getSubject());
-		viewHolder.descriptionTV.setText(temp.getContent());
-		viewHolder.dateTV.setText(temp.getStartTime().toString());
-		viewHolder.locationTV.setText(temp.getLocation());
-		if (temp.isHasBeenResponsedTo())
-			if (temp.isCurrentResponse())
+		Meeting tempMeeting = meetingList.get(position);
+		CharacterDrawable drawable = new CharacterDrawable(tempMeeting
+				.getFrom().getUsername().toUpperCase().charAt(0), 0xFF805781);
+		viewHolder.profilePicIV.setImageDrawable(drawable);
+		
+		viewHolder.subjectTV.setText(tempMeeting.getSubject());
+		viewHolder.senderUsernameTV.setText(tempMeeting.getFrom().getUsername());
+		viewHolder.dateTV.setText(tempMeeting.getStartTime().toString());
+		viewHolder.locationTV.setText(tempMeeting.getLocation());
+		if (tempMeeting.isHasBeenResponsedTo())
+			if (tempMeeting.isCurrentResponse())
 				viewHolder.statusDotIV.setImageDrawable(context.getResources()
 						.getDrawable(R.drawable.dot_green));
 			else

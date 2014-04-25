@@ -78,39 +78,39 @@ public class TestFragment3 extends Fragment {
 	}
 
 	private class FetchMeetingsAsynTask extends
-			AsyncTask<String, Void, List<Meeting>> {
+			AsyncTask<String, Void, Void> {
 
 		@Override
-		protected List<Meeting> doInBackground(String... params) {
+		protected Void doInBackground(String... params) {
 			List<Meeting> meetingList = new ArrayList<Meeting>();
-			List<ParseObject> meetingsPOList = dao.getOwnMeetingsForUser(ParseUser
-					.getCurrentUser());
+			List<ParseObject> meetingsPOList = dao
+					.getOwnMeetingsForUser(ParseUser.getCurrentUser());
 
 			// make a list of meetings including response
 			for (int i = 0; i < meetingsPOList.size(); i++) {
-				meetingsPOList.get(i).put("from", ParseUser
-					.getCurrentUser());
+				meetingsPOList.get(i).put("from", ParseUser.getCurrentUser());
 				ParseObject tempMeetingPO = meetingsPOList.get(i);
 				Meeting tempMeeting = globalVariable
 						.convertPOtoMeeting(meetingsPOList.get(i));
-				ParseObject checkResponsePO = dao2
-						.getCurrentResponseForMeeting(
-								ParseUser.getCurrentUser(), tempMeetingPO);
-				if (checkResponsePO != null) {
-					tempMeeting.setHasBeenResponsedTo(true);
-					tempMeeting.setCurrentResponse(checkResponsePO
-							.getBoolean("isAttending"));
+				List<ParseObject> allResponsesPO = dao2
+						.getAllResponsesForMeeting(tempMeetingPO);
+				if (allResponsesPO != null) {
+					tempMeeting.setResponses(allResponsesPO);
 				}
 				meetingList.add(tempMeeting);
 			}// for()
-			globalVariable.setMeetingOwnList(meetingList);
-			return meetingList;
+//			globalVariable.setMeetingOwnList(meetingList);
+			globalVariable.setMeetingList(meetingList);
+			return null;
 		}
 
 		@Override
-		protected void onPostExecute(List<Meeting> result) {
+		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
-			final List<Meeting> meetingList = globalVariable.getMeetingOwnList();
+//			final List<Meeting> meetingList = globalVariable
+//					.getMeetingOwnList();
+			final List<Meeting> meetingList = globalVariable
+					.getMeetingList();
 			if (meetingList.size() == 0) {
 				notifyMeetingTV.setText("No meetings found");
 				notifyMeetingTV.setVisibility(View.VISIBLE);
@@ -125,8 +125,9 @@ public class TestFragment3 extends Fragment {
 							int position, long id) {
 						nextIntent = new Intent(getActivity(),
 								DisplayMeetingActivity.class);
-						nextIntent.putExtra("selected_meeting",
-								meetingList.get(position));
+						nextIntent.putExtra("position", position);
+//						nextIntent.putExtra("selected_meeting",
+//								meetingList.get(position));
 						startActivity(nextIntent);
 					}
 				});

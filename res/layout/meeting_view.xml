@@ -78,7 +78,20 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/message_body_header_RL"
                     android:text="Message\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage" />
+
             </RelativeLayout>
+                
+                <LinearLayout
+                    android:id="@+id/responses_RL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                android:background="#FFFFFF"
+                    android:layout_below="@+id/message_body_RL"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:visibility="gone" />
+            
         </RelativeLayout>
     </ScrollView>
 
@@ -105,7 +118,7 @@
             android:layout_alignParentRight="true"
             android:onClick="onReject"
             android:text="Reject" />
-        
+
         <Button
             android:id="@+id/update_Button"
             android:layout_width="wrap_content"

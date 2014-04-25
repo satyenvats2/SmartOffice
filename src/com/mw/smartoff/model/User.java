@@ -31,4 +31,18 @@ public class User implements Serializable {
 		this.username = username;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		User user = null;
+		if (o instanceof User)
+			user = (User) o;
+		if (user != null && user.getEmail() == this.getEmail()
+				&& user.getUsername() == this.getUsername())
+			return true;
+		else
+			return false;
+		// return super.equals(o);
+
+	}
+
 }

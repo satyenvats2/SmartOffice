@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mw.smartoff.model.Email;
+import com.mw.smartoff.services.CharacterDrawable;
 import com.mw.smartoffice.R;
 
 public class EmailsAdapter extends BaseAdapter {
@@ -73,6 +74,11 @@ public class EmailsAdapter extends BaseAdapter {
 		else
 			System.out.println("temp is not null");
 
+		CharacterDrawable drawable = new CharacterDrawable(tempEmail
+				.getFrom().getUsername().toUpperCase().charAt(0), 0xFF805781);
+		viewHolder.senderIV.setImageDrawable(drawable);
+		
+		
 		viewHolder.nameTV.setText(tempEmail.getFrom().getUsername());
 		if (!tempEmail.isEmailRead()) {
 			System.out.println("bolding");

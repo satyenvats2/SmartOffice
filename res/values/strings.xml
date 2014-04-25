@@ -3,19 +3,28 @@
     <string name="app_name">SmartOffice</string>
 
     <string-array name="nav_drawer_items_title">
-        <item >Dashboard</item>
         <item >Mailbox</item>
         <item >Meetings</item>
+        <item >Dashboard</item>
         <item >Messages</item>
         <item >Leaves</item>
     </string-array>
     
    
     <array name="nav_drawer_items_icons">
-        <item>@drawable/ic_launcher</item>
         <item>@drawable/mailbox</item>
         <item>@drawable/meetings</item>
         <item>@drawable/ic_launcher</item>
         <item>@drawable/ic_launcher</item>
+        <item>@drawable/ic_launcher</item>
     </array>
+    
+    <array name="nav_drawer_items_icons_green">
+        <item>@drawable/mailbox_green</item>
+        <item>@drawable/meetings_green</item>
+        <item>@drawable/ic_launcher</item>
+        <item>@drawable/ic_launcher</item>
+        <item>@drawable/ic_launcher</item>
+    </array>
+    
 </resources>

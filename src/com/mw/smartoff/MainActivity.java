@@ -11,8 +11,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -41,6 +43,9 @@ public class MainActivity extends FragmentActivity {
 	Fragment fragment;
 	String tag;
 	
+	FragmentManager fragmentManager;
+	TypedArray navMenuIconsGreen;
+	
 	private void findThings() {
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		leftDrawerRLData = (RelativeLayout) findViewById(R.id.leftDrawer_RL);
@@ -49,11 +54,14 @@ public class MainActivity extends FragmentActivity {
 
 	private void initializeThings() {
 		globalVariable = (GlobalVariable) getApplicationContext();
+		navMenuIconsGreen = getResources().obtainTypedArray(
+				R.array.nav_drawer_items_icons_green);
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.main_activity);
 		findThings();
 		initializeThings();
@@ -69,6 +77,10 @@ public class MainActivity extends FragmentActivity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				System.out.println("onItemClick");
+				leftDrawerLV.clearChoices();
+				leftDrawerLV.requestLayout();
+				((ImageView)view.findViewById(R.id.icon_IV)).setImageResource(navMenuIconsGreen
+				.getResourceId(position, -1));
 				displayView(position);
 			}
 		});
@@ -95,16 +107,16 @@ public class MainActivity extends FragmentActivity {
 		fragment = null;
 		switch (position) {
 		case 0:
-			fragment = new DashboardFragment();
-			tag = "DASHBOARD";
-			break;
-		case 1:
 			fragment = new EmailFragment();
 			tag = "EMAIL";
 			break;
-		case 2:
+		case 1:
 			fragment = new MeetingFragment();
 			tag = "MEETING";
+			break;
+		case 2:
+			fragment = new DashboardFragment();
+			tag = "DASHBOARD";
 			break;
 		case 3:
 			fragment = new DashboardFragment();
@@ -125,6 +137,8 @@ public class MainActivity extends FragmentActivity {
 
 			leftDrawerLV.setItemChecked(position, true);
 			leftDrawerLV.setSelection(position);
+
+			
 			mDrawerLayout.closeDrawer(leftDrawerRLData);
 		} else {
 			// error in creating fragment
@@ -132,21 +146,7 @@ public class MainActivity extends FragmentActivity {
 		}
 	}
 
-	FragmentManager fragmentManager;
-
-	// private void setFragementTag(String tag) {
-	// if (fragment != null) {
-	//
-	// FragmentManager fragmentManager = getFragmentManager();
-	// fragmentManager.beginTransaction()
-	// .replace(R.id.frame_to_be_replaced, fragment, tag).commit();
-	//
-	// } else {
-	// // error in creating fragment
-	// Log.e("MainActivity", "Error in creating fragment");
-	// }
-	// }
-
+	 
 	private void prepareLeftDrawerItems() {
 		String[] navMenuTitles = getResources().getStringArray(
 				R.array.nav_drawer_items_title);
@@ -158,10 +158,10 @@ public class MainActivity extends FragmentActivity {
 				.getResourceId(0, -1)));
 		navDrawerItemList.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons
 				.getResourceId(1, -1)));
-		navDrawerItemList.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons
-				.getResourceId(2, -1)));
-		navDrawerItemList.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons
-				.getResourceId(3, -1)));
+//		navDrawerItemList.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons
+//				.getResourceId(2, -1)));
+//		navDrawerItemList.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons
+//				.getResourceId(3, -1)));
 
 		// Recycle the typed array
 		navMenuIcons.recycle();
