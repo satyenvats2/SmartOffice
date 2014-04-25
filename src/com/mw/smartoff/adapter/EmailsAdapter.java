@@ -2,6 +2,7 @@ package com.mw.smartoff.adapter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class EmailsAdapter extends BaseAdapter {
 	public void swapData(List<Email> emailList) {
 		this.emailList = emailList;
 	}
-	
+
 	static class ViewHolder {
 		protected ImageView senderIV;
 		protected TextView nameTV;
@@ -69,53 +70,66 @@ public class EmailsAdapter extends BaseAdapter {
 		}
 
 		Email tempEmail = emailList.get(position);
-		if (tempEmail == null)
-			System.out.println("temp is null");
-		else
-			System.out.println("temp is not null");
 
-		CharacterDrawable drawable = new CharacterDrawable(tempEmail
-				.getFrom().getUsername().toUpperCase().charAt(0), 0xFF805781);
+		CharacterDrawable drawable = new CharacterDrawable(tempEmail.getFrom()
+				.getUsername().toUpperCase().charAt(0), 0xFF805781);
 		viewHolder.senderIV.setImageDrawable(drawable);
-		
-		
+
 		viewHolder.nameTV.setText(tempEmail.getFrom().getUsername());
-		if (!tempEmail.isEmailRead()) {
-			System.out.println("bolding");
+		if (!tempEmail.isEmailRead()) 
 			viewHolder.nameTV.setTypeface(null, Typeface.BOLD);
-		}
 		viewHolder.subjectTV.setText(tempEmail.getSubject());
-		// viewHolder.dateTV.setText(temp.getCreatedAt().toString());
+//		System.out.println(tempEmail.getCreatedAt());
 		viewHolder.dateTV.setText(formatDate(tempEmail.getCreatedAt()));
 
 		return convertView;
 	}
 
 	private String formatDate(Date date) {
-		String OLD_FORMAT = "EEE MMM dd HH:mm:ss zzz yyyy";
+		Date date1 = date;
+		Date todayDate = new Date();
+		boolean isYesterday = false;
 
-		SimpleDateFormat formatter = new SimpleDateFormat(OLD_FORMAT);
+		String COMPARE_FORMAT = "dd MMM yyyy zzzz";
+		String NEW_FORMAT = null;
 
-		Date tempDate = null;
-		Date tempTodayDate = null;
+		SimpleDateFormat formatter = new SimpleDateFormat(COMPARE_FORMAT);
+
+		String dateStr = formatter.format(date1);
+		String todayDateStr = formatter.format(todayDate);
+
+		Date date2 = null;
+		Date todayDate2 = null;
 		try {
-			tempDate = formatter.parse(date.toString());
-			tempTodayDate = formatter.parse(todayDate.toString());
+			date2 = formatter.parse(dateStr);
+			todayDate2 = formatter.parse(todayDateStr);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String NEW_FORMAT = null;
-		if (tempDate.compareTo(tempTodayDate) == 0)
+		System.out.println( "\naa" + date2+"\nbb"+todayDate2);
+		if (date2.compareTo(todayDate2) == 0)
 			NEW_FORMAT = "HH:mm";
-		else
-			NEW_FORMAT = "dd/MM";
+		else {
+			if (getDate(date2, 1).compareTo(getDate(todayDate2, 1)) == 0)
+				isYesterday = true;
+			else
+				NEW_FORMAT = "dd MMM";
+		}
+		SimpleDateFormat formatter2 = new SimpleDateFormat(NEW_FORMAT);
+		if (isYesterday)
+			return "Yesterday";
+		else {
+			return formatter2.format(date);
 
-		formatter.applyPattern(NEW_FORMAT);
+		}
 
-		String newDateString = formatter.format(tempDate);
+	}
 
-		return newDateString;
+	Date getDate(Date date, int days) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.add(Calendar.DAY_OF_MONTH, days);
+		return cal.getTime();
 	}
 
 	@Override

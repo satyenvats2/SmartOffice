@@ -124,8 +124,6 @@ public class TestFragment extends Fragment {
 						nextIntent = new Intent(getActivity(),
 								DisplayMeetingActivity.class);
 						nextIntent.putExtra("position", position);
-//						nextIntent.putExtra("selected_meeting",
-//								meetingList.get(position));
 						startActivity(nextIntent);
 					}
 				});

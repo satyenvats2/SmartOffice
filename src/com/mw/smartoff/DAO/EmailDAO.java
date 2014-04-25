@@ -35,7 +35,7 @@ public class EmailDAO {
 		queries.add(query2);
 
 		ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
-		mainQuery.orderByAscending("createdAt");
+		mainQuery.orderByDescending("createdAt");
 		mainQuery.include("from");
 		try {
 			emailList = mainQuery.find();
