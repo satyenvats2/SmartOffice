@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.CalendarContract.Events;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -161,16 +162,6 @@ public class DisplayMeetingActivity extends Activity {
 
 	public void onAccept(View view) {
 		Toast.makeText(this, "accept", Toast.LENGTH_SHORT).show();
-		// Calendar cal = Calendar.getInstance();
-		// cal.setTime(selectedMeeting.getStartTime());
-		// Intent intent = new Intent(Intent.ACTION_EDIT);
-		// intent.setType("vnd.android.cursor.item/event");
-		// intent.putExtra("beginTime", cal.getTimeInMillis());
-		// intent.putExtra("allDay", false);
-		// intent.putExtra("rrule", "FREQ=DAILY");
-		// intent.putExtra("endTime", cal.getTimeInMillis()+60*60*1000);
-		// intent.putExtra("title", selectedMeeting.getSubject());
-		// startActivity(intent);
 		previousIntent.putExtra("isAttending", true);
 		showPopupForNotes("Accept Invite", true);
 
@@ -209,14 +200,16 @@ public class DisplayMeetingActivity extends Activity {
 							intent.setType("vnd.android.cursor.item/event");
 							intent.putExtra("beginTime", cal.getTimeInMillis());
 							intent.putExtra("allDay", false);
-//							intent.putExtra("rrule", "FREQ=DAILY");
 							intent.putExtra("endTime",
 									cal.getTimeInMillis() + 60 * 60 * 1000);
 							intent.putExtra("title",
 									selectedMeeting.getSubject());
 							intent.putExtra("description",
 									selectedMeeting.getContent());
-							intent.putExtra("event_location",
+							System.out.println("hello");
+							System.out.println("hello" +selectedMeeting.getLocation());
+							System.out.println("hello");
+							intent.putExtra(Events.EVENT_LOCATION,
 									selectedMeeting.getLocation());
 							
 							startActivity(intent);
