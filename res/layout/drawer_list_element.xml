@@ -24,6 +24,8 @@
         android:layout_centerVertical="true"
         android:layout_toRightOf="@id/icon_IV"
         android:text="Title"
-        android:textSize="20sp" android:layout_marginLeft="16dp"/>
+        android:textColor="@android:color/holo_blue_bright"
+        android:textColorHighlight="@android:color/white"
+        android:textSize="22sp" android:layout_marginLeft="16dp"/>
 
 </RelativeLayout>

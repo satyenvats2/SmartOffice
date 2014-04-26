@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
-    android:padding="5dp" >
+    android:layout_height="wrap_content"
+    android:padding="10dp" >
 
     <ImageView
         android:id="@+id/sender_IV"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:background="@null"
         android:scaleType="fitXY"
-        android:src="@drawable/ic_launcher" />
+        android:src="@drawable/ic_launcher" android:layout_alignParentTop="true"/>
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="5dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/sender_IV" >
 
         <RelativeLayout
@@ -30,28 +30,38 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:singleLine="true"
-                android:text="name"
-                android:textSize="18sp" />
+                android:text="Satyen Vats"
+                android:textSize="17sp" android:typeface="serif" android:textIsSelectable="false"
+                android:textStyle="italic"/>
 
             <TextView
                 android:id="@+id/date_TV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="3dp"
+                android:layout_marginRight="5dp"
                 android:text="date"
-                android:textSize="15sp" />
+                android:textSize="15sp" android:typeface="serif" android:layout_alignParentTop="true"
+                android:textColor="@android:color/darker_gray"/>
         </RelativeLayout>
 
         <TextView
             android:id="@+id/subject_TV"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/top_RL"
             android:layout_below="@+id/top_RL"
             android:singleLine="true"
-            android:text="subject"
-            android:textSize="15sp" />
+            android:text="regarding meeting tomorrow"
+            android:textSize="15sp" android:typeface="serif"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="what time are we leaving for meeting tomorrow?"
+                android:id="@+id/textView" android:layout_below="@+id/subject_TV" android:singleLine="false"
+                android:maxLines="2" android:textStyle="italic" android:typeface="serif"
+                android:textColor="@android:color/darker_gray"/>
     </RelativeLayout>
 
 </RelativeLayout>

@@ -58,8 +58,8 @@ public class MeetingsAdapter extends BaseAdapter {
 					.findViewById(R.id.description_TV);
 			viewHolder.dateTV = (TextView) convertView
 					.findViewById(R.id.date_TV);
-			viewHolder.locationTV = (TextView) convertView
-					.findViewById(R.id.location_TV);
+//			viewHolder.locationTV = (TextView) convertView
+//					.findViewById(R.id.location_TV);
 			viewHolder.statusDotIV = (ImageView) convertView
 					.findViewById(R.id.status_dot_IV);
 			convertView.setTag(viewHolder);
@@ -75,7 +75,7 @@ public class MeetingsAdapter extends BaseAdapter {
 		viewHolder.subjectTV.setText(tempMeeting.getSubject());
 		viewHolder.senderUsernameTV.setText(tempMeeting.getFrom().getUsername());
 		viewHolder.dateTV.setText(tempMeeting.getStartTime().toString());
-		viewHolder.locationTV.setText(tempMeeting.getLocation());
+//		viewHolder.locationTV.setText(tempMeeting.getLocation());
 		if (tempMeeting.isHasBeenResponsedTo())
 			if (tempMeeting.isCurrentResponse())
 				viewHolder.statusDotIV.setImageDrawable(context.getResources()

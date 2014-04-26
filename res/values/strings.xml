@@ -12,8 +12,8 @@
     
    
     <array name="nav_drawer_items_icons">
-        <item>@drawable/mailbox</item>
-        <item>@drawable/meetings</item>
+        <item>@drawable/mailbox_green</item>
+        <item>@drawable/meetings_green</item>
         <item>@drawable/ic_launcher</item>
         <item>@drawable/ic_launcher</item>
         <item>@drawable/ic_launcher</item>
