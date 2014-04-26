@@ -92,7 +92,7 @@ public class LoginActivity extends Activity {
 		Parse.initialize(this, "wHhiiTucu7ntVNl3otR9f59eGg4UD1UavTlWvFzo",
 				"sdGM0MdrbQjeVsha7pAFT9YL5WuUt7dA7f2zb0LW");
 
-		ParseUser.enableAutomaticUser();
+//		ParseUser.enableAutomaticUser();
 		ParseACL defaultACL = new ParseACL();
 
 		// If you would like all objects to be private by default, remove this
@@ -109,7 +109,10 @@ public class LoginActivity extends Activity {
 		initThings();
 
 		if(ParseUser.getCurrentUser() != null)
-		startActivity(nextIntent);
+		{
+			System.out.println("usaer not null");
+			startActivity(nextIntent);
+		}
 
 	}
 

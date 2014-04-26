@@ -1,5 +1,7 @@
 package com.mw.smartoff;
 
+import java.util.Calendar;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -159,8 +161,19 @@ public class DisplayMeetingActivity extends Activity {
 
 	public void onAccept(View view) {
 		Toast.makeText(this, "accept", Toast.LENGTH_SHORT).show();
+		// Calendar cal = Calendar.getInstance();
+		// cal.setTime(selectedMeeting.getStartTime());
+		// Intent intent = new Intent(Intent.ACTION_EDIT);
+		// intent.setType("vnd.android.cursor.item/event");
+		// intent.putExtra("beginTime", cal.getTimeInMillis());
+		// intent.putExtra("allDay", false);
+		// intent.putExtra("rrule", "FREQ=DAILY");
+		// intent.putExtra("endTime", cal.getTimeInMillis()+60*60*1000);
+		// intent.putExtra("title", selectedMeeting.getSubject());
+		// startActivity(intent);
 		previousIntent.putExtra("isAttending", true);
 		showPopupForNotes("Accept Invite", true);
+
 	}
 
 	public void onReject(View view) {
@@ -188,6 +201,26 @@ public class DisplayMeetingActivity extends Activity {
 						updateB.setVisibility(View.VISIBLE);
 
 						dialog.dismiss();
+
+						if (isAttending) {
+							Calendar cal = Calendar.getInstance();
+							cal.setTime(selectedMeeting.getStartTime());
+							Intent intent = new Intent(Intent.ACTION_EDIT);
+							intent.setType("vnd.android.cursor.item/event");
+							intent.putExtra("beginTime", cal.getTimeInMillis());
+							intent.putExtra("allDay", false);
+//							intent.putExtra("rrule", "FREQ=DAILY");
+							intent.putExtra("endTime",
+									cal.getTimeInMillis() + 60 * 60 * 1000);
+							intent.putExtra("title",
+									selectedMeeting.getSubject());
+							intent.putExtra("description",
+									selectedMeeting.getContent());
+							intent.putExtra("event_location",
+									selectedMeeting.getLocation());
+							
+							startActivity(intent);
+						}
 					}
 				});
 

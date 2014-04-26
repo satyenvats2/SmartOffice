@@ -15,7 +15,8 @@ public class Meeting implements Serializable {
 	User from;
 
 	String subject;
-	String description;
+//	String description;
+	String content;
 	String location;
 	Date startTime;
 
@@ -32,7 +33,8 @@ public class Meeting implements Serializable {
 		this.from = from;
 		this.ID = ID;
 		this.subject = subject;
-		this.description = description;
+//		this.description = description;
+		this.content = description;
 		this.location = location;
 		this.startTime = startTime;
 	}
@@ -69,13 +71,13 @@ public class Meeting implements Serializable {
 		this.hasBeenResponsedTo = hasBeenResponsedTo;
 	}
 
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
+//	public String getDescription() {
+//		return description;
+//	}
+//
+//	public void setDescription(String description) {
+//		this.description = description;
+//	}
 
 	public boolean isCurrentResponse() {
 		return currentResponse;
@@ -94,11 +96,11 @@ public class Meeting implements Serializable {
 	}
 
 	public String getContent() {
-		return description;
+		return content;
 	}
 
 	public void setContent(String content) {
-		this.description = content;
+		this.content = content;
 	}
 
 	public String getLocation() {
