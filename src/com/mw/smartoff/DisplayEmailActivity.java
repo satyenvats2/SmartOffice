@@ -69,7 +69,7 @@ public class DisplayEmailActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.email_view);
+		setContentView(R.layout.display_email);
 		findThings();
 		initThings();
 		initialVisibilityOfViews();

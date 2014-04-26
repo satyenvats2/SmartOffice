@@ -154,7 +154,7 @@ public class DisplayMeetingActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.meeting_view);
+		setContentView(R.layout.display_meeting);
 		findThings();
 		initThings();
 		initialVisibilityOfViews();
