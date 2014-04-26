@@ -78,20 +78,22 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/message_body_header_RL"
                     android:text="Message\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage" />
-
             </RelativeLayout>
-                
-                <LinearLayout
-                    android:id="@+id/responses_RL"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+
+            <LinearLayout
+                android:id="@+id/responses_RL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/message_body_RL"
+                android:layout_margin="10dp"
+                android:layout_marginTop="10dp"
                 android:background="#FFFFFF"
-                    android:layout_below="@+id/message_body_RL"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical"
-                    android:visibility="gone" />
-            
+                android:orientation="vertical"
+                android:visibility="gone" />
+            <ListView 
+                android:id="@+id/responses_LV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
         </RelativeLayout>
     </ScrollView>
 

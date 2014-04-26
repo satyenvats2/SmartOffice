@@ -86,12 +86,13 @@ public class EmailsAdapter extends BaseAdapter {
 	}
 
 	private String formatDate(Date date) {
-		Date date1 = date;
-		Date todayDate = new Date();
 		boolean isYesterday = false;
 
 		String COMPARE_FORMAT = "dd MMM yyyy zzzz";
 		String NEW_FORMAT = null;
+
+		Date date1 = date;
+		Date todayDate = new Date();
 
 		SimpleDateFormat formatter = new SimpleDateFormat(COMPARE_FORMAT);
 
@@ -110,15 +111,15 @@ public class EmailsAdapter extends BaseAdapter {
 		if (date2.compareTo(todayDate2) == 0)
 			NEW_FORMAT = "HH:mm";
 		else {
-			if (getDate(date2, 1).compareTo(getDate(todayDate2, 1)) == 0)
+			if (date2.compareTo(getDate(todayDate2, -1)) == 0)
 				isYesterday = true;
 			else
 				NEW_FORMAT = "dd MMM";
 		}
-		SimpleDateFormat formatter2 = new SimpleDateFormat(NEW_FORMAT);
 		if (isYesterday)
 			return "Yesterday";
 		else {
+			SimpleDateFormat formatter2 = new SimpleDateFormat(NEW_FORMAT);
 			return formatter2.format(date);
 
 		}
