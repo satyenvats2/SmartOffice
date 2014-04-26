@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import android.content.Context;
@@ -27,11 +28,20 @@ public class EmailsAdapter extends BaseAdapter {
 
 	Date todayDate;
 
+	HashMap<String, Integer> myMap;
+
 	public EmailsAdapter(Context context, List<Email> emailList) {
 		super();
 		this.context = context;
 		this.emailList = emailList;
 		todayDate = new Date();
+		String[] alphabets = context.getResources().getStringArray(
+				R.array.alphabets);
+		int[] hexCodes = context.getResources().getIntArray(R.array.hex_codes);
+		myMap = new HashMap<String, Integer>();
+		for (int i = 0; i < alphabets.length; i++) {
+			myMap.put(alphabets[i], hexCodes[i]);
+		}
 	}
 
 	public void swapData(List<Email> emailList) {
@@ -43,6 +53,7 @@ public class EmailsAdapter extends BaseAdapter {
 		protected TextView nameTV;
 		protected TextView subjectTV;
 		protected TextView dateTV;
+		protected TextView contentTV;
 	}
 
 	@Override
@@ -63,24 +74,31 @@ public class EmailsAdapter extends BaseAdapter {
 					.findViewById(R.id.subject_TV);
 			viewHolder.dateTV = (TextView) convertView
 					.findViewById(R.id.date_TV);
-
+			viewHolder.contentTV = (TextView) convertView
+					.findViewById(R.id.content_TV);
 			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
 		Email tempEmail = emailList.get(position);
-
+		System.out.println("int  " + myMap.get(tempEmail.getFrom()
+				.getUsername().toUpperCase().charAt(0)) );
+//		CharacterDrawable drawable = new CharacterDrawable(tempEmail.getFrom()
+//				.getUsername().toUpperCase().charAt(0), 0xFF805781);
 		CharacterDrawable drawable = new CharacterDrawable(tempEmail.getFrom()
-				.getUsername().toUpperCase().charAt(0), 0xFF805781);
+				.getUsername().toUpperCase().charAt(0), myMap.get(tempEmail.getFrom()
+						.getUsername().toUpperCase().charAt(0)+""));
+
 		viewHolder.senderIV.setImageDrawable(drawable);
 
 		viewHolder.nameTV.setText(tempEmail.getFrom().getUsername());
-		if (!tempEmail.isEmailRead()) 
+		if (!tempEmail.isEmailRead())
 			viewHolder.nameTV.setTypeface(null, Typeface.BOLD);
 		viewHolder.subjectTV.setText(tempEmail.getSubject());
-//		System.out.println(tempEmail.getCreatedAt());
+		// System.out.println(tempEmail.getCreatedAt());
 		viewHolder.dateTV.setText(formatDate(tempEmail.getCreatedAt()));
+		viewHolder.contentTV.setText(tempEmail.getContent());
 
 		return convertView;
 	}
@@ -107,7 +125,7 @@ public class EmailsAdapter extends BaseAdapter {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		System.out.println( "\naa" + date2+"\nbb"+todayDate2);
+		System.out.println("\naa" + date2 + "\nbb" + todayDate2);
 		if (date2.compareTo(todayDate2) == 0)
 			NEW_FORMAT = "HH:mm";
 		else {

@@ -8,9 +8,10 @@
         android:id="@+id/sender_IV"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_alignParentTop="true"
         android:background="@null"
         android:scaleType="fitXY"
-        android:src="@drawable/ic_launcher" android:layout_alignParentTop="true"/>
+        android:src="@drawable/ic_launcher" />
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -31,18 +32,22 @@
                 android:layout_alignParentTop="true"
                 android:singleLine="true"
                 android:text="Satyen Vats"
-                android:textSize="17sp" android:typeface="serif" android:textIsSelectable="false"
-                android:textStyle="italic"/>
+                android:textIsSelectable="false"
+                android:textSize="17sp"
+                android:textStyle="italic"
+                android:typeface="serif" />
 
             <TextView
                 android:id="@+id/date_TV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
                 android:layout_marginRight="5dp"
                 android:text="date"
-                android:textSize="15sp" android:typeface="serif" android:layout_alignParentTop="true"
-                android:textColor="@android:color/darker_gray"/>
+                android:textColor="@android:color/darker_gray"
+                android:textSize="15sp"
+                android:typeface="serif" />
         </RelativeLayout>
 
         <TextView
@@ -53,15 +58,20 @@
             android:layout_below="@+id/top_RL"
             android:singleLine="true"
             android:text="regarding meeting tomorrow"
-            android:textSize="15sp" android:typeface="serif"/>
+            android:textSize="15sp"
+            android:typeface="serif" />
+
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="what time are we leaving for meeting tomorrow?"
-                android:id="@+id/textView" android:layout_below="@+id/subject_TV" android:singleLine="false"
-                android:maxLines="2" android:textStyle="italic" android:typeface="serif"
-                android:textColor="@android:color/darker_gray"/>
+            android:id="@+id/content_TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/subject_TV"
+            android:maxLines="2"
+            android:text="what time are we leaving for meeting tomorrow?"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@android:color/darker_gray"
+            android:textStyle="italic"
+            android:typeface="serif" />
     </RelativeLayout>
 
 </RelativeLayout>

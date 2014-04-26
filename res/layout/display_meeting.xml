@@ -76,7 +76,7 @@
                     android:id="@+id/message_real_message_TV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:layout_below="@+id/message_body_header_RL"
                     android:text="Message\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage" />
             </RelativeLayout>
@@ -91,10 +91,7 @@
                 android:background="#FFFFFF"
                 android:orientation="vertical"
                 android:visibility="gone" />
-            <ListView 
-                android:id="@+id/responses_LV"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+            
         </RelativeLayout>
     </ScrollView>
 

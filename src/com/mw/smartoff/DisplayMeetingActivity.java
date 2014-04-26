@@ -45,7 +45,6 @@ public class DisplayMeetingActivity extends Activity {
 	LinearLayout responsesRL;
 	RelativeLayout footerMeetingRL;
 	ImageView sendersIV;
-	ListView responsesLV;
 
 	Intent previousIntent;
 	Meeting selectedMeeting;
@@ -80,7 +79,6 @@ public class DisplayMeetingActivity extends Activity {
 
 		responsesRL = (LinearLayout) findViewById(R.id.responses_RL);
 		sendersIV = (ImageView) findViewById(R.id.senders_IV);
-		responsesLV = (ListView) findViewById(R.id.responses_LV);
 	}
 
 	private void initThings() {

@@ -8,9 +8,11 @@
         android:id="@+id/sender_IV"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:adjustViewBounds="false"
         android:background="@null"
         android:scaleType="fitXY"
-        android:src="@drawable/ic_launcher" android:layout_centerVertical="true" android:adjustViewBounds="false"/>
+        android:src="@drawable/ic_launcher" />
 
     <RelativeLayout
         android:id="@+id/meeting_details_RL"
@@ -28,7 +30,9 @@
             android:layout_alignParentTop="true"
             android:singleLine="true"
             android:text="Smart Office demo"
-            android:textSize="18sp" android:textStyle="normal" android:typeface="serif"/>
+            android:textSize="18sp"
+            android:textStyle="normal"
+            android:typeface="serif" />
 
         <TextView
             android:id="@+id/description_TV"
@@ -36,7 +40,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/subject_TV"
             android:text="Satyen Vats"
-            android:textSize="15sp" android:typeface="serif" android:textStyle="bold"/>
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:typeface="serif" />
 
         <TextView
             android:id="@+id/date_TV"
@@ -45,24 +51,28 @@
             android:layout_below="@+id/description_TV"
             android:singleLine="true"
             android:text="29th Apr 2014,  4:30 PM"
-            android:textSize="12sp" android:textStyle="italic" android:typeface="serif"
-            android:textColor="@android:color/darker_gray"/>
+            android:textColor="@android:color/darker_gray"
+            android:textSize="12sp"
+            android:textStyle="italic"
+            android:typeface="serif" />
 
-        <!--<TextView-->
-            <!--android:id="@+id/location_TV"-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@+id/date_TV"-->
-            <!--android:singleLine="true"-->
-            <!--android:text="subject"-->
-            <!--android:textSize="15sp" />-->
+        <!-- <TextView -->
+        <!-- android:id="@+id/location_TV" -->
+        <!-- android:layout_width="fill_parent" -->
+        <!-- android:layout_height="wrap_content" -->
+        <!-- android:layout_below="@+id/date_TV" -->
+        <!-- android:singleLine="true" -->
+        <!-- android:text="subject" -->
+        <!-- android:textSize="15sp" /> -->
     </RelativeLayout>
 
     <ImageView
         android:id="@+id/status_dot_IV"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_alignParentTop="true" android:layout_alignParentRight="true" android:layout_marginRight="10dp"
-        android:layout_marginTop="0dp"/>
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="0dp" />
 
 </RelativeLayout>
