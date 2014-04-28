@@ -8,6 +8,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.CalendarContract.Events;
 import android.view.LayoutInflater;
@@ -42,9 +43,8 @@ public class DisplayMeetingActivity extends Activity {
 	TextView senderNameTV;
 	TextView senderEmailIDTV;
 	TextView messageTV;
-//	LinearLayout responsesRL;
 	TableLayout responsesTL;
-	
+
 	RelativeLayout footerMeetingRL;
 	ImageView sendersIV;
 
@@ -60,12 +60,14 @@ public class DisplayMeetingActivity extends Activity {
 	AlertDialog alertDialog;
 
 	EditText notesET;
+
 	LinearLayout.LayoutParams lp;
 
 	ParseObject selectedMeetingPO;
 
 	LayoutInflater inflater;
-	View child;
+	View tableRowView;
+	View displayNotesView;
 
 	GlobalVariable globalVariable;
 
@@ -79,7 +81,6 @@ public class DisplayMeetingActivity extends Activity {
 		messageTV = (TextView) findViewById(R.id.message_real_message_TV);
 		footerMeetingRL = (RelativeLayout) findViewById(R.id.footer_meeting_RL);
 
-//		responsesRL = (LinearLayout) findViewById(R.id.responses_RL);
 		responsesTL = (TableLayout) findViewById(R.id.responses_TL);
 		sendersIV = (ImageView) findViewById(R.id.senders_IV);
 	}
@@ -92,23 +93,21 @@ public class DisplayMeetingActivity extends Activity {
 		dao = new MeetingDAO(this);
 		dao2 = new ResponseToMeetingDAO(this);
 		createDialog = new CreateDialog(this);
-		alertDialogBuilder = createDialog.createAlertDialog("Add Notes", null,
-				false);
-		alertDialogBuilder.setPositiveButton("Cancel",
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						dialog.dismiss();
-					}
-				});
-
-		notesET = new EditText(this);
-		notesET.setHint("Add notes...");
-		lp = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.MATCH_PARENT,
-				LinearLayout.LayoutParams.MATCH_PARENT);
-		notesET.setLayoutParams(lp);
 
 		inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+	}
+
+	public void onSeeNotes(View view) {
+		int temp = 2;
+		if (selectedMeeting.getResponses().get((Integer) view.getTag())
+				.getString("notes") == null)
+			Toast.makeText(this, "No notes by this user", Toast.LENGTH_SHORT)
+					.show();
+		else {
+			alertDialog.setView(displayNotesView);
+			alertDialog.show();
+		}
 
 	}
 
@@ -117,28 +116,68 @@ public class DisplayMeetingActivity extends Activity {
 		if (selectedMeeting.getFrom().equals(
 				globalVariable.convertParseObjectToUser(ParseUser
 						.getCurrentUser()))) {
+			alertDialogBuilder = createDialog.createAlertDialog("Notes", null,
+					false);
+			alertDialogBuilder.setPositiveButton("OK",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							dialog.dismiss();
+						}
+					});
+			displayNotesView = inflater.inflate(R.layout.display_notes, null, false);
+
+			alertDialog = alertDialogBuilder.create();
+
 			footerMeetingRL.setVisibility(View.GONE);
-//			responsesRL.setVisibility(View.VISIBLE);
 			responsesTL.setVisibility(View.VISIBLE);
 			for (int i = 0; i < selectedMeeting.getResponses().size(); i++) {
-
-				child = inflater
-						.inflate(R.layout.response_element, null, false);
-				((TextView) child.findViewById(R.id.username_TV))
-						.setText(selectedMeeting.getResponses().get(i)
-								.getParseUser("responseFrom").getUsername());
-				if (selectedMeeting.getResponses().get(i)
-						.getBoolean("isAttending") == true)
-					((TextView) child.findViewById(R.id.status_tv))
-							.setText("Attending");
-				else
-					((TextView) child.findViewById(R.id.status_tv))
-							.setText("Not attending");
-
-//				responsesRL.addView(child);
-				responsesTL.addView(child);
+				ParseObject tempResponsePO = selectedMeeting.getResponses()
+						.get(i);
+				tableRowView = inflater.inflate(R.layout.response_element,
+						null, false);
+				tableRowView.setTag(i);
+				((TextView) tableRowView.findViewById(R.id.username_TV))
+						.setText(tempResponsePO.getParseUser("responseFrom")
+								.getUsername() + " is ");
+				TextView dsa = (TextView) tableRowView
+						.findViewById(R.id.status_tv);
+				if (tempResponsePO.getBoolean("isAttending") == true) {
+					dsa.setText("attending.");
+					dsa.setTextColor(Color.parseColor("#0000FF"));
+				} else {
+					dsa.setText("not attending.");
+					dsa.setTextColor(Color.parseColor("#FF0000"));
+				}
+				System.out.println(tempResponsePO.has("notes") + "dfsadfdsaf"
+						+ tempResponsePO.getString("notes"));
+				if (tempResponsePO.getString("notes") == null) {
+					((ImageView) tableRowView.findViewById(R.id.notes_IV))
+							.setVisibility(View.INVISIBLE);
+				} else {
+					TextView tvTV = (TextView) displayNotesView
+							.findViewById(R.id.display_notes_TV);
+					tvTV.setTextSize(18);
+					tvTV.setText(tempResponsePO.getString("notes"));
+				}
+				responsesTL.addView(tableRowView);
 			}
 		} else {
+			alertDialogBuilder = createDialog.createAlertDialog("Add Notes",
+					null, false);
+			alertDialogBuilder.setPositiveButton("Cancel",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							dialog.dismiss();
+						}
+					});
+
+			notesET = new EditText(this);
+			notesET.setHint("Add notes...");
+			lp = new LinearLayout.LayoutParams(
+					LinearLayout.LayoutParams.MATCH_PARENT,
+					LinearLayout.LayoutParams.MATCH_PARENT);
+			notesET.setLayoutParams(lp);
+
 			if (selectedMeeting.isHasBeenResponsedTo()) {
 				acceptB.setVisibility(View.INVISIBLE);
 				rejectB.setVisibility(View.INVISIBLE);
@@ -210,11 +249,12 @@ public class DisplayMeetingActivity extends Activity {
 							intent.putExtra("description",
 									selectedMeeting.getContent());
 							System.out.println("hello");
-							System.out.println("hello" +selectedMeeting.getLocation());
+							System.out.println("hello"
+									+ selectedMeeting.getLocation());
 							System.out.println("hello");
 							intent.putExtra(Events.EVENT_LOCATION,
 									selectedMeeting.getLocation());
-							
+
 							startActivity(intent);
 						}
 					}

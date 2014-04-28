@@ -81,17 +81,7 @@
                     android:text="Message\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage" />
             </RelativeLayout>
 
-<!--             <LinearLayout
-                android:id="@+id/responses_RL"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/message_body_RL"
-                android:layout_margin="10dp"
-                android:layout_marginTop="10dp"
-                android:background="#FFFFFF"
-                android:orientation="vertical"
-                android:visibility="gone" />
- -->            
+           
  				<TableLayout android:id="@+id/responses_TL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

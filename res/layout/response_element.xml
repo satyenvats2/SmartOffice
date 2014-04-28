@@ -1,30 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="5dp"
-    android:weightSum="10" >
+    android:background="@drawable/custom_background_grey"
+    android:clickable="true"
+    android:onClick="onSeeNotes"
+    android:padding="7dp" >
 
     <TextView
         android:id="@+id/username_TV"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="4.8"
-        android:text="text" />
-
-    <TextView
-        android:id="@+id/dotdot_TV"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.4"
-        android:text=":" />
+        android:layout_centerVertical="true"
+        android:text="text"
+        android:textSize="18sp"
+        android:typeface="serif" />
 
     <TextView
         android:id="@+id/status_tv"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_weight="4.8"
-        android:text="text" />
+        android:layout_marginLeft="3dp"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/username_TV"
+        android:text="text"
+        android:textSize="18sp"
+        android:typeface="serif" />
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/notes_IV"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:background="@null"
+        android:scaleType="fitXY"
+        android:src="@drawable/notes3" />
+    <!-- android:visibility="visible" -->
+
+</RelativeLayout>

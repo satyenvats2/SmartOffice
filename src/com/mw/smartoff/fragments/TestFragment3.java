@@ -77,8 +77,7 @@ public class TestFragment3 extends Fragment {
 
 	}
 
-	private class FetchMeetingsAsynTask extends
-			AsyncTask<String, Void, Void> {
+	private class FetchMeetingsAsynTask extends AsyncTask<String, Void, Void> {
 
 		@Override
 		protected Void doInBackground(String... params) {
@@ -99,7 +98,6 @@ public class TestFragment3 extends Fragment {
 				}
 				meetingList.add(tempMeeting);
 			}// for()
-//			globalVariable.setMeetingOwnList(meetingList);
 			globalVariable.setMeetingList(meetingList);
 			return null;
 		}
@@ -107,10 +105,7 @@ public class TestFragment3 extends Fragment {
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
-//			final List<Meeting> meetingList = globalVariable
-//					.getMeetingOwnList();
-			final List<Meeting> meetingList = globalVariable
-					.getMeetingList();
+			final List<Meeting> meetingList = globalVariable.getMeetingList();
 			if (meetingList.size() == 0) {
 				notifyMeetingTV.setText("No meetings found");
 				notifyMeetingTV.setVisibility(View.VISIBLE);
@@ -126,8 +121,6 @@ public class TestFragment3 extends Fragment {
 						nextIntent = new Intent(getActivity(),
 								DisplayMeetingActivity.class);
 						nextIntent.putExtra("position", position);
-//						nextIntent.putExtra("selected_meeting",
-//								meetingList.get(position));
 						startActivity(nextIntent);
 					}
 				});
