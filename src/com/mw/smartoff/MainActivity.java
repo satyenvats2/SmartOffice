@@ -1,6 +1,7 @@
 package com.mw.smartoff;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -17,10 +18,9 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.mw.smartoff.adapter.NavDrawerListAdapter;
-import com.mw.smartoff.fragments.DashboardFragment;
+import com.mw.smartoff.fragments.ContactFragment;
 import com.mw.smartoff.fragments.EmailFragment;
 import com.mw.smartoff.fragments.MeetingFragment;
 import com.mw.smartoff.model.NavDrawerItem;
@@ -28,6 +28,7 @@ import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
 import com.parse.ParseAnalytics;
 import com.parse.ParseUser;
+import com.parse.PushService;
 
 public class MainActivity extends FragmentActivity {
 
@@ -115,14 +116,14 @@ public class MainActivity extends FragmentActivity {
 			tag = "MEETING";
 			break;
 		case 2:
-			fragment = new DashboardFragment();
-			tag = "DASHBOARD";
+			fragment = new ContactFragment();
+			tag = "CONTACT";
 			break;
 		case 3:
-			fragment = new DashboardFragment();
+			fragment = new ContactFragment();
 			break;
 		case 4:
-			fragment = new DashboardFragment();
+			fragment = new ContactFragment();
 			break;
 
 		default:
@@ -158,8 +159,8 @@ public class MainActivity extends FragmentActivity {
 				.getResourceId(0, -1)));
 		navDrawerItemList.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons
 				.getResourceId(1, -1)));
-//		navDrawerItemList.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons
-//				.getResourceId(2, -1)));
+		navDrawerItemList.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons
+				.getResourceId(2, -1)));
 //		navDrawerItemList.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons
 //				.getResourceId(3, -1)));
 
@@ -173,9 +174,16 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	public void onLogOut(View view) {
-		Toast.makeText(this, "put logout functionality", Toast.LENGTH_SHORT)
-				.show();
-		ParseUser.logOut();finish();
+
+        Set<String> setOfAllSubscriptions = PushService.getSubscriptions(this);
+        System.out.println(">>>>>>> Channels before clearing - " + setOfAllSubscriptions.toString());
+        for (String setOfAllSubscription : setOfAllSubscriptions) {
+            System.out.println(">>>>>>> MainActivity::onLogOut() - " + setOfAllSubscription);
+            PushService.unsubscribe(this, setOfAllSubscription);
+        }
+        setOfAllSubscriptions = PushService.getSubscriptions(this);
+        System.out.println(">>>>>>> Channels after cleared - " + setOfAllSubscriptions.toString());
+        ParseUser.logOut();finish();
 	}
 
 	// public void onComposeEmailOrMeeting(View view) {
@@ -183,7 +191,7 @@ public class MainActivity extends FragmentActivity {
 	// .show();
 	// // EmailFragment fragment =
 	// // (EmailFragment)getFragmentManager().findFragmentByTag("EMAIL");
-	// DashboardFragment fragment = (DashboardFragment) fragmentManager
+	// ContactFragment fragment = (ContactFragment) fragmentManager
 	// .findFragmentByTag("DASHBOARD");
 	//
 	// if (fragment.isVisible())

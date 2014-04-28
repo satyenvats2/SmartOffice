@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingRight="20dp" android:paddingLeft="10dp" android:paddingTop="10dp" android:paddingBottom="10dp">
+
+    <ImageView
+        android:id="@+id/sender_IV"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:background="@null"
+        android:scaleType="fitXY"
+        android:src="@drawable/menu_green" />
+
+    <TextView
+        android:id="@+id/name_TV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentTop="false"
+        android:singleLine="true"
+        android:text="Satyen Vats"
+        android:textIsSelectable="false"
+        android:textSize="18sp"
+        android:textStyle="italic"
+        android:typeface="serif" android:layout_toRightOf="@+id/sender_IV" android:layout_toLeftOf="@+id/date_TV"
+        android:layout_centerInParent="true" android:layout_marginLeft="10dp"/>
+    <ImageView
+        android:id="@+id/unread_msgs_IV"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="false"
+        android:layout_centerInParent="true" android:background="@android:color/holo_red_light"/>
+
+</RelativeLayout>

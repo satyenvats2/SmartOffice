@@ -14,8 +14,8 @@
             android:layout_height="wrap_content"
             android:background="#FFFFFF"
             android:orientation="horizontal"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp" >
+            android:paddingBottom="6dp"
+            android:paddingTop="6dp" >
 
             <ImageButton
                 android:id="@+id/left_drawer_button"
@@ -66,15 +66,28 @@
 
     <RelativeLayout
         android:id="@+id/leftDrawer_RL"
-        android:layout_width="230dp"
+        android:layout_width="260dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="#000000" >
+        android:background="#000000" android:alpha=".7">
+
+        <TextView
+                android:id="@+id/username_TV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingTop="10dp"
+                android:text="Tushar Khichariya"
+                android:textSize="18sp"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" android:layout_centerHorizontal="true" android:typeface="serif"
+                android:textIsSelectable="false"/>
 
         <ListView
             android:id="@+id/leftDrawer_LV"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@+id/username_TV"
             android:layout_above="@+id/leftDrawer_logout_LL"
             android:layout_gravity="start"
             android:choiceMode="singleChoice"

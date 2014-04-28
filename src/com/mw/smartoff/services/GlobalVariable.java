@@ -8,14 +8,10 @@ import com.mw.smartoff.MainActivity;
 import com.mw.smartoff.model.Email;
 import com.mw.smartoff.model.Meeting;
 import com.mw.smartoff.model.User;
-import com.parse.Parse;
-import com.parse.ParseACL;
-import com.parse.ParseObject;
-import com.parse.ParseUser;
-import com.parse.PushService;
-import com.parse.ParseInstallation;
+import com.parse.*;
 
 import java.util.List;
+import java.util.Set;
 
 public class GlobalVariable extends android.app.Application {
 
@@ -38,12 +34,22 @@ public class GlobalVariable extends android.app.Application {
 
         ParseACL.setDefaultACL(defaultACL, true);
 
-        ParseInstallation.getCurrentInstallation().saveInBackground();
+        // TODO: move to correct place
+        // Clear push subscription channels
+//        Set<String> setOfAllSubscriptions = PushService.getSubscriptions(this);
+//        for (String setOfAllSubscription : setOfAllSubscriptions) {
+//            System.out.println(">>>>>>> LoginActivity::onCreate() - " + setOfAllSubscription);
+//            PushService.unsubscribe(this, setOfAllSubscription);
+//        }
+// Specify an Activity to handle all pushes by default.
+//        PushService.setDefaultPushCallback(this, MainActivity.class);
+//        if (ParseUser.getCurrentUser() != null) {
+//            PushService.subscribe(this, "SmartOffice", MainActivity.class);
+//            PushService.subscribe(this, ParseUser.getCurrentUser().getUsername(), MainActivity.class);
+//        } else {
+//            PushService.subscribe(this, "SmartOffice", MainActivity.class);
+//        }
 
-        // Specify an Activity to handle all pushes by default.
-        PushService.setDefaultPushCallback(this, MainActivity.class);
-
-        PushService.subscribe(this, "User1", MainActivity.class);
     }
 
 	List<Meeting> meetingList;

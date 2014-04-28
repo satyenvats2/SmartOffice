@@ -17,9 +17,9 @@ import com.mw.smartoff.DAO.UserDAO;
 import com.mw.smartoff.model.User;
 import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
-import com.parse.Parse;
-import com.parse.ParseACL;
-import com.parse.ParseUser;
+import com.parse.*;
+
+import java.util.Set;
 
 public class LoginActivity extends Activity {
 
@@ -137,16 +137,15 @@ public class LoginActivity extends Activity {
 		protected void onPostExecute(ParseUser user) {
 			super.onPostExecute(user);
 			if (user != null) {
-				System.out.println("im not null");
-				Toast.makeText(LoginActivity.this, "Login Successfull",
-						Toast.LENGTH_SHORT).show();
+				System.out.println("User is not null");
 				User currentUser = new User(user.getEmail(), user.getUsername());
-//				globalVariable.setUser(currentUser);
-//				System.out.println("username : " + user.getEmail() + "email : " + globalVariable.getUser().getUsername());
-//				nextIntent = new Intent(LoginActivity.this, MainActivity.class);
-				startActivity(nextIntent);
+
+//                PushService.subscribe(LoginActivity.this, "SmartOffice", MainActivity.class);
+                // TODO: MainActivity needs to be replaced
+                PushService.subscribe(LoginActivity.this, ParseUser.getCurrentUser().getUsername(), MainActivity.class);
+                startActivity(nextIntent);
 			} else
-				System.out.println("im nulll");
+				System.out.println("LoginActivity::onCreate() - user is null");
 		}
 
 	}

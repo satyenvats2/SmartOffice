@@ -5,15 +5,15 @@
     <string-array name="nav_drawer_items_title">
         <item>Mailbox</item>
         <item>Meetings</item>
-        <item>Dashboard</item>
         <item>Messages</item>
+        <item>Dashboard</item>
         <item>Leaves</item>
     </string-array>
 
     <array name="nav_drawer_items_icons">
         <item>@drawable/mailbox_green</item>
         <item>@drawable/meetings_green</item>
-        <item>@drawable/ic_launcher</item>
+        <item>@drawable/send_email_green</item>
         <item>@drawable/ic_launcher</item>
         <item>@drawable/ic_launcher</item>
     </array>
