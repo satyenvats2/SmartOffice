@@ -17,8 +17,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,7 +42,9 @@ public class DisplayMeetingActivity extends Activity {
 	TextView senderNameTV;
 	TextView senderEmailIDTV;
 	TextView messageTV;
-	LinearLayout responsesRL;
+//	LinearLayout responsesRL;
+	TableLayout responsesTL;
+	
 	RelativeLayout footerMeetingRL;
 	ImageView sendersIV;
 
@@ -77,7 +79,8 @@ public class DisplayMeetingActivity extends Activity {
 		messageTV = (TextView) findViewById(R.id.message_real_message_TV);
 		footerMeetingRL = (RelativeLayout) findViewById(R.id.footer_meeting_RL);
 
-		responsesRL = (LinearLayout) findViewById(R.id.responses_RL);
+//		responsesRL = (LinearLayout) findViewById(R.id.responses_RL);
+		responsesTL = (TableLayout) findViewById(R.id.responses_TL);
 		sendersIV = (ImageView) findViewById(R.id.senders_IV);
 	}
 
@@ -115,7 +118,8 @@ public class DisplayMeetingActivity extends Activity {
 				globalVariable.convertParseObjectToUser(ParseUser
 						.getCurrentUser()))) {
 			footerMeetingRL.setVisibility(View.GONE);
-			responsesRL.setVisibility(View.VISIBLE);
+//			responsesRL.setVisibility(View.VISIBLE);
+			responsesTL.setVisibility(View.VISIBLE);
 			for (int i = 0; i < selectedMeeting.getResponses().size(); i++) {
 
 				child = inflater
@@ -131,7 +135,8 @@ public class DisplayMeetingActivity extends Activity {
 					((TextView) child.findViewById(R.id.status_tv))
 							.setText("Not attending");
 
-				responsesRL.addView(child);
+//				responsesRL.addView(child);
+				responsesTL.addView(child);
 			}
 		} else {
 			if (selectedMeeting.isHasBeenResponsedTo()) {

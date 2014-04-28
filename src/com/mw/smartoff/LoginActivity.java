@@ -9,8 +9,12 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.mw.smartoff.DAO.UserDAO;
@@ -99,6 +103,17 @@ public class LoginActivity extends Activity {
 			System.out.println(">>>>>>> user is not null");
 			startActivity(nextIntent);
 		}
+		
+		((RelativeLayout) findViewById(R.id.login_page_RL))
+		.setOnTouchListener(new OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(getCurrentFocus()
+						.getWindowToken(), 0);
+				return false;
+			}
+		});
 
 	}
 

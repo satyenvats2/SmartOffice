@@ -1,30 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
-
-    <!-- <com.viewpagerindicator.TabPageIndicator
-        android:id="@+id/indicator"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/pager"
-        android:layout_width="fill_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1" /> -->
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:id="@+id/contactHeader_TV" android:typeface="serif"
-            android:text="Please select a contact to message" android:textStyle="italic" android:layout_marginTop="14dp"
-            android:layout_marginBottom="14dp" android:layout_gravity="center" android:singleLine="true"
-            android:autoText="false" android:enabled="false" android:textSize="16sp"/>
+        android:id="@+id/contactHeader_TV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="14dp"
+        android:layout_marginTop="14dp"
+        android:inputType="textMultiLine"
+        android:singleLine="true"
+        android:text="Please select a contact to message"
+        android:textSize="16sp"
+        android:textStyle="italic"
+        android:typeface="serif" />
+
     <ListView
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:id="@+id/contacts_LV" android:layout_gravity="center_horizontal"/>
+        android:id="@+id/contacts_LV"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center_horizontal" />
+
 </LinearLayout>
