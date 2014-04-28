@@ -43,6 +43,8 @@ public class DisplayMeetingActivity extends Activity {
 	TextView senderNameTV;
 	TextView senderEmailIDTV;
 	TextView messageTV;
+	TextView timeTV;
+	TextView locationTV;
 	TableLayout responsesTL;
 
 	RelativeLayout footerMeetingRL;
@@ -79,6 +81,8 @@ public class DisplayMeetingActivity extends Activity {
 		senderNameTV = (TextView) findViewById(R.id.sender_name_TV);
 		senderEmailIDTV = (TextView) findViewById(R.id.sender_emailID_TV);
 		messageTV = (TextView) findViewById(R.id.message_real_message_TV);
+		timeTV = (TextView) findViewById(R.id.time_TV);
+		locationTV = (TextView) findViewById(R.id.location_TV);
 		footerMeetingRL = (RelativeLayout) findViewById(R.id.footer_meeting_RL);
 
 		responsesTL = (TableLayout) findViewById(R.id.responses_TL);
@@ -188,6 +192,8 @@ public class DisplayMeetingActivity extends Activity {
 		senderNameTV.setText(selectedMeeting.getFrom().getUsername());
 		senderEmailIDTV.setText(selectedMeeting.getFrom().getEmail());
 		messageTV.setText(selectedMeeting.getContent());
+		timeTV.setText(selectedMeeting.getStartTime().toString());
+		locationTV.setText(selectedMeeting.getLocation());
 		CharacterDrawable drawable = new CharacterDrawable(selectedMeeting
 				.getFrom().getUsername().charAt(0), 0xFF805781);
 		sendersIV.setImageDrawable(drawable);

@@ -27,8 +27,10 @@
                 android:textSize="19sp"
                 android:textStyle="bold" />
 
+            
+
             <RelativeLayout
-                android:id="@+id/message_body_RL"
+                android:id="@+id/message_body_header_RL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/header_meeting_subject_TV"
@@ -36,56 +38,116 @@
                 android:background="#FFFFFF"
                 android:padding="5dp" >
 
+                <ImageView
+                    android:id="@+id/senders_IV"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/ic_launcher" />
+
                 <RelativeLayout
-                    android:id="@+id/message_body_header_RL"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
-
-                    <ImageView
-                        android:id="@+id/senders_IV"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:src="@drawable/ic_launcher" />
-
-                    <RelativeLayout
-                        android:id="@+id/senders_detais_RL"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_toRightOf="@+id/senders_IV" >
-
-                        <TextView
-                            android:id="@+id/sender_name_TV"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Sender Username"
-                            android:textSize="17sp" />
-
-                        <TextView
-                            android:id="@+id/sender_emailID_TV"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/sender_name_TV"
-                            android:layout_marginTop="3dp"
-                            android:text="Sender EmailID"
-                            android:textSize="12sp" />
-                    </RelativeLayout>
-                </RelativeLayout>
-
-                <TextView
-                    android:id="@+id/message_real_message_TV"
+                    android:id="@+id/senders_detais_RL"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_below="@+id/message_body_header_RL"
-                    android:text="Message\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage" />
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/senders_IV" >
+
+                    <TextView
+                        android:id="@+id/sender_name_TV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sender Username"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:id="@+id/sender_emailID_TV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/sender_name_TV"
+                        android:layout_marginTop="3dp"
+                        android:text="Sender EmailID"
+                        android:textSize="12sp" />
+                </RelativeLayout>
             </RelativeLayout>
 
-           
- 				<TableLayout android:id="@+id/responses_TL"
+            <RelativeLayout
+                android:id="@+id/time_and_location_RL"
+                android:layout_width="match_parent"
+                android:background="#FFFFFF"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/message_body_header_RL"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp" >
+
+                <RelativeLayout
+                    android:id="@+id/location_RL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp" >
+
+                    <!-- android:background="@drawable/custom_background_grey" -->
+
+                    <ImageView
+                        android:id="@+id/time_IV"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentLeft="true"
+                        android:src="@drawable/clock" />
+
+                    <TextView
+                        android:id="@+id/time_TV"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@+id/time_IV"
+                        android:text="dfsadad" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/location_RL"
+                    android:padding="5dp" >
+
+                    <ImageView
+                        android:id="@+id/location_IV"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentLeft="true"
+                        android:src="@drawable/location" />
+
+                    <TextView
+                        android:id="@+id/location_TV"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@+id/location_IV"
+                        android:text="dfsadad" />
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/message_real_message_TV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/message_body_RL"
+                android:layout_below="@+id/time_and_location_RL"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
+                android:background="#FFFFFF"
+                android:padding="5dp"
+                android:text="Message\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage" />
+            <!-- </RelativeLayout> -->
+
+
+            <!-- android:layout_below="@+id/message_body_RL" -->
+
+            <TableLayout
+                android:id="@+id/responses_TL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/message_real_message_TV"
                 android:layout_margin="10dp"
                 android:layout_marginTop="10dp"
                 android:background="#FFFFFF"
