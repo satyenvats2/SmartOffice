@@ -42,6 +42,8 @@ public class GlobalVariable extends android.app.Application {
 
         // Specify an Activity to handle all pushes by default.
         PushService.setDefaultPushCallback(this, MainActivity.class);
+
+        PushService.subscribe(this, "User1", MainActivity.class);
     }
 
 	List<Meeting> meetingList;
