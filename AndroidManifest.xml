@@ -3,10 +3,6 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <uses-sdk
-        android:minSdkVersion="14"
-        android:targetSdkVersion="18" />
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -16,14 +12,18 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <!--
-  IMPORTANT: Change "com.parse.starter.permission.C2D_MESSAGE" in the lines below
-  to match your app's package name + ".permission.C2D_MESSAGE".
+      IMPORTANT: Change "com.parse.starter.permission.C2D_MESSAGE" in the lines below
+      to match your app's package name + ".permission.C2D_MESSAGE".
     -->
     <permission
-        android:name="com.mw.smartoff.permission.C2D_MESSAGE"
-        android:protectionLevel="signature" />
+            android:name="com.mw.smartoff.permission.C2D_MESSAGE"
+            android:protectionLevel="signature" />
 
     <uses-permission android:name="com.mw.smartoff.permission.C2D_MESSAGE" />
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="18" />
 
     <application
         android:name="com.mw.smartoff.services.GlobalVariable"
@@ -65,8 +65,8 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
 
+        <!--Push notification with Parse-->
         <service android:name="com.parse.PushService" />
-
         <receiver android:name="com.parse.ParseBroadcastReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

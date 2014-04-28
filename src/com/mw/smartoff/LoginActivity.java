@@ -89,20 +89,6 @@ public class LoginActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		Parse.initialize(this, "wHhiiTucu7ntVNl3otR9f59eGg4UD1UavTlWvFzo",
-				"sdGM0MdrbQjeVsha7pAFT9YL5WuUt7dA7f2zb0LW");
-
-//		ParseUser.enableAutomaticUser();
-		ParseACL defaultACL = new ParseACL();
-
-		// If you would like all objects to be private by default, remove this
-		// line.
-		defaultACL.setPublicReadAccess(true);
-
-		ParseACL.setDefaultACL(defaultACL, true);
-
-		// PushService.setDefaultPushCallback(this. YourActivity.class);
-		// ParseInstallation.getCurrentInstallation().saveInBackground();
 		setContentView(R.layout.login_page);
 		findThings();
 		myOwnListeners();
@@ -110,7 +96,7 @@ public class LoginActivity extends Activity {
 
 		if(ParseUser.getCurrentUser() != null)
 		{
-			System.out.println("usaer not null");
+			System.out.println(">>>>>>> user is not null");
 			startActivity(nextIntent);
 		}
 

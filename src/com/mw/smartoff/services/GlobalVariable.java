@@ -1,23 +1,48 @@
 package com.mw.smartoff.services;
 
-import java.util.List;
-
-import android.app.Application;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Path;
 import android.graphics.Rect;
-
+import com.mw.smartoff.MainActivity;
 import com.mw.smartoff.model.Email;
 import com.mw.smartoff.model.Meeting;
 import com.mw.smartoff.model.User;
+import com.parse.Parse;
+import com.parse.ParseACL;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.parse.PushService;
+import com.parse.ParseInstallation;
 
-public class GlobalVariable extends Application {
+import java.util.List;
 
-//	ParseObject userPO;
-//	User user;
+public class GlobalVariable extends android.app.Application {
+
+    public GlobalVariable() {
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        // Initialize the Parse SDK.
+        Parse.initialize(this, "wHhiiTucu7ntVNl3otR9f59eGg4UD1UavTlWvFzo",
+                "sdGM0MdrbQjeVsha7pAFT9YL5WuUt7dA7f2zb0LW");
+
+        ParseACL defaultACL = new ParseACL();
+
+        // If you would like all objects to be private by default, remove this
+        // line.
+        defaultACL.setPublicReadAccess(true);
+
+        ParseACL.setDefaultACL(defaultACL, true);
+
+        ParseInstallation.getCurrentInstallation().saveInBackground();
+
+        // Specify an Activity to handle all pushes by default.
+        PushService.setDefaultPushCallback(this, MainActivity.class);
+    }
 
 	List<Meeting> meetingList;
 	List<Meeting> meetingOwnList;
@@ -48,26 +73,10 @@ public class GlobalVariable extends Application {
 		this.meetingList = meetingList;
 	}
 
-//	public ParseObject getUserPO() {
-//		return userPO;
-//	}
-//
-//	public void setUserPO(ParseObject userPO) {
-//		this.userPO = userPO;
-//	}
-
-//	public User getUser() {
-//		return user;
-//	}
-//
-//	public void setUser(User user) {
-//		this.user = user;
-//	}
-
 	public Email convertPOtoEmail(ParseObject emailPO) {
 
-		ParseUser dsadsadsa = emailPO.getParseUser("from");
-		System.out.println("sender'd email   :  " + dsadsadsa.getEmail());
+		ParseUser parseUser = emailPO.getParseUser("from");
+		System.out.println("sender's email   :  " + parseUser.getEmail());
 		return new Email(emailPO.getObjectId(),
 				convertParseObjectToUser(emailPO.getParseUser("from")),
 				emailPO.getString("subject"), emailPO.getString("content"),
