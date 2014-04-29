@@ -15,15 +15,12 @@ import android.view.View.OnTouchListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.mw.smartoff.DAO.UserDAO;
-import com.mw.smartoff.model.User;
 import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
-import com.parse.*;
-
-import java.util.Set;
+import com.parse.ParseUser;
+import com.parse.PushService;
 
 public class LoginActivity extends Activity {
 
@@ -153,7 +150,7 @@ public class LoginActivity extends Activity {
 			super.onPostExecute(user);
 			if (user != null) {
 				System.out.println("User is not null");
-				User currentUser = new User(user.getEmail(), user.getUsername());
+//				User currentUser = new User(user.getEmail(), user.getUsername());
 
 //                PushService.subscribe(LoginActivity.this, "SmartOffice", MainActivity.class);
                 // TODO: MainActivity needs to be replaced

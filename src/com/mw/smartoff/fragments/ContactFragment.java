@@ -46,14 +46,14 @@ public class ContactFragment extends Fragment {
 		super.onViewCreated(view, savedInstanceState);
 		findThings();
 		initThings();
-		
+
 		FetchAllUsersAsynTask asynTask = new FetchAllUsersAsynTask();
-		asynTask.execute(new String[]{"Hello World"});
+		asynTask.execute(new String[] { "Hello World" });
 	}
 
 	private void findThings() {
 		contactLV = (ListView) getActivity().findViewById(R.id.contacts_LV);
-		
+
 	}
 
 	private void initThings() {
@@ -68,16 +68,16 @@ public class ContactFragment extends Fragment {
 		protected List<ParseUser> doInBackground(String... params) {
 
 			List<ParseUser> userList = dao.getAllUsers();
-            List<ParseUser> contactUserList = new ArrayList<ParseUser>();
 
-            for (ParseUser parseUser : userList){
-                System.out.println(">>>>>>>  " + parseUser.getObjectId() + "  " + ParseUser.getCurrentUser().getObjectId());
-                if (!parseUser.getObjectId().equals(ParseUser.getCurrentUser().getObjectId())){
-                    contactUserList.add(parseUser);
-                }
-            }
-            globalVariable.setUserList(contactUserList);
-            return contactUserList;
+			for (int i=0; i<userList.size();i++) {
+				if (userList.get(i).getObjectId().equals(
+						ParseUser.getCurrentUser().getObjectId())) {
+					userList.remove(i);
+					break;
+				}
+			}
+			globalVariable.setUserList(userList);
+			return userList;
 		}
 
 		@Override
@@ -86,12 +86,14 @@ public class ContactFragment extends Fragment {
 			if (usersList != null && usersList.size() > 0) {
 				adapter = new ContactsAdapter(getActivity(), usersList);
 				contactLV.setAdapter(adapter);
-				
+
 				contactLV.setOnItemClickListener(new OnItemClickListener() {
 					@Override
 					public void onItemClick(AdapterView<?> parent, View v,
 							int position, long id) {
-						Toast.makeText(getActivity(), "position  : " + position, Toast.LENGTH_SHORT).show();
+						Toast.makeText(getActivity(),
+								"position  : " + position, Toast.LENGTH_SHORT)
+								.show();
 						nextIntent = new Intent(getActivity(),
 								MessagesActivity.class);
 						nextIntent.putExtra("position", position);

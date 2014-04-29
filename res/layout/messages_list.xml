@@ -94,4 +94,11 @@
                 android:textColor="#FFF" />
     </LinearLayout>
 
+    <TextView 
+         android:id="@+id/notification_TV"
+          android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+android:text="No messages found for this user."
+        android:layout_centerInParent="true"       
+         android:visibility="gone"/>
 </RelativeLayout>
