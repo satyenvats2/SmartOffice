@@ -1,6 +1,8 @@
 <resources>
 
     <string name="app_name">SmartOffice</string>
+    <string name="clearone">\u003c--</string>
+        <string name="clearall">\u003c\u003c--</string>
 
     <string-array name="nav_drawer_items_title">
         <item>Mailbox</item>

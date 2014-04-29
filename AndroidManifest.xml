@@ -44,6 +44,11 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="com.mw.smartoff.VerifyPinActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+             />
+        <activity
             android:name="com.mw.smartoff.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"

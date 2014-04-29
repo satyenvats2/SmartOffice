@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -47,6 +50,9 @@ public class MainActivity extends FragmentActivity {
 	FragmentManager fragmentManager;
 	TypedArray navMenuIconsGreen;
 	
+	SharedPreferences sharedPreferences;
+	Editor editor;
+	
 	private void findThings() {
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		leftDrawerRLData = (RelativeLayout) findViewById(R.id.leftDrawer_RL);
@@ -57,6 +63,9 @@ public class MainActivity extends FragmentActivity {
 		globalVariable = (GlobalVariable) getApplicationContext();
 		navMenuIconsGreen = getResources().obtainTypedArray(
 				R.array.nav_drawer_items_icons_green);
+		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this
+				.getApplicationContext());
+		editor = sharedPreferences.edit();
 	}
 
 	@Override
@@ -174,7 +183,11 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	public void onLogOut(View view) {
+		editor.remove("pin");
 
+		editor.commit();
+		
+		
         Set<String> setOfAllSubscriptions = PushService.getSubscriptions(this);
         System.out.println(">>>>>>> Channels before clearing - " + setOfAllSubscriptions.toString());
         for (String setOfAllSubscription : setOfAllSubscriptions) {

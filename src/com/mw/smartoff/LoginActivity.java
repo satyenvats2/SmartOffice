@@ -83,7 +83,8 @@ public class LoginActivity extends Activity {
 				.getDefaultSharedPreferences(this
 						.getApplicationContext());
 		editor = sharedPreferences.edit();
-		nextIntent = new Intent(LoginActivity.this, MainActivity.class);
+//		nextIntent = new Intent(LoginActivity.this, MainActivity.class);
+		nextIntent = new Intent(LoginActivity.this, VerifyPinActivity.class);
 	}
 
 	@Override
