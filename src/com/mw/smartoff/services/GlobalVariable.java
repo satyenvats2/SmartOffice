@@ -56,7 +56,17 @@ public class GlobalVariable extends android.app.Application {
 	List<Meeting> meetingOwnList;
 
 	List<Email> emailList;
-	
+
+    public List<ParseUser> getUserList() {
+        return userList;
+    }
+
+    public void setUserList(List<ParseUser> userList) {
+        this.userList = userList;
+    }
+
+    List<ParseUser> userList;
+
 	public List<Email> getEmailList() {
 		return emailList;
 	}

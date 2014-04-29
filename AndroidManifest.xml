@@ -65,6 +65,11 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
 
+        <activity
+                android:name="com.mw.smartoff.MessagesActivity"
+                android:label="@string/app_name"
+                android:screenOrientation="portrait" />
+
         <!--Push notification with Parse-->
         <service android:name="com.parse.PushService" />
         <receiver android:name="com.parse.ParseBroadcastReceiver" >
