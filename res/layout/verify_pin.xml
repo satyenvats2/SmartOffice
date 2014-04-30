@@ -1,170 +1,179 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="#EEE0E5"
-    android:orientation="horizontal" >
-
-    <!-- android:columnCount="5" -->
-    <!-- android:rowCount="9" -->
+    android:padding="40dp" >
 
     <TextView
         android:id="@+id/header_TV"
-        android:layout_column="0"
-        android:layout_columnSpan="4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center|fill"
         android:layout_marginBottom="5dp"
-        android:layout_row="0"
         android:text="Enter your 4-digit access code."
         android:textSize="20sp"
         android:typeface="serif" />
 
     <EditText
         android:id="@+id/pin_ET"
-        android:layout_column="0"
-        android:textSize="24sp"
-        android:layout_columnSpan="4"
-        android:layout_gravity="center|fill"
-        android:enabled="false"
-        android:layout_row="1"
-        android:gravity="center_horizontal"
-        android:ems="10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header_TV"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
         android:background="@drawable/layer_list_blue"
-        android:inputType="text|textPassword" >
+        android:ems="10"
+        android:enabled="false"
+        android:inputType="text|textPassword"
+        android:textSize="24sp" >
 
         <requestFocus />
     </EditText>
 
-    <!-- row2 -->
 
     <TextView
         android:id="@+id/error_msg_TV"
-        android:layout_column="0"
-        android:layout_columnSpan="4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pin_ET"
+        android:layout_centerHorizontal="true"
         android:layout_margin="5dp"
-        android:layout_row="2"
         android:text="Error Msg"
         android:textColor="#FF0000"
+        android:textSize="20sp"
         android:typeface="serif"
         android:visibility="gone" />
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_column="0"
-        android:layout_margin="5dp"
-        android:layout_row="3"
-        android:background="@drawable/buttonborder"
-        android:text="1" />
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/error_msg_TV"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal" >
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_column="1"
-        android:layout_margin="5dp"
-        android:layout_row="3"
-        android:background="@drawable/buttonborder"
-        android:text="2" />
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_column="2"
-        android:layout_margin="5dp"
-        android:layout_row="3"
-        android:background="@drawable/buttonborder"
-        android:text="3" />
+    <!-- row0 -->
 
-    <!-- row3 -->
+        <Button
+            android:id="@+id/button1"
+            android:layout_column="0"
+            android:layout_margin="5dp"
+            android:layout_row="0"
+            android:background="@drawable/buttonborder"
+            android:text="1" />
 
-    <Button
-        android:id="@+id/button4"
-        android:layout_column="0"
-        android:layout_margin="5dp"
-        android:layout_row="4"
-        android:background="@drawable/buttonborder"
-        android:text="4" />
+        <Button
+            android:id="@+id/button2"
+            android:layout_column="1"
+            android:layout_margin="5dp"
+            android:layout_row="0"
+            android:background="@drawable/buttonborder"
+            android:text="2" />
 
-    <Button
-        android:id="@+id/button5"
-        android:layout_column="1"
-        android:layout_margin="5dp"
-        android:layout_row="4"
-        android:background="@drawable/buttonborder"
-        android:text="5" />
+        <Button
+            android:id="@+id/button3"
+            android:layout_column="2"
+            android:layout_margin="5dp"
+            android:layout_row="0"
+            android:background="@drawable/buttonborder"
+            android:text="3" />
 
-    <Button
-        android:id="@+id/button6"
-        android:layout_column="2"
-        android:layout_margin="5dp"
-        android:layout_row="4"
-        android:background="@drawable/buttonborder"
-        android:text="6" />
+        <!-- row1 -->
 
-    <!-- row4 -->
+        <Button
+            android:id="@+id/button4"
+            android:layout_column="0"
+            android:layout_margin="5dp"
+            android:layout_row="1"
+            android:background="@drawable/buttonborder"
+            android:text="4" />
 
-    <Button
-        android:id="@+id/button7"
-        android:layout_column="0"
-        android:layout_margin="5dp"
-        android:layout_row="5"
-        android:background="@drawable/buttonborder"
-        android:text="7" />
+        <Button
+            android:id="@+id/button5"
+            android:layout_column="1"
+            android:layout_margin="5dp"
+            android:layout_row="1"
+            android:background="@drawable/buttonborder"
+            android:text="5" />
 
-    <Button
-        android:id="@+id/button8"
-        android:layout_column="1"
-        android:layout_margin="5dp"
-        android:layout_row="5"
-        android:background="@drawable/buttonborder"
-        android:text="8" />
+        <Button
+            android:id="@+id/button6"
+            android:layout_column="2"
+            android:layout_margin="5dp"
+            android:layout_row="1"
+            android:background="@drawable/buttonborder"
+            android:text="6" />
 
-    <Button
-        android:id="@+id/button9"
-        android:layout_column="2"
-        android:layout_margin="5dp"
-        android:layout_row="5"
-        android:background="@drawable/buttonborder"
-        android:text="9" />
+        <!-- row2 -->
 
-    <!-- row5 -->
+        <Button
+            android:id="@+id/button7"
+            android:layout_column="0"
+            android:layout_margin="5dp"
+            android:layout_row="2"
+            android:background="@drawable/buttonborder"
+            android:text="7" />
 
-    <Button
-        android:id="@+id/button0"
-        android:layout_column="1"
-        android:layout_margin="5dp"
-        android:layout_row="6"
-        android:background="@drawable/buttonborder"
-        android:text="0" />
+        <Button
+            android:id="@+id/button8"
+            android:layout_column="1"
+            android:layout_margin="5dp"
+            android:layout_row="2"
+            android:background="@drawable/buttonborder"
+            android:text="8" />
 
-    <Button
-        android:id="@+id/clearone_B"
-        android:layout_column="2"
-        android:layout_margin="5dp"
-        android:layout_row="6"
-        android:background="@drawable/buttonborder"
-        android:onClick="onClearOne"
-        android:text="@string/clearone" />
+        <Button
+            android:id="@+id/button9"
+            android:layout_column="2"
+            android:layout_margin="5dp"
+            android:layout_row="2"
+            android:background="@drawable/buttonborder"
+            android:text="9" />
 
-    <Button
-        android:id="@+id/clearall_B"
-        android:layout_column="0"
-        android:layout_columnSpan="1"
-        android:layout_gravity="fill_horizontal"
-        android:layout_margin="5dp"
-        android:layout_row="6"
-        android:background="@drawable/buttonborder"
-        android:onClick="onClearAll"
-        android:text="@string/clearall" />
+        <!-- row3 -->
 
-    <!-- row6 -->
+        <Button
+            android:id="@+id/button0"
+            android:layout_column="1"
+            android:layout_margin="5dp"
+            android:layout_row="3"
+            android:background="@drawable/buttonborder"
+            android:text="0" />
 
-    <Button
-        android:id="@+id/login_B"
-        android:layout_column="1"
-        android:layout_columnSpan="2"
-        android:layout_margin="5dp"
-        android:layout_row="7"
-        android:background="@drawable/buttonborder"
-        android:onClick="onLogin"
-        android:text="Login" />
+        <Button
+            android:id="@+id/clearone_B"
+            android:layout_column="2"
+            android:layout_margin="5dp"
+            android:layout_row="3"
+            android:background="@drawable/buttonborder"
+            android:onClick="onClearOne"
+            android:text="@string/clearone" />
 
-</GridLayout>
+        <Button
+            android:id="@+id/clearall_B"
+            android:layout_column="0"
+            android:layout_columnSpan="1"
+            android:layout_gravity="fill_horizontal"
+            android:layout_margin="5dp"
+            android:layout_row="3"
+            android:background="@drawable/buttonborder"
+            android:onClick="onClearAll"
+            android:text="@string/clearall" />
+
+        <!-- row4 -->
+
+        <Button
+            android:id="@+id/login_B"
+            android:layout_column="1"
+            android:layout_columnSpan="2"
+            android:layout_margin="5dp"
+            android:layout_row="4"
+            android:background="@drawable/buttonborder"
+            android:onClick="onLogin"
+            android:text="Login" />
+    </GridLayout>
+
+</RelativeLayout>
