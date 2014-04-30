@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mw.smartoffice.R;
 
@@ -31,6 +33,8 @@ public class VerifyPinActivity extends Activity implements View.OnClickListener 
 
 	TextView errorMsgTV;
 
+	 private Vibrator myVib;
+	
 	private void findThings() {
 		pinET = (EditText) findViewById(R.id.pin_ET);
 		headerTV = (TextView) findViewById(R.id.header_TV);
@@ -71,7 +75,6 @@ public class VerifyPinActivity extends Activity implements View.OnClickListener 
 				errorMsgTV.setVisibility(View.GONE);
 				if (s.length() > 4)
 					pinET.setText(s.toString().substring(0, 4));
-//				pinET.setSelection(4);
 			}
 		});
 
@@ -82,14 +85,13 @@ public class VerifyPinActivity extends Activity implements View.OnClickListener 
 				.getApplicationContext());
 		editor = sharedPreferences.edit();
 		nextIntent = new Intent(VerifyPinActivity.this, MainActivity.class);
+		myVib = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
 	}
 
 	boolean isPinThereInPrefs;
 
 	private void initialVisibilityofViews() {
-		// if (!sharedPreferences.contains("pin")) {
 		isPinThereInPrefs = sharedPreferences.contains("pin");
-		// }
 		if (!isPinThereInPrefs) {
 			headerTV.setText("Create your 4 digit access code.");
 			loginB.setText("Save");
@@ -135,6 +137,7 @@ public class VerifyPinActivity extends Activity implements View.OnClickListener 
 
 	@Override
 	public void onClick(View v) {
+		 myVib.vibrate(50);
 		switch (v.getId()) {
 		case R.id.button1:
 			addtoarray("1");
@@ -207,6 +210,10 @@ public class VerifyPinActivity extends Activity implements View.OnClickListener 
 
 			}
 
+	}
+
+	public void onCompanyLogin(View view) {
+Toast.makeText(this, "main login", Toast.LENGTH_SHORT).show();
 	}
 
 }

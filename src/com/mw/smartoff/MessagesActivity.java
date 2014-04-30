@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.mw.smartoff.DAO.MessageDAO;
 import com.mw.smartoff.adapter.MessagesAdapter;
 import com.mw.smartoff.model.Message;
+import com.mw.smartoff.services.CreateDialog;
 import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
 import com.parse.ParseObject;
@@ -32,6 +34,9 @@ public class MessagesActivity extends ListActivity {
 
 	MessagesAdapter adapter;
 
+	CreateDialog createDialog;
+	ProgressDialog progressDialog;
+	
 	private void findThings() {
 		notificationTV = (TextView) findViewById(R.id.notification_TV);
 		messagesET = (TextView) findViewById(R.id.message_ET);
@@ -43,6 +48,10 @@ public class MessagesActivity extends ListActivity {
 		dao = new MessageDAO(this);
 		selectedContactPU = globalVariable.getUserList().get(
 				(previousIntent.getIntExtra("position", -1)));
+		createDialog = new CreateDialog(this);
+		progressDialog = createDialog.createProgressDialog("Loading",
+				"Fetching Meetings", true, null);
+	
 	}
 
 	private void initialVisibilityOfViews() {
@@ -60,6 +69,7 @@ public class MessagesActivity extends ListActivity {
 		initThings();
 		initialVisibilityOfViews();
 
+		progressDialog.show();
 		FetchMsgsAsynTask asynTask = new FetchMsgsAsynTask();
 		asynTask.execute(new String[] { "Helelo Worldsdfsdd" });
 	}
@@ -92,6 +102,7 @@ public class MessagesActivity extends ListActivity {
 				adapter = new MessagesAdapter(MessagesActivity.this, msgsList);
 				setListAdapter(adapter);
 			}
+			progressDialog.dismiss();
 		}
 
 	}// FetchMsgsAsynTask

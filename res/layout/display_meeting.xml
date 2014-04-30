@@ -17,25 +17,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/header_meeting_subject_TV"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#FFFFFF"
-                android:padding="20dp"
-                android:text="Subject"
-                android:textSize="19sp"
-                android:textStyle="bold" />
-
-            
+            <!-- android:layout_below="@+id/header_meeting_subject_TV" -->
 
             <RelativeLayout
                 android:id="@+id/message_body_header_RL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/header_meeting_subject_TV"
                 android:layout_margin="10dp"
-                android:background="#FFFFFF"
+                android:background="@drawable/custom_background_grey2"
                 android:padding="5dp" >
 
                 <ImageView
@@ -69,19 +58,50 @@
                 </RelativeLayout>
             </RelativeLayout>
 
+            <!-- subject_and_ -->
+
             <RelativeLayout
                 android:id="@+id/time_and_location_RL"
                 android:layout_width="match_parent"
-                android:background="#FFFFFF"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/message_body_header_RL"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp" >
+                android:layout_marginRight="10dp"
+                android:background="@drawable/custom_background_grey2" >
 
                 <RelativeLayout
-                    android:id="@+id/location_RL"
+                    android:id="@+id/subject_RL"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="5dp" >
+
+                    <!-- android:background="@drawable/custom_background_grey" -->
+
+                    <ImageView
+                        android:id="@+id/subject_IV"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentLeft="true"
+                        android:src="@drawable/clock" />
+
+                    <TextView
+                        android:id="@+id/header_meeting_subject_TV"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@+id/subject_IV"
+                        android:background="#FFFFFF"
+                        android:text="dfsadad"
+                        android:textSize="19sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/time_RL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/subject_RL"
                     android:padding="5dp" >
 
                     <!-- android:background="@drawable/custom_background_grey" -->
@@ -106,7 +126,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/location_RL"
+                    android:layout_below="@+id/time_RL"
                     android:padding="5dp" >
 
                     <ImageView
@@ -135,9 +155,9 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
-                android:background="#FFFFFF"
+                android:background="@drawable/custom_background_grey2"
                 android:padding="5dp"
-                android:text="Message\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage" />
+                android:text="Message\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage" />
             <!-- </RelativeLayout> -->
 
 
@@ -160,24 +180,51 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="#FFFFFF"
-        android:padding="10dp" >
+        android:background="@drawable/custom_background_grey2" >
 
-        <Button
-            android:id="@+id/accept_Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:onClick="onAccept"
-            android:text="Accept" />
+        <!-- android:padding="10dp" -->
 
-        <Button
-            android:id="@+id/reject_Button"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/accept_reject_LL"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:onClick="onReject"
-            android:text="Reject" />
+            android:orientation="horizontal"
+            android:weightSum="2" >
+
+            <LinearLayout
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#98FB98"
+                android:gravity="center" >
+
+                <ImageButton
+                    android:id="@+id/accept_Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@null"
+                    android:onClick="onAccept"
+                    android:src="@drawable/accept" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#F08080"
+                android:gravity="center" >
+
+                <ImageButton
+                    android:id="@+id/reject_Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@null"
+                    android:onClick="onReject"
+                    android:src="@drawable/reject" />
+            </LinearLayout>
+        </LinearLayout>
 
         <Button
             android:id="@+id/update_Button"
