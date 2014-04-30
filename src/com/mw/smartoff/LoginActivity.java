@@ -83,8 +83,8 @@ public class LoginActivity extends Activity {
 				.getDefaultSharedPreferences(this
 						.getApplicationContext());
 		editor = sharedPreferences.edit();
-//		nextIntent = new Intent(LoginActivity.this, MainActivity.class);
-		nextIntent = new Intent(LoginActivity.this, VerifyPinActivity.class);
+		nextIntent = new Intent(LoginActivity.this, MainActivity.class);
+//		nextIntent = new Intent(LoginActivity.this, VerifyPinActivity.class);
 	}
 
 	@Override
@@ -155,7 +155,7 @@ public class LoginActivity extends Activity {
 
 //                PushService.subscribe(LoginActivity.this, "SmartOffice", MainActivity.class);
                 // TODO: MainActivity needs to be replaced
-                PushService.subscribe(LoginActivity.this, ParseUser.getCurrentUser().getUsername(), MainActivity.class);
+//                PushService.subscribe(LoginActivity.this, ParseUser.getCurrentUser().getUsername(), MainActivity.class);
                 startActivity(nextIntent);
 			} else
 				System.out.println("LoginActivity::onCreate() - user is null");

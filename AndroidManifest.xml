@@ -94,6 +94,11 @@
                 <category android:name="com.mw.smartoffice" />
             </intent-filter>
         </receiver>
+        <receiver android:name="com.mw.smartoff.services.PushReceiver" android:label="PushReceiver">
+            <intent-filter>
+                <action android:name="com.mw.smartoff.STATUS_UPDATE"> </action>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
