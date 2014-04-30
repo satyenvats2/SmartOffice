@@ -5,11 +5,9 @@ import java.util.List;
 
 import android.content.Context;
 
-import com.parse.Parse;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
+import com.parse.*;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MessageDAO {
 
@@ -49,12 +47,26 @@ public class MessageDAO {
 		return msgsList;
 	}
 	
-	public void saveMsgs(ParseUser fromPU, ParseUser toPU, String message) {
-		ParseObject parseObject = new ParseObject("Mesaages");
+	public void saveMessage(ParseUser fromPU, ParseUser toPU, String message) {
+		ParseObject parseObject = new ParseObject("Messages");
 		parseObject.put("fromUser", fromPU);
 		parseObject.put("toUser", toPU);
 		parseObject.put("messageText", message);
 		
 		parseObject.saveEventually();
+
+        JSONObject data = new JSONObject();
+        try {
+            data.put("action", "com.mw.smartoff.STATUS_UPDATE");
+            data.put("type", 2);
+            data.put("fromUserId", fromPU.getObjectId());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        ParsePush push = new ParsePush();
+        push.setChannel(toPU.getUsername()); // Notice we use setChannels not setChannel
+        push.setMessage(data.toString());
+        push.sendInBackground();
 	}
 }

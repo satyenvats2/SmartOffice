@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.mw.smartoff.DAO.MessageDAO;
+import com.mw.smartoff.DAO.UserDAO;
 import com.mw.smartoff.adapter.MessagesAdapter;
 import com.mw.smartoff.model.Message;
 import com.mw.smartoff.services.GlobalVariable;
@@ -18,7 +19,7 @@ import com.mw.smartoffice.R;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
-public class MessagesActivity extends ListActivity {
+public class DisplayMessagesActivity extends ListActivity {
 
 	TextView messagesET;
 
@@ -41,8 +42,12 @@ public class MessagesActivity extends ListActivity {
 		globalVariable = (GlobalVariable) getApplicationContext();
 		previousIntent = getIntent();
 		dao = new MessageDAO(this);
-		selectedContactPU = globalVariable.getUserList().get(
-				(previousIntent.getIntExtra("position", -1)));
+        if (previousIntent.hasExtra("fromUserId")){
+            selectedContactPU = new UserDAO(this).getUserById(previousIntent.getStringExtra("fromUserId"));
+        } else {
+            selectedContactPU = globalVariable.getUserList().get(
+                    (previousIntent.getIntExtra("position", -1)));
+        }
 	}
 
 	private void initialVisibilityOfViews() {
@@ -89,7 +94,7 @@ public class MessagesActivity extends ListActivity {
 			if (msgsList == null || msgsList.size() == 0) {
 				notificationTV.setVisibility(View.VISIBLE);
 			} else {
-				adapter = new MessagesAdapter(MessagesActivity.this, msgsList);
+				adapter = new MessagesAdapter(DisplayMessagesActivity.this, msgsList);
 				setListAdapter(adapter);
 			}
 		}
@@ -99,8 +104,8 @@ public class MessagesActivity extends ListActivity {
 	private class SaveMsgAsynTask extends AsyncTask<String, Void, Void> {
 		@Override
 		protected Void doInBackground(String... params) {
-			dao.saveMsgs(ParseUser.getCurrentUser(), selectedContactPU,
-					params[0]);
+			dao.saveMessage(ParseUser.getCurrentUser(), selectedContactPU,
+                    params[0]);
 			return null;
 		}
 
