@@ -25,8 +25,9 @@ public class PushReceiver extends BroadcastReceiver {
         JSONObject jObject;
         try {
             jObject = new JSONObject(message);
-            Toast.makeText(context, jObject.getString("type")+jObject.getString("action"), LENGTH_LONG).show();
+            Toast.makeText(context, "Smart Office - " + jObject.getString("type"), LENGTH_LONG).show();
             Intent i = new Intent(context, JustADialogActivity.class);
+            i.putExtra("type", jObject.getString("type"));
         	i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);  
         	context.startActivity(i);
         } catch (JSONException e) {

@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import com.mw.smartoffice.R;
 
 public class JustADialogActivity extends Activity {
 	CreateDialog createDialog;
@@ -17,20 +18,50 @@ public class JustADialogActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-	createDialog = new CreateDialog(this);
-	final Intent intent = new Intent(this, CreateEmailActivity.class);
-	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		
-		alertDialogBuilder = createDialog.createAlertDialog("Notes", null,
+        setContentView(R.layout.broadcast_alert);
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        int notificationType = -1;
+        if (extras != null) {
+            notificationType = extras.getInt("type");
+            System.out.println(">>>>>>>" + notificationType);
+        }
+
+        final Intent nextIntent = null;
+        String dialogNoteTitle = null;
+        String dialogNoteMessage = null;
+        switch (notificationType){
+            case 0:
+                nextIntent = new Intent(this, DisplayEmailActivity.class);
+                dialogNoteTitle = "New Email";
+                dialogNoteMessage = "You have a new Email";
+                break;
+            case 1:
+                nextIntent = new Intent(this, DisplayMeetingActivity.class);
+                dialogNoteTitle = "New Meeting Invite";
+                dialogNoteMessage = "You have a new Meeting Invite";
+                break;
+            case 2:
+                nextIntent = new Intent(this, DisplayEmailActivity.class);
+                dialogNoteTitle = "New Message";
+                dialogNoteMessage = "You have a new Message";
+                break;
+            default:
+                break;
+        }
+
+	    createDialog = new CreateDialog(this);
+
+		alertDialogBuilder = createDialog.createAlertDialog(dialogNoteTitle, dialogNoteMessage,
 				false);
-		alertDialogBuilder.setPositiveButton("OK",
+		alertDialogBuilder.setPositiveButton("Read now",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						dialog.dismiss();
-			            startActivity(intent);
+			            startActivity(nextIntent);
 					}
 				});
-		alertDialogBuilder.setNegativeButton("Cancel",
+		alertDialogBuilder.setNegativeButton("Read it later",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						dialog.dismiss();
@@ -39,9 +70,7 @@ public class JustADialogActivity extends Activity {
 		
 		alertDialog = alertDialogBuilder.create();
 		alertDialog.show();
-	
-		
-		
+
 	}
 
 }
