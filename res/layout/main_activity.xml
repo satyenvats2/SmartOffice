@@ -12,7 +12,7 @@
             android:id="@+id/fakeActionBarRL"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="#FFFFFF"
+            android:background="#EEE0E5"
             android:orientation="horizontal"
             android:paddingBottom="6dp"
             android:paddingTop="6dp" >
@@ -28,7 +28,7 @@
                 android:gravity="center_vertical"
                 android:onClick="onOpenLeftDrawer"
                 android:scaleType="fitXY"
-                android:src="@drawable/menu_green" />
+                android:src="@drawable/menu_blue" />
 
             <ImageButton
                 android:id="@+id/create_mail_or_meeting_button1"
@@ -120,6 +120,8 @@
                 android:gravity="center_vertical"
                 android:paddingTop="8dp"
                 android:text="Logout"
+                android:textColor="@color/drawer_elements_color"
+                
                 android:textSize="22sp"/>
         </LinearLayout>
     </RelativeLayout>

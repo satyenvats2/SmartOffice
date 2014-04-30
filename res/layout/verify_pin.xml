@@ -21,6 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/header_TV"
+        android:gravity="center_horizontal"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:background="@drawable/layer_list_blue"
@@ -47,6 +48,7 @@
         android:visibility="gone" />
 
     <GridLayout
+        android:id="@+id/keypad_GL"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/error_msg_TV"
@@ -176,4 +178,17 @@
             android:text="Login" />
     </GridLayout>
 
+    <TextView
+            android:id="@+id/delinkTV"
+            android:layout_below="@+id/keypad_GL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:onClick="onCompanyLogin"
+            android:visibility="gone"
+            android:text="Login using CHIPS account"
+            android:textColor="@color/text_color"
+            android:textSize="20sp"
+             
+            android:layout_marginRight="80dp"/>
 </RelativeLayout>

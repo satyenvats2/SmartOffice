@@ -35,10 +35,11 @@ import com.parse.ParseUser;
 
 public class DisplayMeetingActivity extends Activity {
 
-	Button acceptB;
-	Button rejectB;
+//	Button acceptB;
+//	Button rejectB;
 	Button updateB;
-
+LinearLayout acceptRejectLL;
+	
 	TextView meetingSubjectTV;
 	TextView senderNameTV;
 	TextView senderEmailIDTV;
@@ -74,9 +75,10 @@ public class DisplayMeetingActivity extends Activity {
 	GlobalVariable globalVariable;
 
 	private void findThings() {
-		acceptB = (Button) findViewById(R.id.accept_Button);
-		rejectB = (Button) findViewById(R.id.reject_Button);
+//		acceptB = (Button) findViewById(R.id.accept_Button);
+//		rejectB = (Button) findViewById(R.id.reject_Button);
 		updateB = (Button) findViewById(R.id.update_Button);
+		acceptRejectLL= (LinearLayout) findViewById(R.id.accept_reject_LL);
 		meetingSubjectTV = (TextView) findViewById(R.id.header_meeting_subject_TV);
 		senderNameTV = (TextView) findViewById(R.id.sender_name_TV);
 		senderEmailIDTV = (TextView) findViewById(R.id.sender_emailID_TV);
@@ -103,7 +105,7 @@ public class DisplayMeetingActivity extends Activity {
 	}
 
 	public void onSeeNotes(View view) {
-		int temp = 2;
+//		int temp = 2;
 		if (selectedMeeting.getResponses().get((Integer) view.getTag())
 				.getString("notes") == null)
 			Toast.makeText(this, "No notes by this user", Toast.LENGTH_SHORT)
@@ -183,10 +185,11 @@ public class DisplayMeetingActivity extends Activity {
 			notesET.setLayoutParams(lp);
 
 			if (selectedMeeting.isHasBeenResponsedTo()) {
-				acceptB.setVisibility(View.INVISIBLE);
-				rejectB.setVisibility(View.INVISIBLE);
+				acceptRejectLL.setVisibility(View.INVISIBLE);
+//				acceptB.setVisibility(View.INVISIBLE);
+//				rejectB.setVisibility(View.INVISIBLE);
 			} else
-				updateB.setVisibility(View.INVISIBLE);
+				updateB.setVisibility(View.GONE);
 		}
 		meetingSubjectTV.setText(selectedMeeting.getSubject());
 		senderNameTV.setText(selectedMeeting.getFrom().getUsername());
@@ -235,8 +238,9 @@ public class DisplayMeetingActivity extends Activity {
 						else
 							dao2.repondToMeeting(ParseUser.getCurrentUser(),
 									selectedMeetingPO, isAttending, null);
-						acceptB.setVisibility(View.INVISIBLE);
-						rejectB.setVisibility(View.INVISIBLE);
+						acceptRejectLL.setVisibility(View.INVISIBLE);
+//						acceptB.setVisibility(View.INVISIBLE);
+//						rejectB.setVisibility(View.INVISIBLE);
 						updateB.setVisibility(View.VISIBLE);
 
 						dialog.dismiss();
@@ -276,9 +280,10 @@ public class DisplayMeetingActivity extends Activity {
 	public void onUpdate(View view) {
 		Toast.makeText(this, "Put update functionality", Toast.LENGTH_SHORT)
 				.show();
-		acceptB.setVisibility(View.VISIBLE);
-		rejectB.setVisibility(View.VISIBLE);
-		updateB.setVisibility(View.INVISIBLE);
+		acceptRejectLL.setVisibility(View.VISIBLE);
+//		acceptB.setVisibility(View.VISIBLE);
+//		rejectB.setVisibility(View.VISIBLE);
+		updateB.setVisibility(View.GONE);
 	}
 
 	@Override
