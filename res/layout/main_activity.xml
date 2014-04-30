@@ -120,6 +120,8 @@
                 android:gravity="center_vertical"
                 android:paddingTop="8dp"
                 android:text="Logout"
+                android:textColor="@color/drawer_elements_color"
+                
                 android:textSize="22sp"/>
         </LinearLayout>
     </RelativeLayout>

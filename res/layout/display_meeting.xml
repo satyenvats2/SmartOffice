@@ -111,7 +111,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_alignParentLeft="true"
-                        android:src="@drawable/clock" />
+                        android:src="@drawable/clock_blue" />
 
                     <TextView
                         android:id="@+id/time_TV"
@@ -195,16 +195,17 @@
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                    android:onClick="onAccept"
+                                        android:clickable="true" 
                 android:background="#98FB98"
                 android:gravity="center" >
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/accept_Button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
+                    android:layout_margin="8dp"
                     android:background="@null"
-                    android:onClick="onAccept"
                     android:src="@drawable/accept" />
             </LinearLayout>
 
@@ -213,15 +214,17 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#F08080"
+                    android:onClick="onReject"
+                    android:clickable="true" 
+                    
                 android:gravity="center" >
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/reject_Button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
+                    android:layout_margin="8dp"
                     android:background="@null"
-                    android:onClick="onReject"
                     android:src="@drawable/reject" />
             </LinearLayout>
         </LinearLayout>

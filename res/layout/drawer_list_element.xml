@@ -24,7 +24,7 @@
         android:layout_centerVertical="true"
         android:layout_toRightOf="@id/icon_IV"
         android:text="Title"
-        android:textColor="@android:color/holo_blue_bright"
+        android:textColor="@color/drawer_elements_color"
         android:textColorHighlight="@android:color/white"
         android:textSize="22sp" android:layout_marginLeft="16dp"/>
 
