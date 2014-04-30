@@ -1,28 +1,34 @@
 package com.mw.smartoff.services;
 
+import static android.widget.Toast.LENGTH_LONG;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import static android.widget.Toast.LENGTH_LONG;
+import com.mw.smartoff.JustADialogActivity;
 
-/**
- * Created by Motifworks on 4/30/2014.
- */
 public class PushReceiver extends BroadcastReceiver {
-    public void onReceive(Context context, Intent intent) {
-        
+
+	
+	
+	@Override
+    public void onReceive(final Context context, Intent intent) {
+		
         Bundle extras = intent.getExtras();
         String message = extras != null ? extras.getString("com.parse.Data") : "";
         JSONObject jObject;
         try {
             jObject = new JSONObject(message);
-            Toast toast = Toast.makeText(context, jObject.getString("type")+jObject.getString("action"), LENGTH_LONG);
-            toast.show();
+            Toast.makeText(context, jObject.getString("type")+jObject.getString("action"), LENGTH_LONG).show();
+            Intent i = new Intent(context, JustADialogActivity.class);
+        	i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);  
+        	context.startActivity(i);
         } catch (JSONException e) {
             e.printStackTrace();
         }

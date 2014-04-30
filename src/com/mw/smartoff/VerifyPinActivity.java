@@ -71,6 +71,7 @@ public class VerifyPinActivity extends Activity implements View.OnClickListener 
 				errorMsgTV.setVisibility(View.GONE);
 				if (s.length() > 4)
 					pinET.setText(s.toString().substring(0, 4));
+//				pinET.setSelection(4);
 			}
 		});
 
@@ -117,7 +118,8 @@ public class VerifyPinActivity extends Activity implements View.OnClickListener 
 				pinET.getText().toString())) {
 			errorMsgTV.setVisibility(View.VISIBLE);
 			errorMsgTV.setText("Access code is incorrect.");
-		}
+		} else
+			startActivityForResult(nextIntent, MAIN_ACTIVITY);
 	}
 
 	private boolean validate() {

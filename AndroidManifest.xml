@@ -16,8 +16,8 @@
       to match your app's package name + ".permission.C2D_MESSAGE".
     -->
     <permission
-            android:name="com.mw.smartoffice.permission.C2D_MESSAGE"
-            android:protectionLevel="signature" />
+        android:name="com.mw.smartoffice.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
 
     <uses-permission android:name="com.mw.smartoffice.permission.C2D_MESSAGE" />
 
@@ -46,8 +46,7 @@
         <activity
             android:name="com.mw.smartoff.VerifyPinActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
-             />
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.mw.smartoff.MainActivity"
             android:label="@string/app_name"
@@ -69,14 +68,17 @@
             android:name="com.mw.smartoff.CreateMeetingActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
-
         <activity
-                android:name="com.mw.smartoff.MessagesActivity"
-                android:label="@string/app_name"
-                android:screenOrientation="portrait" />
-
-        <!--Push notification with Parse-->
+            android:name="com.mw.smartoff.MessagesActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.mw.smartoff.JustADialogActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <!-- Push notification with Parse -->
         <service android:name="com.parse.PushService" />
+
         <receiver android:name="com.parse.ParseBroadcastReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -94,9 +96,12 @@
                 <category android:name="com.mw.smartoffice" />
             </intent-filter>
         </receiver>
-        <receiver android:name="com.mw.smartoff.services.PushReceiver" android:label="PushReceiver">
+        <receiver
+            android:name="com.mw.smartoff.services.PushReceiver"
+            android:label="PushReceiver" >
             <intent-filter>
-                <action android:name="com.mw.smartoff.STATUS_UPDATE"> </action>
+                <action android:name="com.mw.smartoff.STATUS_UPDATE" >
+                </action>
             </intent-filter>
         </receiver>
     </application>

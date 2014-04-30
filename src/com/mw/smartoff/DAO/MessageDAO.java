@@ -48,4 +48,13 @@ public class MessageDAO {
 
 		return msgsList;
 	}
+	
+	public void saveMsgs(ParseUser fromPU, ParseUser toPU, String message) {
+		ParseObject parseObject = new ParseObject("Mesaages");
+		parseObject.put("fromUser", fromPU);
+		parseObject.put("toUser", toPU);
+		parseObject.put("messageText", message);
+		
+		parseObject.saveEventually();
+	}
 }

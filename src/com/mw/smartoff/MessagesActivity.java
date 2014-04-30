@@ -35,7 +35,6 @@ public class MessagesActivity extends ListActivity {
 	private void findThings() {
 		notificationTV = (TextView) findViewById(R.id.notification_TV);
 		messagesET = (TextView) findViewById(R.id.message_ET);
-
 	}
 
 	private void initThings() {
@@ -95,5 +94,29 @@ public class MessagesActivity extends ListActivity {
 			}
 		}
 
-	}// Asyn
+	}// FetchMsgsAsynTask
+
+	private class SaveMsgAsynTask extends AsyncTask<String, Void, Void> {
+		@Override
+		protected Void doInBackground(String... params) {
+			dao.saveMsgs(ParseUser.getCurrentUser(), selectedContactPU,
+					params[0]);
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void msgsList) {
+			super.onPostExecute(msgsList);
+		}
+
+	}// SaveMsgAsynTask
+
+	public void onSend(View view) {
+		if (messagesET.getText().toString().trim().length() == 0)
+			return;
+
+		SaveMsgAsynTask asynTask = new SaveMsgAsynTask();
+		asynTask.execute(new String[] { messagesET.getText().toString().trim() });
+
+	}
 }

@@ -1,104 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
 
     <RelativeLayout
-            android:id="@+id/fakeActionBarRL"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="#FFFFFF"
-            android:orientation="horizontal"
-            android:paddingBottom="6dp"
-            android:paddingTop="6dp" >
+        android:id="@+id/fakeActionBarRL"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:orientation="horizontal"
+        android:paddingBottom="6dp"
+        android:paddingTop="6dp" >
 
         <ImageButton
-                android:id="@+id/left_drawer_button"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="16dp"
-                android:background="@null"
-                android:gravity="center_vertical"
-                android:onClick="onOpenLeftDrawer"
-                android:scaleType="fitXY"
-                android:src="@drawable/menu_green" />
+            android:id="@+id/left_drawer_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:onClick="onOpenLeftDrawer"
+            android:scaleType="fitXY"
+            android:src="@drawable/menu_green" />
 
         <ImageButton
-                android:id="@+id/create_mail_or_meeting_button1"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-                android:layout_toLeftOf="@+id/create_mail_or_meeting_button2"
-                android:background="@null"
-                android:onClick="onMeeting"
-                android:scaleType="fitXY"
-                android:src="@drawable/compose_meeting_green" />
+            android:id="@+id/create_mail_or_meeting_button1"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/create_mail_or_meeting_button2"
+            android:background="@null"
+            android:onClick="onMeeting"
+            android:scaleType="fitXY"
+            android:src="@drawable/compose_meeting_green" />
 
         <ImageButton
-                android:id="@+id/create_mail_or_meeting_button2"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="16dp"
-                android:background="@null"
-                android:onClick="onEmail"
-                android:scaleType="fitXY"
-                android:src="@drawable/compose_email_green" />
+            android:id="@+id/create_mail_or_meeting_button2"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:background="@null"
+            android:onClick="onEmail"
+            android:scaleType="fitXY"
+            android:src="@drawable/compose_email_green" />
     </RelativeLayout>
 
     <ListView
-            android:id="@android:id/list"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_above="@+id/bottom_write_bar"
-            android:cacheColorHint="#00000000"
-            android:divider="#00000000"
-            android:listSelector="#00000000" android:layout_below="@+id/fakeActionBarRL"
-            android:background="@android:color/darker_gray">
+        android:id="@android:id/list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/bottom_write_bar"
+        android:layout_below="@+id/fakeActionBarRL"
+        android:background="@android:color/darker_gray"
+        android:cacheColorHint="#00000000"
+        android:divider="#00000000"
+        android:listSelector="#00000000" >
     </ListView>
 
     <LinearLayout
-            android:id="@+id/bottom_write_bar"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="#FFF" >
+        android:id="@+id/bottom_write_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#FFF" >
 
         <EditText
-                android:id="@+id/message_ET"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:layout_margin="5sp"
-                android:layout_weight="1"
-                android:background="#FFF"
-                android:hint="Write here"
-                android:padding="5sp"
-                android:textColor="@color/default_title_indicator_text_color" />
+            android:id="@+id/message_ET"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_margin="5sp"
+            android:layout_weight="1"
+            android:background="#FFF"
+            android:hint="Write here"
+            android:padding="5sp"
+            android:textColor="@color/default_title_indicator_text_color" />
 
         <Button
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_margin="5sp"
-                android:background="@drawable/send_email_green"
-                android:onClick="sendMessage"
-                android:paddingBottom="5sp"
-                android:paddingLeft="15sp"
-                android:paddingRight="15sp"
-                android:paddingTop="5sp"
-                android:text="Send"
-                android:textColor="#FFF" />
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_margin="5sp"
+            android:background="@drawable/send_email_green"
+            android:onClick="onSend"
+            android:paddingBottom="5sp"
+            android:paddingLeft="15sp"
+            android:paddingRight="15sp"
+            android:paddingTop="5sp"
+            android:text="Send"
+            android:textColor="#FFF" />
     </LinearLayout>
 
-    <TextView 
-         android:id="@+id/notification_TV"
-          android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-android:text="No messages found for this user."
-        android:layout_centerInParent="true"       
-         android:visibility="gone"/>
+    <TextView
+        android:id="@+id/notification_TV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="No messages found for this user."
+        android:visibility="gone" />
+
 </RelativeLayout>
