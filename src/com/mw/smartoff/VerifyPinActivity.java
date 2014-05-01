@@ -220,6 +220,7 @@ public class VerifyPinActivity extends Activity implements View.OnClickListener 
     }
 
     // Satyen: what is this for?
+
     public void onCompanyLogin(View view) {
         Toast.makeText(this, "main login", Toast.LENGTH_SHORT).show();
     }
