@@ -23,17 +23,27 @@ public class UserDAO {
 	}
 
 	public ParseUser loginUser(String userName, String password) {
-		ParseUser.logInInBackground(userName, password, new LogInCallback() {
-			  public void done(ParseUser user, ParseException e) {
-			    if (user != null) {
-			      // Hooray! The user is logged in.
-			    	found = true;
-			    } else {
-			      // Signup failed. Look at the ParseException to see what happened.
-			    	e.printStackTrace();
-			    }
-			  }
-			});
+        ParseUser user = null;
+        try {
+            user = ParseUser.logIn(userName, password);
+            if (user != null)
+                // Satyen: what is this for?
+                found = true;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+//        ParseUser.logInInBackground(userName, password, new LogInCallback() {
+//            public void done(ParseUser user, ParseException e) {
+//                if (user != null) {
+//                    // Hooray! The user is logged in.
+//                    found = true;
+//                } else {
+//                    // Signup failed. Look at the ParseException to see what happened.
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
 		return ParseUser.getCurrentUser();
 	}
 	

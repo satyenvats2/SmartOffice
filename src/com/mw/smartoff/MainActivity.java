@@ -190,11 +190,12 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	public void onLogOut(View view) {
-		editor.remove("pin");
 
+        // Satyen: we are removing PIN here
+		editor.remove("pin");
 		editor.commit();
 		
-		
+		// Satyen: unsubscribing to channels
         Set<String> setOfAllSubscriptions = PushService.getSubscriptions(this);
         System.out.println(">>>>>>> Channels before clearing - " + setOfAllSubscriptions.toString());
         for (String setOfAllSubscription : setOfAllSubscriptions) {
@@ -204,23 +205,10 @@ public class MainActivity extends FragmentActivity {
         setOfAllSubscriptions = PushService.getSubscriptions(this);
         System.out.println(">>>>>>> Channels after cleared - " + setOfAllSubscriptions.toString());
         ParseUser.logOut();finish();
-	}
 
-	// public void onComposeEmailOrMeeting(View view) {
-	// Toast.makeText(this, "put compose functionality", Toast.LENGTH_SHORT)
-	// .show();
-	// // EmailFragment fragment =
-	// // (EmailFragment)getFragmentManager().findFragmentByTag("EMAIL");
-	// ContactFragment fragment = (ContactFragment) fragmentManager
-	// .findFragmentByTag("DASHBOARD");
-	//
-	// if (fragment.isVisible())
-	// Toast.makeText(this, "if", Toast.LENGTH_SHORT)
-	// .show();
-	// else
-	// Toast.makeText(this, "else", Toast.LENGTH_SHORT)
-	// .show();
-	// }
+        nextIntent = new Intent(this, LoginActivity.class);
+        startActivity(nextIntent);
+	}
 
 	public void onEmail(View view) {
 		nextIntent = new Intent(this, CreateEmailActivity.class);
