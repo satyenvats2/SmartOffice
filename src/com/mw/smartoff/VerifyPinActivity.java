@@ -28,6 +28,8 @@ public class VerifyPinActivity extends Activity implements View.OnClickListener 
     ImageButton clearoneB;
     //	Button clearallB;
     Button loginB;
+    RelativeLayout logoutLayout;
+
     Intent nextIntent;
 
     SharedPreferences sharedPreferences;
@@ -55,6 +57,7 @@ public class VerifyPinActivity extends Activity implements View.OnClickListener 
 //		clearallB = (Button) findViewById(R.id.clearall_B);
         loginB = (Button) findViewById(R.id.login_B);
         pinInfoTV = (TextView) findViewById(R.id.PINInfo_TV);
+        logoutLayout = (RelativeLayout) findViewById(R.id.logout_RL);
 
         for (int i = 0; i < 10; i++) {
             btn[i].setOnClickListener(this);
@@ -98,6 +101,7 @@ public class VerifyPinActivity extends Activity implements View.OnClickListener 
         if (!isPinThereInPrefs) {
             headerTV.setText("Create your 4 digit PIN");
             pinInfoTV.setText("PIN allows access to SMART OFFICE without providing user name and password every time.");
+            logoutLayout.setVisibility(View.INVISIBLE);
 //			loginB.setText("Save");
         }
     }
