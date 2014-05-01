@@ -5,7 +5,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:clickable="false"
-    android:padding="25dp">
+    android:padding="25dp"
+    android:focusable="false"
+    android:background="@android:color/white">
 
 	<ImageView
 			android:layout_width="60dp"
@@ -13,7 +15,7 @@
 			android:id="@+id/imageView2"
 			android:layout_centerHorizontal="true"
 			android:layout_alignParentTop="true"
-			android:layout_marginTop="30dp"
+			android:layout_marginTop="25dp"
 			android:src="@drawable/smart_office_logo"/>
 
 	<TextView
@@ -26,7 +28,7 @@
 			android:layout_centerHorizontal="true"
 			android:typeface="serif"
 			android:textStyle="bold|italic"
-			android:textSize="30dp"
+			android:textSize="24dp"
 			android:textColor="@android:color/holo_blue_light"
 			android:layout_below="@+id/imageView2"
 			android:layout_marginTop="10dp"/>
@@ -35,41 +37,52 @@
         android:id="@+id/email_ET"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:background="@drawable/layer_list_blue"
-        android:hint="email"
-        android:inputType="textEmailAddress"
+        android:padding="7dp"
+        android:background="@android:color/darker_gray"
+        android:hint="user name"
         android:typeface="serif"
         android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"/>
+        android:layout_alignParentLeft="false"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_below="@+id/textView2"
+        android:layout_marginTop="50dp"
+        style="@android:style/TextAppearance.Holo.Medium"
+        android:clickable="false"
+        android:inputType="textPersonName"/>
 
     <EditText
         android:id="@+id/password_ET"
         android:layout_width="match_parent"
-                android:padding="5dp"
+                android:padding="7dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/layer_list_blue"
+        android:background="@android:color/darker_gray"
         android:hint="password"
         android:inputType="textPassword"
         android:typeface="serif"
-        android:layout_alignBaseline="@+id/button"
-        android:layout_alignBottom="@+id/button"
-        android:layout_alignLeft="@+id/email_ET"/>
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="30dp"
+        android:layout_below="@+id/email_ET"
+        android:layout_centerVertical="true"
+        style="@android:style/TextAppearance.Holo.Medium"
+		    />
 
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onLogin"
-        android:paddingLeft="50dp"
-        android:paddingRight="50dp"
-        android:text="Login"
-        android:textSize="24sp"
-        android:textStyle="bold"
+        android:text="LOGIN"
+        android:textSize="18sp"
         android:typeface="serif"
-        android:layout_above="@+id/relativeLayout"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="56dp"/>
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/password_ET"
+        style="@android:style/ButtonBar"
+        android:background="@android:color/holo_blue_light"
+        android:layout_alignRight="@+id/password_ET"
+        android:layout_alignLeft="@+id/password_ET"/>
 
 	<RelativeLayout
 			android:layout_width="wrap_content"

@@ -50,7 +50,7 @@ public class VerifyPinActivity extends Activity implements View.OnClickListener 
 		btn[8] = (Button) findViewById(R.id.button9);
 		btn[9] = (Button) findViewById(R.id.button0);
 		clearoneB = (Button) findViewById(R.id.clearone_B);
-		clearallB = (Button) findViewById(R.id.clearall_B);
+//		clearallB = (Button) findViewById(R.id.clearall_B);
 		loginB = (Button) findViewById(R.id.login_B);
 
 		for (int i = 0; i < 10; i++) {
@@ -93,8 +93,8 @@ public class VerifyPinActivity extends Activity implements View.OnClickListener 
 	private void initialVisibilityofViews() {
 		isPinThereInPrefs = sharedPreferences.contains("pin");
 		if (!isPinThereInPrefs) {
-			headerTV.setText("Create your 4 digit access code.");
-			loginB.setText("Save");
+			headerTV.setText("Create your 4 digit PIN");
+//			loginB.setText("Save");
 		}
 	}
 
