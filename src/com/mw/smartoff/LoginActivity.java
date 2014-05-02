@@ -30,8 +30,9 @@ public class LoginActivity extends Activity {
 
 	EditText emailET;
 	EditText passwordET;
+	TextView errorMsgTV;
 
-    ProgressBar progressBarPB;
+	ProgressBar progressBarPB;
 
 	UserDAO userDAO;
 
@@ -40,11 +41,12 @@ public class LoginActivity extends Activity {
 
 	SharedPreferences sharedPreferences;
 	Editor editor;
-	
+
 	private void findThings() {
 		emailET = (EditText) findViewById(R.id.email_ET);
 		passwordET = (EditText) findViewById(R.id.password_ET);
-        progressBarPB = (ProgressBar) findViewById(R.id.progressBar_PB);
+		progressBarPB = (ProgressBar) findViewById(R.id.progressBar_PB);
+		errorMsgTV = (TextView) findViewById(R.id.error_msg_TV);
 	}
 
 	private void myOwnListeners() {
@@ -86,22 +88,23 @@ public class LoginActivity extends Activity {
 	private void initThings() {
 		userDAO = new UserDAO(this);
 		globalVariable = (GlobalVariable) getApplicationContext();
-		sharedPreferences = PreferenceManager
-				.getDefaultSharedPreferences(this
-						.getApplicationContext());
+		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this
+				.getApplicationContext());
 		editor = sharedPreferences.edit();
-//		nextIntent = new Intent(LoginActivity.this, MainActivity.class);
+		// nextIntent = new Intent(LoginActivity.this, MainActivity.class);
 
-        passwordET.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId== EditorInfo.IME_ACTION_DONE){
-                    //TODO: do something
-                    onLogin(null);
-                }
-                return false;
-            }
-        });
+		passwordET
+				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+					@Override
+					public boolean onEditorAction(TextView v, int actionId,
+							KeyEvent event) {
+						if (actionId == EditorInfo.IME_ACTION_DONE) {
+							// TODO: do something
+							onLogin(null);
+						}
+						return false;
+					}
+				});
 
 		nextIntent = new Intent(LoginActivity.this, VerifyPinActivity.class);
 	}
@@ -115,29 +118,29 @@ public class LoginActivity extends Activity {
 		myOwnListeners();
 		initThings();
 
-		if(ParseUser.getCurrentUser() != null)
-		{
-			System.out.println(">>>>>>> LoginActivity::onCreate -> user is present in preferences");
+		if (ParseUser.getCurrentUser() != null) {
+			System.out
+					.println(">>>>>>> LoginActivity::onCreate -> user is present in preferences");
 			startActivity(nextIntent);
 		}
-		
+
 		((RelativeLayout) findViewById(R.id.login_page_RL))
-		.setOnTouchListener(new OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-				imm.hideSoftInputFromWindow(getCurrentFocus()
-						.getWindowToken(), 0);
-				return false;
-			}
-		});
+				.setOnTouchListener(new OnTouchListener() {
+					@Override
+					public boolean onTouch(View v, MotionEvent event) {
+						InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+						imm.hideSoftInputFromWindow(getCurrentFocus()
+								.getWindowToken(), 0);
+						return false;
+					}
+				});
 
 	}
 
 	public void onLogin(View view) {
 		if (!validate())
 			return;
-        progressBarPB.setVisibility(View.VISIBLE);
+		progressBarPB.setVisibility(View.VISIBLE);
 		LoginUserAsynTask asynTask = new LoginUserAsynTask();
 		asynTask.execute(new String[] { "hello world" });
 	}
@@ -160,8 +163,8 @@ public class LoginActivity extends Activity {
 
 		@Override
 		protected ParseUser doInBackground(String... params) {
-			ParseUser user = userDAO.loginUser(emailET.getText().toString().trim().toLowerCase(),
-					passwordET.getText().toString());
+			ParseUser user = userDAO.loginUser(emailET.getText().toString()
+					.trim().toLowerCase(), passwordET.getText().toString());
 
 			return user;
 		}
@@ -169,15 +172,25 @@ public class LoginActivity extends Activity {
 		@Override
 		protected void onPostExecute(ParseUser user) {
 			super.onPostExecute(user);
-            progressBarPB.setVisibility(View.INVISIBLE);
-            if (user != null) {
-				System.out.println(">>>>>>> LoginActivity::onPostCreate() - user is " + user.getUsername());
-                // TODO: MainActivity needs to be replaced
-                PushService.subscribe(LoginActivity.this, ParseUser.getCurrentUser().getUsername(), MainActivity.class);
-                startActivity(nextIntent);
+			progressBarPB.setVisibility(View.INVISIBLE);
+			if (user != null) {
+				System.out
+						.println(">>>>>>> LoginActivity::onPostCreate() - user is "
+								+ user.getUsername());
+				collectUserData();
+				// TODO: MainActivity needs to be replaced
+				PushService.subscribe(LoginActivity.this, ParseUser
+						.getCurrentUser().getUsername(), MainActivity.class);
+				startActivity(nextIntent);
 			} else
-				System.out.println(">>>>>>> LoginActivity::onPostCreate() - user is null");
+				System.out
+						.println(">>>>>>> LoginActivity::onPostCreate() - user is null");
+			errorMsgTV.setText("Incorrect username/password");
+			errorMsgTV.setVisibility(View.VISIBLE);
 		}
 
 	}
+	
+	private void collectUserData()
+	{}
 }
