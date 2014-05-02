@@ -1,5 +1,8 @@
 package com.mw.smartoff;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,180 +21,261 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-
 import android.widget.TextView;
+
+import com.mw.smartoff.DAO.EmailDAO;
+import com.mw.smartoff.DAO.MeetingDAO;
+import com.mw.smartoff.DAO.ResponseToMeetingDAO;
 import com.mw.smartoff.DAO.UserDAO;
+import com.mw.smartoff.model.Email;
+import com.mw.smartoff.model.Meeting;
 import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.PushService;
 
 public class LoginActivity extends Activity {
 
-    EditText emailET;
-    EditText passwordET;
-    TextView errorMsgTV;
+	EditText emailET;
+	EditText passwordET;
+	TextView errorMsgTV;
 
-    ProgressBar progressBarPB;
+	ProgressBar progressBarPB;
 
-    UserDAO userDAO;
+	UserDAO userDAO;
+	EmailDAO emailDAO;
+	MeetingDAO meetingDAO;
+	ResponseToMeetingDAO responseToMeetingDAO;
 
-    GlobalVariable globalVariable;
-    Intent nextIntent;
+	GlobalVariable globalVariable;
+	Intent nextIntent;
 
-    SharedPreferences sharedPreferences;
-    Editor editor;
+	SharedPreferences sharedPreferences;
+	Editor editor;
 
-    private void findThings() {
-        emailET = (EditText) findViewById(R.id.email_ET);
-        passwordET = (EditText) findViewById(R.id.password_ET);
-        progressBarPB = (ProgressBar) findViewById(R.id.progressBar_PB);
-        errorMsgTV = (TextView) findViewById(R.id.error_msg_TV);
-    }
+	private void findThings() {
+		emailET = (EditText) findViewById(R.id.email_ET);
+		passwordET = (EditText) findViewById(R.id.password_ET);
+		progressBarPB = (ProgressBar) findViewById(R.id.progressBar_PB);
+		errorMsgTV = (TextView) findViewById(R.id.error_msg_TV);
+	}
 
-    private void myOwnListeners() {
-        emailET.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before,
-                                      int count) {
-            }
+	private void myOwnListeners() {
+		emailET.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+			}
 
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {
-            }
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+			}
 
-            @Override
-            public void afterTextChanged(Editable s) {
-                emailET.setError(null);
-            }
-        });
+			@Override
+			public void afterTextChanged(Editable s) {
+				emailET.setError(null);
+			}
+		});
 
-        passwordET.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before,
-                                      int count) {
-            }
+		passwordET.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+			}
 
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {
-            }
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+			}
 
-            @Override
-            public void afterTextChanged(Editable s) {
-                passwordET.setError(null);
-            }
-        });
-    }
+			@Override
+			public void afterTextChanged(Editable s) {
+				passwordET.setError(null);
+			}
+		});
+	}
 
-    private void initThings() {
-        userDAO = new UserDAO(this);
-        globalVariable = (GlobalVariable) getApplicationContext();
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this
-                .getApplicationContext());
-        editor = sharedPreferences.edit();
-        // nextIntent = new Intent(LoginActivity.this, MainActivity.class);
+	private void initThings() {
+		userDAO = new UserDAO(this);
+		emailDAO = new EmailDAO(this);
+		meetingDAO = new MeetingDAO(this);
+		responseToMeetingDAO = new ResponseToMeetingDAO(this);
 
-        passwordET
-                .setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                    @Override
-                    public boolean onEditorAction(TextView v, int actionId,
-                                                  KeyEvent event) {
-                        if (actionId == EditorInfo.IME_ACTION_DONE) {
-                            // TODO: do something
-                            onLogin(null);
-                        }
-                        return false;
-                    }
-                });
+		globalVariable = (GlobalVariable) getApplicationContext();
+		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this
+				.getApplicationContext());
+		editor = sharedPreferences.edit();
+		// nextIntent = new Intent(LoginActivity.this, MainActivity.class);
 
-        nextIntent = new Intent(LoginActivity.this, VerifyPinActivity.class);
-    }
+		passwordET
+				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+					@Override
+					public boolean onEditorAction(TextView v, int actionId,
+							KeyEvent event) {
+						if (actionId == EditorInfo.IME_ACTION_DONE) {
+							// TODO: do something
+							onLogin(null);
+						}
+						return false;
+					}
+				});
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+		nextIntent = new Intent(LoginActivity.this, VerifyPinActivity.class);
+	}
 
-        setContentView(R.layout.login_page);
-        findThings();
-        myOwnListeners();
-        initThings();
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-        if (ParseUser.getCurrentUser() != null) {
-            System.out
-                    .println(">>>>>>> LoginActivity::onCreate -> user is present in preferences");
-            startActivity(nextIntent);
-        }
+		setContentView(R.layout.login_page);
+		findThings();
+		myOwnListeners();
+		initThings();
 
-        ((RelativeLayout) findViewById(R.id.login_page_RL))
-                .setOnTouchListener(new OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(getCurrentFocus()
-                                .getWindowToken(), 0);
-                        return false;
-                    }
-                });
+		if (ParseUser.getCurrentUser() != null) {
+			System.out
+					.println(">>>>>>> LoginActivity::onCreate -> user is present in preferences");
+			collectUserData();
+			startActivity(nextIntent);
+		}
 
-    }
+		((RelativeLayout) findViewById(R.id.login_page_RL))
+				.setOnTouchListener(new OnTouchListener() {
+					@Override
+					public boolean onTouch(View v, MotionEvent event) {
+						InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+						imm.hideSoftInputFromWindow(getCurrentFocus()
+								.getWindowToken(), 0);
+						return false;
+					}
+				});
 
-    public void onLogin(View view) {
-        if (!validate())
-            return;
-        progressBarPB.setVisibility(View.VISIBLE);
-        LoginUserAsynTask asynTask = new LoginUserAsynTask();
-        asynTask.execute(new String[]{"hello world"});
-    }
+	}
 
-    private boolean validate() {
-        boolean bool = true;
-        if (emailET.getText().toString().trim().length() == 0) {
-            emailET.setError("Enter a user name");
-            bool = false;
-        }
-        if (emailET.getText().length() == 0) {
-            passwordET.setError("Enter a password");
-            bool = false;
-        }
-        return bool;
-    }
+	public void onLogin(View view) {
+		if (!validate())
+			return;
+		progressBarPB.setVisibility(View.VISIBLE);
+		LoginUserAsynTask asynTask = new LoginUserAsynTask();
+		asynTask.execute(new String[] { "hello world" });
+	}
 
-    private class LoginUserAsynTask extends AsyncTask<String, Void, ParseUser> {
-        // ParseUser user;
+	private boolean validate() {
+		boolean bool = true;
+		if (emailET.getText().toString().trim().length() == 0) {
+			emailET.setError("Enter a user name");
+			bool = false;
+		}
+		if (emailET.getText().length() == 0) {
+			passwordET.setError("Enter a password");
+			bool = false;
+		}
+		return bool;
+	}
 
-        @Override
-        protected ParseUser doInBackground(String... params) {
-            ParseUser user = userDAO.loginUser(emailET.getText().toString()
-                    .trim().toLowerCase(), passwordET.getText().toString());
-            return user;
-        }
+	private class LoginUserAsynTask extends AsyncTask<String, Void, ParseUser> {
+		// ParseUser user;
 
-        @Override
-        protected void onPostExecute(ParseUser user) {
-            super.onPostExecute(user);
-            progressBarPB.setVisibility(View.INVISIBLE);
-            if (user != null) {
-                System.out
-                        .println(">>>>>>> LoginActivity::onPostCreate() - user is "
-                                + user.getUsername());
-                collectUserData();
-                // TODO: MainActivity needs to be replaced
-                PushService.subscribe(LoginActivity.this, ParseUser
-                        .getCurrentUser().getUsername(), MainActivity.class);
-                startActivity(nextIntent);
-            } else {
-                System.out
-                        .println(">>>>>>> LoginActivity::onPostCreate() - user is null");
-                errorMsgTV.setText("Incorrect username or password");
-                errorMsgTV.setVisibility(View.VISIBLE);
-            }
-        }
+		@Override
+		protected ParseUser doInBackground(String... params) {
+			ParseUser user = userDAO.loginUser(emailET.getText().toString()
+					.trim().toLowerCase(), passwordET.getText().toString());
+			return user;
+		}
 
-    }
+		@Override
+		protected void onPostExecute(ParseUser user) {
+			super.onPostExecute(user);
+			progressBarPB.setVisibility(View.INVISIBLE);
+			if (user != null) {
+				System.out
+						.println(">>>>>>> LoginActivity::onPostCreate() - user is "
+								+ user.getUsername());
+				collectUserData();
+				// TODO: MainActivity needs to be replaced
+				PushService.subscribe(LoginActivity.this, ParseUser
+						.getCurrentUser().getUsername(), MainActivity.class);
+				startActivity(nextIntent);
+			} else {
+				System.out
+						.println(">>>>>>> LoginActivity::onPostCreate() - user is null");
+				errorMsgTV.setText("Incorrect username or password");
+				errorMsgTV.setVisibility(View.VISIBLE);
+			}
+		}
 
-    private void collectUserData() {
+	}
 
-    }
+	private void collectUserData() {
+		FetchMeetingsAsynTask asynTask = new FetchMeetingsAsynTask();
+		asynTask.execute(new String[]{"Hello Worlkd"});
+
+		FetchEmailsAsynTask asynTask2 = new FetchEmailsAsynTask();
+		asynTask2.execute(new String[]{"Hello Worlkd"});
+	}
+
+	private class FetchMeetingsAsynTask extends AsyncTask<String, Void, Void> {
+
+		@Override
+		protected Void doInBackground(String... params) {
+			List<Meeting> meetingList = new ArrayList<Meeting>();
+			List<ParseObject> meetingsPOList = meetingDAO
+					.getMeetingsForUser(ParseUser.getCurrentUser().getEmail());
+
+			// make a list of meetings including response
+			for (int i = 0; i < meetingsPOList.size(); i++) {
+				ParseObject tempMeetingPO = meetingsPOList.get(i);
+				Meeting tempMeeting = globalVariable
+						.convertPOtoMeeting(meetingsPOList.get(i));
+				ParseObject checkResponsePO = responseToMeetingDAO
+						.getCurrentResponseForMeeting(
+								ParseUser.getCurrentUser(), tempMeetingPO);
+				if (checkResponsePO != null) {
+					tempMeeting.setHasBeenResponsedTo(true);
+					tempMeeting.setCurrentResponse(checkResponsePO
+							.getBoolean("isAttending"));
+				}
+				meetingList.add(tempMeeting);
+			}// for()
+			globalVariable.setMeetingList(meetingList);
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+
+		}// onPostExec
+
+	}// Asyn
+
+	private class FetchEmailsAsynTask extends
+			AsyncTask<String, Void, List<ParseObject>> {
+		@Override
+		protected List<ParseObject> doInBackground(String... params) {
+
+			List<Email> emailList = new ArrayList<Email>();
+			List<ParseObject> emailPOList = emailDAO.getEmailsForUser(ParseUser
+					.getCurrentUser().getEmail());
+			if (emailPOList != null) {
+				for (int i = 0; i < emailPOList.size(); i++) {
+					ParseObject tempEmailPO = emailPOList.get(i);
+					Email tempMeeting = globalVariable
+							.convertPOtoEmail(tempEmailPO);
+					emailList.add(tempMeeting);
+				}
+				globalVariable.setEmailList(emailList);
+			}
+			return emailPOList;
+		}
+
+		@Override
+		protected void onPostExecute(final List<ParseObject> emailPOList) {
+			super.onPostExecute(emailPOList);
+		}
+
+	}// Asyn
+
 }
