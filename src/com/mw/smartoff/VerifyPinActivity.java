@@ -241,7 +241,8 @@ public class VerifyPinActivity extends Activity implements View.OnClickListener 
         }
         setOfAllSubscriptions = PushService.getSubscriptions(this);
         System.out.println(">>>>>>> Channels after cleared - " + setOfAllSubscriptions.toString());
-        ParseUser.logOut();finish();
+        ParseUser.logOut();
+        finish();
 
         nextIntent = new Intent(this, LoginActivity.class);
         startActivity(nextIntent);

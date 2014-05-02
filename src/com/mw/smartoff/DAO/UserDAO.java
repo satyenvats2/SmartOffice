@@ -14,7 +14,6 @@ import com.parse.ParseUser;
 public class UserDAO {
 
 	ParseQuery<ParseUser> query;
-	boolean found = false;
 
 	public UserDAO(Context context) {
 		super();
@@ -23,27 +22,11 @@ public class UserDAO {
 	}
 
 	public ParseUser loginUser(String userName, String password) {
-        ParseUser user = null;
         try {
-            user = ParseUser.logIn(userName, password);
-            if (user != null)
-                // Satyen: what is this for?
-                found = true;
+            ParseUser.logIn(userName, password);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-//        ParseUser.logInInBackground(userName, password, new LogInCallback() {
-//            public void done(ParseUser user, ParseException e) {
-//                if (user != null) {
-//                    // Hooray! The user is logged in.
-//                    found = true;
-//                } else {
-//                    // Signup failed. Look at the ParseException to see what happened.
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
 		return ParseUser.getCurrentUser();
 	}
 	
