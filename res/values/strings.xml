@@ -21,7 +21,7 @@
     </array>
     <array name="nav_drawer_items_icons_green">
         <item>@drawable/mailbox_green</item>
-        <item>@drawable/meetings_green</item>
+        <item>@drawable/meetings_blue</item>
         <item>@drawable/ic_launcher</item>
         <item>@drawable/ic_launcher</item>
         <item>@drawable/ic_launcher</item>

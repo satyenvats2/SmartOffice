@@ -24,7 +24,7 @@
             android:gravity="center_vertical"
             android:onClick="onOpenLeftDrawer"
             android:scaleType="fitXY"
-            android:src="@drawable/menu_green" />
+            android:src="@drawable/menu_blue" />
 
         <ImageButton
             android:id="@+id/create_mail_or_meeting_button1"
@@ -86,7 +86,7 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_margin="5sp"
-            android:background="@drawable/send_email_green"
+            android:background="@drawable/send_email_blue"
             android:onClick="onSend"
             android:paddingBottom="5sp"
             android:paddingLeft="15sp"
