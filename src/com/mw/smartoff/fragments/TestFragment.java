@@ -131,7 +131,7 @@ public class TestFragment extends Fragment {
 				notifyMeetingTV.setText("No meetings found");
 				notifyMeetingTV.setVisibility(View.VISIBLE);
 			} else {
-
+				meetingLV.onRefreshComplete();
 				adapter = new MeetingsAdapter(getActivity(), meetingList);
 				meetingLV.setAdapter(adapter);
 

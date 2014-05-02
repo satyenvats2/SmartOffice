@@ -40,9 +40,6 @@ public class EmailFragment extends Fragment {
 	EmailsAdapter adapter;
 	Intent nextIntent;
 
-	CreateDialog createDialog;
-	ProgressDialog progressDialog;
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -57,7 +54,6 @@ public class EmailFragment extends Fragment {
 		super.onViewCreated(view, savedInstanceState);
 		findThings();
 		initThings();
-//		progressDialog.show();
 		FetchEmailsAsynTask asynTask = new FetchEmailsAsynTask();
 		asynTask.execute(true);
         // Set a listener to be invoked when the list should be refreshed.

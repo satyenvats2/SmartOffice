@@ -17,6 +17,12 @@ import java.util.Set;
 
 public class GlobalVariable extends android.app.Application {
 
+	List<Meeting> meetingList;
+	List<Meeting> meetingOwnList;
+
+	List<Email> emailList;
+	List<ParseUser> userList;
+	
 	public GlobalVariable() {
 	}
 
@@ -57,11 +63,6 @@ public class GlobalVariable extends android.app.Application {
 
 	}
 
-	List<Meeting> meetingList;
-	List<Meeting> meetingOwnList;
-
-	List<Email> emailList;
-
 	public List<ParseUser> getUserList() {
 		return userList;
 	}
@@ -70,7 +71,7 @@ public class GlobalVariable extends android.app.Application {
 		this.userList = userList;
 	}
 
-	List<ParseUser> userList;
+	
 
 	public List<Email> getEmailList() {
 		return emailList;
