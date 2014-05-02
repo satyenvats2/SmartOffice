@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import com.mw.smartoff.DAO.MessageDAO;
 import com.mw.smartoff.DAO.UserDAO;
 import com.mw.smartoff.adapter.MessagesAdapter;
 import com.mw.smartoff.model.Message;
+import com.mw.smartoff.services.CreateDialog;
 import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
 import com.parse.ParseObject;
@@ -33,6 +35,9 @@ public class DisplayMessagesActivity extends ListActivity {
 
 	MessagesAdapter adapter;
 
+	CreateDialog createDialog;
+	ProgressDialog progressDialog;
+	
 	private void findThings() {
 		notificationTV = (TextView) findViewById(R.id.notification_TV);
 		messagesET = (TextView) findViewById(R.id.message_ET);
@@ -42,12 +47,21 @@ public class DisplayMessagesActivity extends ListActivity {
 		globalVariable = (GlobalVariable) getApplicationContext();
 		previousIntent = getIntent();
 		dao = new MessageDAO(this);
+<<<<<<< HEAD:src/com/mw/smartoff/DisplayMessagesActivity.java
         if (previousIntent.hasExtra("fromUserId")){
             selectedContactPU = new UserDAO(this).getUserById(previousIntent.getStringExtra("fromUserId"));
         } else {
             selectedContactPU = globalVariable.getUserList().get(
                     (previousIntent.getIntExtra("position", -1)));
         }
+=======
+		selectedContactPU = globalVariable.getUserList().get(
+				(previousIntent.getIntExtra("position", -1)));
+		createDialog = new CreateDialog(this);
+		progressDialog = createDialog.createProgressDialog("Loading",
+				"Fetching Meetings", true, null);
+	
+>>>>>>> 293e7e2460fad652f7e3022df721c9ac41cc83d0:src/com/mw/smartoff/MessagesActivity.java
 	}
 
 	private void initialVisibilityOfViews() {
@@ -65,6 +79,7 @@ public class DisplayMessagesActivity extends ListActivity {
 		initThings();
 		initialVisibilityOfViews();
 
+		progressDialog.show();
 		FetchMsgsAsynTask asynTask = new FetchMsgsAsynTask();
 		asynTask.execute(new String[] { "Helelo Worldsdfsdd" });
 	}
@@ -97,6 +112,7 @@ public class DisplayMessagesActivity extends ListActivity {
 				adapter = new MessagesAdapter(DisplayMessagesActivity.this, msgsList);
 				setListAdapter(adapter);
 			}
+			progressDialog.dismiss();
 		}
 
 	}// FetchMsgsAsynTask

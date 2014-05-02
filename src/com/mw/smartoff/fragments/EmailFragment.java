@@ -3,6 +3,8 @@ package com.mw.smartoff.fragments;
 import java.util.ArrayList;
 import java.util.List;
 
+
+import android.app.ProgressDialog;
 //import android.app.Fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -21,6 +23,7 @@ import com.mw.smartoff.DisplayEmailActivity;
 import com.mw.smartoff.DAO.EmailDAO;
 import com.mw.smartoff.adapter.EmailsAdapter;
 import com.mw.smartoff.model.Email;
+import com.mw.smartoff.services.CreateDialog;
 import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
 import com.parse.ParseException;
@@ -37,6 +40,9 @@ public class EmailFragment extends Fragment {
 	EmailsAdapter adapter;
 	Intent nextIntent;
 
+	CreateDialog createDialog;
+	ProgressDialog progressDialog;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -51,6 +57,7 @@ public class EmailFragment extends Fragment {
 		super.onViewCreated(view, savedInstanceState);
 		findThings();
 		initThings();
+		progressDialog.show();
 		FetchEmailsAsynTask asynTask = new FetchEmailsAsynTask();
 		asynTask.execute(new String[] { "Hello World" });
 	}
@@ -64,6 +71,9 @@ public class EmailFragment extends Fragment {
 	private void initThings() {
 		globalVariable = (GlobalVariable) getActivity().getApplicationContext();
 		dao = new EmailDAO(getActivity());
+		createDialog = new CreateDialog(getActivity());
+		progressDialog = createDialog.createProgressDialog("Loading",
+				"Fetching Emails", true, null);
 	}
 
 	private class FetchEmailsAsynTask extends
@@ -121,6 +131,7 @@ public class EmailFragment extends Fragment {
 					}
 				});
 			}
+			progressDialog.dismiss();
 		}
 
 	}// Asyn

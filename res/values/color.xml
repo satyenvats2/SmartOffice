@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <color name="drawer_elements_color">@android:color/holo_blue_bright</color>
+   
+</resources>
