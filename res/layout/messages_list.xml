@@ -89,9 +89,7 @@
             android:paddingBottom="5sp"
             android:paddingLeft="15sp"
             android:paddingRight="15sp"
-            android:paddingTop="5sp"
-            android:text="Send"
-            android:textColor="#FFF" />
+            android:paddingTop="5sp"/>
     </LinearLayout>
 
     <TextView

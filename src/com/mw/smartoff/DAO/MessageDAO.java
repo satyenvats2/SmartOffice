@@ -68,5 +68,7 @@ public class MessageDAO {
         push.setChannel(toPU.getUsername()); // Notice we use setChannels not setChannel
         push.setMessage(data.toString());
         push.sendInBackground();
+
+        // comment to be removed. for github.
 	}
 }

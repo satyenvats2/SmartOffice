@@ -47,21 +47,15 @@ public class DisplayMessagesActivity extends ListActivity {
 		globalVariable = (GlobalVariable) getApplicationContext();
 		previousIntent = getIntent();
 		dao = new MessageDAO(this);
-<<<<<<< HEAD:src/com/mw/smartoff/DisplayMessagesActivity.java
         if (previousIntent.hasExtra("fromUserId")){
             selectedContactPU = new UserDAO(this).getUserById(previousIntent.getStringExtra("fromUserId"));
         } else {
             selectedContactPU = globalVariable.getUserList().get(
                     (previousIntent.getIntExtra("position", -1)));
         }
-=======
-		selectedContactPU = globalVariable.getUserList().get(
-				(previousIntent.getIntExtra("position", -1)));
 		createDialog = new CreateDialog(this);
 		progressDialog = createDialog.createProgressDialog("Loading",
 				"Fetching Meetings", true, null);
-	
->>>>>>> 293e7e2460fad652f7e3022df721c9ac41cc83d0:src/com/mw/smartoff/MessagesActivity.java
 	}
 
 	private void initialVisibilityOfViews() {
