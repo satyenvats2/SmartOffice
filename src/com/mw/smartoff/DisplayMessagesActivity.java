@@ -8,7 +8,11 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mw.smartoff.DAO.MessageDAO;
@@ -37,7 +41,7 @@ public class DisplayMessagesActivity extends ListActivity {
 
 	CreateDialog createDialog;
 	ProgressDialog progressDialog;
-	
+
 	private void findThings() {
 		notificationTV = (TextView) findViewById(R.id.notification_TV);
 		messagesET = (TextView) findViewById(R.id.message_ET);
@@ -76,30 +80,43 @@ public class DisplayMessagesActivity extends ListActivity {
 		progressDialog.show();
 		FetchMsgsAsynTask asynTask = new FetchMsgsAsynTask();
 		asynTask.execute(new String[] { "Helelo Worldsdfsdd" });
+		
+		((RelativeLayout) findViewById(R.id.messages_list_RL))
+		.setOnTouchListener(new OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(getCurrentFocus()
+						.getWindowToken(), 0);
+				return false;
+			}
+		});
 	}
 
-	private class FetchMsgsAsynTask extends
-			AsyncTask<String, Void, List<Message>> {
-		@Override
-		protected List<Message> doInBackground(String... params) {
+	List<Message> msgsList;
 
-			List<Message> msgsList = new ArrayList<Message>();
+	private class FetchMsgsAsynTask extends
+			AsyncTask<String, Void, Void> {
+		@Override
+		protected Void doInBackground(String... params) {
+
+			msgsList = new ArrayList<Message>();
 			List<ParseObject> msgsPOList = dao.getMsgsForUser(
 					ParseUser.getCurrentUser(), selectedContactPU);
 			if (msgsPOList != null) {
 				for (int i = 0; i < msgsPOList.size(); i++) {
 					ParseObject tempMsgPO = msgsPOList.get(i);
-					Message tempMeeting = globalVariable
+					Message tempMessage = globalVariable
 							.convertPOtoMessage(tempMsgPO);
-					msgsList.add(tempMeeting);
+					msgsList.add(tempMessage);
 				}
 			}
-			return msgsList;
+			return null;
 		}
 
 		@Override
-		protected void onPostExecute(final List<Message> msgsList) {
-			super.onPostExecute(msgsList);
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
 			if (msgsList == null || msgsList.size() == 0) {
 				notificationTV.setVisibility(View.VISIBLE);
 			} else {
@@ -129,6 +146,11 @@ public class DisplayMessagesActivity extends ListActivity {
 	public void onSend(View view) {
 		if (messagesET.getText().toString().trim().length() == 0)
 			return;
+		Message tempMessage = new Message(null, ParseUser.getCurrentUser(),
+				selectedContactPU, messagesET.getText().toString().trim());
+		msgsList.add(tempMessage);
+		adapter.notifyDataSetChanged();
+		messagesET.setText("");
 
 		SaveMsgAsynTask asynTask = new SaveMsgAsynTask();
 		asynTask.execute(new String[] { messagesET.getText().toString().trim() });

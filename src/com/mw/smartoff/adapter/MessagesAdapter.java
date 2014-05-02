@@ -55,7 +55,9 @@ public class MessagesAdapter extends BaseAdapter {
 		
 		if (tempMessage.getFromPU().getObjectId()
 				.equals(ParseUser.getCurrentUser().getObjectId()))
-			lp.gravity = Gravity.RIGHT;
+			{lp.gravity = Gravity.RIGHT;
+		viewHolder.messageTV
+		.setBackgroundResource(R.drawable.speech_bubble_green);}
 		else {
 			lp.gravity = Gravity.LEFT;
 			viewHolder.messageTV
