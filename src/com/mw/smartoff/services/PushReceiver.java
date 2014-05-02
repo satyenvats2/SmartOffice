@@ -28,6 +28,7 @@ public class PushReceiver extends BroadcastReceiver {
             Toast.makeText(context, "Smart Office - " + jObject.getString("type"), LENGTH_LONG).show();
             Intent i = new Intent(context, JustADialogActivity.class);
             i.putExtra("type", jObject.getString("type"));
+            i.putExtra("fromUserId", jObject.getString("fromUserId"));
         	i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);  
         	context.startActivity(i);
         } catch (JSONException e) {

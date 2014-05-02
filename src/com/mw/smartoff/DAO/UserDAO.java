@@ -57,4 +57,16 @@ public class UserDAO {
 		}
 		return userList;
 	}
+
+    public ParseUser getUserById(String userId) {
+        System.out.println(">>>>>> get user by id");
+        ParseUser contactUser = null;
+        query.whereEqualTo("objectId", userId);
+        try {
+            contactUser = query.getFirst();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return contactUser;
+    }
 }

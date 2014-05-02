@@ -1,6 +1,5 @@
 package com.mw.smartoff.fragments;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
@@ -17,11 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mw.smartoff.DAO.UserDAO;
-import com.mw.smartoff.MessagesActivity;
+import com.mw.smartoff.DisplayMessagesActivity;
 import com.mw.smartoff.adapter.ContactsAdapter;
 import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
-import com.parse.Parse;
 import com.parse.ParseUser;
 
 public class ContactFragment extends Fragment {
@@ -95,7 +93,7 @@ public class ContactFragment extends Fragment {
 								"position  : " + position, Toast.LENGTH_SHORT)
 								.show();
 						nextIntent = new Intent(getActivity(),
-								MessagesActivity.class);
+								DisplayMessagesActivity.class);
 						nextIntent.putExtra("position", position);
 						startActivity(nextIntent);
 					}

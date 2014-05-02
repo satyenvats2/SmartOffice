@@ -23,9 +23,11 @@ public class JustADialogActivity extends Activity {
 		Intent previousIntent = getIntent();
 		Bundle extras = previousIntent.getExtras();
 		int notificationType = -1;
+        String userId = null;
 		if (extras != null) {
 			notificationType = extras.getInt("type");
-			System.out.println(">>>>>>>" + notificationType);
+            userId = extras.getString("fromUserId");
+			System.out.println(">>>>>>>" + notificationType + userId);
 		}
 
 		String dialogNoteTitle = null;
@@ -43,7 +45,8 @@ public class JustADialogActivity extends Activity {
 			dialogNoteMessage = "You have a new Meeting Invite";
 			break;
 		case 2:
-			nextIntent = new Intent(this, DisplayEmailActivity.class);
+			nextIntent = new Intent(this, DisplayMessagesActivity.class);
+            nextIntent.putExtra("fromUserId", userId);
 			dialogNoteTitle = "New Message";
 			dialogNoteMessage = "You have a new Message";
 			break;
