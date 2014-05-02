@@ -93,8 +93,10 @@
                         android:layout_toRightOf="@+id/subject_IV"
                         android:background="#FFFFFF"
                         android:text="dfsadad"
-                        android:textSize="19sp"
-                        android:textStyle="bold" />
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:typeface="serif" />
+
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -120,7 +122,9 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="10dp"
                         android:layout_toRightOf="@+id/time_IV"
-                        android:text="dfsadad" />
+                        android:text="dfsadad"
+                        android:typeface="serif" />
+
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -143,7 +147,9 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="10dp"
                         android:layout_toRightOf="@+id/location_IV"
-                        android:text="dfsadad" />
+                        android:text="dfsadad"
+                        android:typeface="serif" />
+
                 </RelativeLayout>
             </RelativeLayout>
 

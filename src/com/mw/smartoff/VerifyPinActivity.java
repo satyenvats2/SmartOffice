@@ -1,22 +1,28 @@
 package com.mw.smartoff;
 
+import java.util.Set;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mw.smartoffice.R;
 import com.parse.ParseUser;
 import com.parse.PushService;
-
-import java.util.Set;
 
 public class VerifyPinActivity extends Activity implements View.OnClickListener {
 
@@ -226,26 +232,44 @@ public class VerifyPinActivity extends Activity implements View.OnClickListener 
         Toast.makeText(this, "main login", Toast.LENGTH_SHORT).show();
     }
 
+    boolean doubleBackToExitPressedOnce = false;
+    
     public void onLogOut(View view) {
 
-        // Satyen: we are removing PIN here
-        editor.remove("pin");
-        editor.commit();
+    	if (doubleBackToExitPressedOnce) 
+    	{
+            // Satyen: we are removing PIN here
+            editor.remove("pin");
+            editor.commit();
 
-        // Satyen: unsubscribing to channels
-        Set<String> setOfAllSubscriptions = PushService.getSubscriptions(this);
-        System.out.println(">>>>>>> Channels before clearing - " + setOfAllSubscriptions.toString());
-        for (String setOfAllSubscription : setOfAllSubscriptions) {
-            System.out.println(">>>>>>> MainActivity::onLogOut() - " + setOfAllSubscription);
-            PushService.unsubscribe(this, setOfAllSubscription);
-        }
-        setOfAllSubscriptions = PushService.getSubscriptions(this);
-        System.out.println(">>>>>>> Channels after cleared - " + setOfAllSubscriptions.toString());
-        ParseUser.logOut();
-        finish();
+            // Satyen: unsubscribing to channels
+            Set<String> setOfAllSubscriptions = PushService.getSubscriptions(this);
+            System.out.println(">>>>>>> Channels before clearing - " + setOfAllSubscriptions.toString());
+            for (String setOfAllSubscription : setOfAllSubscriptions) {
+                System.out.println(">>>>>>> MainActivity::onLogOut() - " + setOfAllSubscription);
+                PushService.unsubscribe(this, setOfAllSubscription);
+            }
+            setOfAllSubscriptions = PushService.getSubscriptions(this);
+            System.out.println(">>>>>>> Channels after cleared - " + setOfAllSubscriptions.toString());
+            ParseUser.logOut();
+            finish();
 
-        nextIntent = new Intent(this, LoginActivity.class);
-        startActivity(nextIntent);
+    	}           
+    	
+    	doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Click again to logout", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;                       
+            }
+        }, 2000);
+        
+
+//        nextIntent = new Intent(this, LoginActivity.class);
+//        startActivity(nextIntent);
     }
 
 
