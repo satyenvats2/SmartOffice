@@ -11,12 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mw.smartoff.DAO.UserDAO;
+import com.costum.android.widget.PullAndLoadListView;
+import com.costum.android.widget.PullToRefreshListView;
 import com.mw.smartoff.DisplayMessagesActivity;
+import com.mw.smartoff.DAO.UserDAO;
 import com.mw.smartoff.adapter.ContactsAdapter;
 import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
@@ -24,7 +26,9 @@ import com.parse.ParseUser;
 
 public class ContactFragment extends Fragment {
 	TextView welcomeDashTV;
-	ListView contactLV;
+	PullAndLoadListView contactLV;
+	ProgressBar progressBar;
+
 	UserDAO dao;
 	GlobalVariable globalVariable;
 	ContactsAdapter adapter;
@@ -46,12 +50,21 @@ public class ContactFragment extends Fragment {
 		initThings();
 
 		FetchAllUsersAsynTask asynTask = new FetchAllUsersAsynTask();
-		asynTask.execute(new String[] { "Hello World" });
+		asynTask.execute(true);
+		
+		contactLV.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
+            public void onRefresh() {
+                // Do work to refresh the list here.
+//                new PullToRefreshDataTask().execute();
+                new FetchAllUsersAsynTask().execute(false);
+            }
+        });
 	}
 
 	private void findThings() {
-		contactLV = (ListView) getActivity().findViewById(R.id.contacts_LV);
-
+		contactLV = (PullAndLoadListView) getActivity().findViewById(R.id.contacts_LV);
+		progressBar = (ProgressBar) getActivity()
+				.findViewById(R.id.progressBar);
 	}
 
 	private void initThings() {
@@ -60,16 +73,19 @@ public class ContactFragment extends Fragment {
 	}
 
 	private class FetchAllUsersAsynTask extends
-			AsyncTask<String, Void, List<ParseUser>> {
+			AsyncTask<Boolean, Void, List<ParseUser>> {
 
 		@Override
-		protected List<ParseUser> doInBackground(String... params) {
-
+		protected List<ParseUser> doInBackground(Boolean... params) {
+			if (globalVariable.getUserList() != null && params[0]){
+                return null;
+            }
+			
 			List<ParseUser> userList = dao.getAllUsers();
 
-			for (int i=0; i<userList.size();i++) {
-				if (userList.get(i).getObjectId().equals(
-						ParseUser.getCurrentUser().getObjectId())) {
+			for (int i = 0; i < userList.size(); i++) {
+				if (userList.get(i).getObjectId()
+						.equals(ParseUser.getCurrentUser().getObjectId())) {
 					userList.remove(i);
 					break;
 				}
@@ -79,10 +95,14 @@ public class ContactFragment extends Fragment {
 		}
 
 		@Override
-		protected void onPostExecute(final List<ParseUser> usersList) {
-			super.onPostExecute(usersList);
-			if (usersList != null && usersList.size() > 0) {
-				adapter = new ContactsAdapter(getActivity(), usersList);
+		protected void onPostExecute(List<ParseUser> usersListPOForDBUpdate) {
+			super.onPostExecute(usersListPOForDBUpdate);
+			progressBar.setVisibility(View.INVISIBLE);
+
+			List<ParseUser> usersListPO = globalVariable.getUserList();
+			if (usersListPO != null && usersListPO.size() > 0) {
+				contactLV.onRefreshComplete();
+				adapter = new ContactsAdapter(getActivity(), usersListPO);
 				contactLV.setAdapter(adapter);
 
 				contactLV.setOnItemClickListener(new OnItemClickListener() {

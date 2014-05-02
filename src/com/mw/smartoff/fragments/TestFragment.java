@@ -3,7 +3,6 @@ package com.mw.smartoff.fragments;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,45 +12,50 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.costum.android.widget.PullAndLoadListView;
+import com.costum.android.widget.PullToRefreshListView;
 import com.mw.smartoff.DisplayMeetingActivity;
 import com.mw.smartoff.DAO.MeetingDAO;
 import com.mw.smartoff.DAO.ResponseToMeetingDAO;
 import com.mw.smartoff.adapter.MeetingsAdapter;
 import com.mw.smartoff.model.Meeting;
-import com.mw.smartoff.services.CreateDialog;
 import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 public class TestFragment extends Fragment {
-	ListView meetingLV;
+	PullAndLoadListView meetingLV;
 	TextView notifyMeetingTV;
+	ProgressBar progressBar;
 
 	GlobalVariable globalVariable;
 
 	Intent nextIntent;
 	MeetingsAdapter adapter;
 
-	CreateDialog createDialog;
-	ProgressDialog progressDialog;
+	// CreateDialog createDialog;
+	// ProgressDialog progressDialog;
 	MeetingDAO dao;
 	ResponseToMeetingDAO dao2;
 
 	private void findThings() {
-		meetingLV = (ListView) getActivity().findViewById(R.id.meeting_LV);
+		meetingLV = (PullAndLoadListView) getActivity().findViewById(
+				R.id.meeting_LV);
 		notifyMeetingTV = (TextView) getActivity().findViewById(
 				R.id.notify_meeting_TV);
+		progressBar = (ProgressBar) getActivity()
+				.findViewById(R.id.progressBar);
 	}
 
 	private void initThings() {
 		globalVariable = (GlobalVariable) getActivity().getApplicationContext();
-		createDialog = new CreateDialog(getActivity());
-		progressDialog = createDialog.createProgressDialog("Loading11",
-				"Fetching Meetings", true, null);
+		// createDialog = new CreateDialog(getActivity());
+		// progressDialog = createDialog.createProgressDialog("Loading11",
+		// "Fetching Meetings", true, null);
 		dao = new MeetingDAO(getActivity());
 		dao2 = new ResponseToMeetingDAO(getActivity());
 
@@ -71,17 +75,30 @@ public class TestFragment extends Fragment {
 		System.out.println("frag1");
 		findThings();
 		initThings();
-		progressDialog.show();
+		// progressDialog.show();
 		FetchMeetingsAsynTask asynTask = new FetchMeetingsAsynTask();
-		asynTask.execute(new String[] { "Hello World" });
+		asynTask.execute(true);
+
+		meetingLV
+				.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
+					public void onRefresh() {
+						// Do work to refresh the list here.
+						// new PullToRefreshDataTask().execute();
+						new FetchMeetingsAsynTask()
+								.execute(false);
+					}
+				});
 
 	}
 
-	private class FetchMeetingsAsynTask extends
-			AsyncTask<String, Void, Void> {
+	private class FetchMeetingsAsynTask extends AsyncTask<Boolean, Void, Void> {
 
 		@Override
-		protected Void doInBackground(String... params) {
+		protected Void doInBackground(Boolean... params) {
+
+			if (globalVariable.getMeetingList() != null && params[0])
+				return null;
+
 			List<Meeting> meetingList = new ArrayList<Meeting>();
 			List<ParseObject> meetingsPOList = dao.getMeetingsForUser(ParseUser
 					.getCurrentUser().getEmail());
@@ -108,12 +125,13 @@ public class TestFragment extends Fragment {
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
+			progressBar.setVisibility(View.INVISIBLE);
 			final List<Meeting> meetingList = globalVariable.getMeetingList();
 			if (meetingList.size() == 0) {
 				notifyMeetingTV.setText("No meetings found");
 				notifyMeetingTV.setVisibility(View.VISIBLE);
 			} else {
-
+				meetingLV.onRefreshComplete();
 				adapter = new MeetingsAdapter(getActivity(), meetingList);
 				meetingLV.setAdapter(adapter);
 
@@ -128,7 +146,7 @@ public class TestFragment extends Fragment {
 					}
 				});
 			}
-			progressDialog.dismiss();
+			// progressDialog.dismiss();
 		}// onPostExec
 
 	}// Asyn

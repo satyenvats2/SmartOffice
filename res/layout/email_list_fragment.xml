@@ -15,10 +15,12 @@
         android:id="@+id/email_LV"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
     <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/progressBar" android:layout_centerVertical="true" android:layout_centerHorizontal="true"
-            style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"/>
+        android:id="@+id/progressBar"
+        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
 
 </RelativeLayout>
