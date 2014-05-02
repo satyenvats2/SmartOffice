@@ -26,6 +26,6 @@
         android:text="Title"
         android:textColor="@color/drawer_elements_color"
         android:textColorHighlight="@android:color/white"
-        android:textSize="22sp" android:layout_marginLeft="16dp"/>
+        android:textSize="22sp" android:layout_marginLeft="16dp" android:typeface="serif"/>
 
 </RelativeLayout>
