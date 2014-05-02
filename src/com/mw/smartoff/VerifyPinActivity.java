@@ -10,10 +10,7 @@ import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 
 import com.mw.smartoffice.R;
 import com.parse.ParseUser;
@@ -28,9 +25,11 @@ public class VerifyPinActivity extends Activity implements View.OnClickListener 
     TextView headerTV;
     TextView pinInfoTV;
     Button btn[] = new Button[10];
-    Button clearoneB;
+    ImageButton clearoneB;
     //	Button clearallB;
     Button loginB;
+    RelativeLayout logoutLayout;
+
     Intent nextIntent;
 
     SharedPreferences sharedPreferences;
@@ -54,10 +53,11 @@ public class VerifyPinActivity extends Activity implements View.OnClickListener 
         btn[7] = (Button) findViewById(R.id.button8);
         btn[8] = (Button) findViewById(R.id.button9);
         btn[9] = (Button) findViewById(R.id.button0);
-        clearoneB = (Button) findViewById(R.id.clearone_B);
+        clearoneB = (ImageButton) findViewById(R.id.clearone_B);
 //		clearallB = (Button) findViewById(R.id.clearall_B);
         loginB = (Button) findViewById(R.id.login_B);
         pinInfoTV = (TextView) findViewById(R.id.PINInfo_TV);
+        logoutLayout = (RelativeLayout) findViewById(R.id.logout_RL);
 
         for (int i = 0; i < 10; i++) {
             btn[i].setOnClickListener(this);
@@ -101,6 +101,7 @@ public class VerifyPinActivity extends Activity implements View.OnClickListener 
         if (!isPinThereInPrefs) {
             headerTV.setText("Create your 4 digit PIN");
             pinInfoTV.setText("PIN allows access to SMART OFFICE without providing user name and password every time.");
+            logoutLayout.setVisibility(View.INVISIBLE);
 //			loginB.setText("Save");
         }
     }
@@ -220,6 +221,7 @@ public class VerifyPinActivity extends Activity implements View.OnClickListener 
     }
 
     // Satyen: what is this for?
+
     public void onCompanyLogin(View view) {
         Toast.makeText(this, "main login", Toast.LENGTH_SHORT).show();
     }
