@@ -94,7 +94,7 @@ public class EmailsAdapter extends BaseAdapter {
 
 		viewHolder.nameTV.setText(tempEmail.getFrom().getUsername());
 		if (!tempEmail.isEmailRead())
-			viewHolder.nameTV.setTypeface(null, Typeface.BOLD);
+			viewHolder.nameTV.setTypeface(Typeface.SERIF, Typeface.BOLD_ITALIC);
 		viewHolder.subjectTV.setText(tempEmail.getSubject());
 		// System.out.println(tempEmail.getCreatedAt());
 		viewHolder.dateTV.setText(formatDate(tempEmail.getCreatedAt()));

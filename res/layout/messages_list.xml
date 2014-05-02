@@ -26,29 +26,6 @@
             android:scaleType="fitXY"
             android:src="@drawable/menu_blue" />
 
-        <ImageButton
-            android:id="@+id/create_mail_or_meeting_button1"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@+id/create_mail_or_meeting_button2"
-            android:background="@null"
-            android:onClick="onMeeting"
-            android:scaleType="fitXY"
-            android:src="@drawable/compose_meeting_blue" />
-
-        <ImageButton
-            android:id="@+id/create_mail_or_meeting_button2"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="16dp"
-            android:background="@null"
-            android:onClick="onEmail"
-            android:scaleType="fitXY"
-            android:src="@drawable/compose_email_green" />
     </RelativeLayout>
 
     <ListView
@@ -74,24 +51,19 @@
             android:id="@+id/message_ET"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:layout_margin="5sp"
-            android:layout_weight="1"
             android:background="#FFF"
-            android:hint="Write here"
+            android:hint="this is your message"
             android:padding="5sp"
-            />
+            android:layout_weight="1"/>
 <!--             android:textColor="@color/default_title_indicator_text_color"  -->
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_margin="5sp"
-            android:background="@drawable/send_email_blue"
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@null"
             android:onClick="onSend"
-            android:paddingBottom="5sp"
-            android:paddingLeft="15sp"
-            android:paddingRight="15sp"
-            android:paddingTop="5sp"/>
+            android:src="@drawable/send_email_blue" android:scaleType="fitCenter" android:layout_marginRight="5dp"
+            android:padding="5dp"/>
 
     </LinearLayout>
 
