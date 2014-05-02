@@ -53,7 +53,7 @@
                 android:id="@+id/message_body_RL"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/header_email_subject_TV"
+                android:layout_below="@+id/fakeActionBarRL"
                 android:background="#FFFFFF"
                 android:layout_alignParentRight="true" android:layout_alignParentLeft="true">
 
