@@ -12,10 +12,9 @@
             android:id="@+id/fakeActionBarRL"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="#EEE0E5"
             android:orientation="horizontal"
             android:paddingBottom="6dp"
-            android:paddingTop="6dp" >
+            android:paddingTop="6dp" android:background="@drawable/bottom_border">
 
             <ImageButton
                 android:id="@+id/left_drawer_button"
@@ -24,42 +23,42 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="16dp"
-                android:background="@null"
                 android:gravity="center_vertical"
                 android:onClick="onOpenLeftDrawer"
                 android:scaleType="fitXY"
-                android:src="@drawable/menu_blue" />
+                android:src="@drawable/menu_blue" android:background="@null"/>
 
-            <ImageButton
-                android:id="@+id/create_mail_or_meeting_button1"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-                android:layout_toLeftOf="@+id/create_mail_or_meeting_button2"
-                android:background="@null"
-                android:onClick="onMeeting"
-                android:scaleType="fitXY"
-                android:src="@drawable/compose_meeting_green" />
+            <!--<ImageButton-->
+                <!--android:id="@+id/create_mail_or_meeting_button1"-->
+                <!--android:layout_width="50dp"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:layout_toLeftOf="@+id/create_mail_or_meeting_button2"-->
+                <!--android:background="@null"-->
+                <!--android:onClick="onMeeting"-->
+                <!--android:scaleType="fitXY"-->
+                <!--android:src="@drawable/compose_meeting_green" />-->
 
-            <ImageButton
-                android:id="@+id/create_mail_or_meeting_button2"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="16dp"
-                android:background="@null"
-                android:onClick="onEmail"
-                android:scaleType="fitXY"
-                android:src="@drawable/compose_email_green" />
+            <!--<ImageButton-->
+                <!--android:id="@+id/create_mail_or_meeting_button2"-->
+                <!--android:layout_width="50dp"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_marginRight="16dp"-->
+                <!--android:background="@null"-->
+                <!--android:onClick="onEmail"-->
+                <!--android:scaleType="fitXY"-->
+                <!--android:src="@drawable/compose_email_green" />-->
         </RelativeLayout>
 
         <FrameLayout
             android:id="@+id/frame_to_be_replaced"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/fakeActionBarRL" />
+            android:layout_below="@+id/fakeActionBarRL" >
+        </FrameLayout>
     </RelativeLayout>
 
     <!-- left drawer -->

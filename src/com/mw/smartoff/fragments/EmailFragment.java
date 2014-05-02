@@ -13,12 +13,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
+import com.costum.android.widget.PullAndLoadListView;
+import com.costum.android.widget.PullToRefreshListView;
 import com.mw.smartoff.DisplayEmailActivity;
 import com.mw.smartoff.DAO.EmailDAO;
 import com.mw.smartoff.adapter.EmailsAdapter;
@@ -32,10 +31,11 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 public class EmailFragment extends Fragment {
-	ListView emailLV;
+    PullAndLoadListView emailLV;
 	GlobalVariable globalVariable;
 	EmailDAO dao;
 	TextView notifyEmailTV;
+    ProgressBar progressBar;
 
 	EmailsAdapter adapter;
 	Intent nextIntent;
@@ -57,31 +57,46 @@ public class EmailFragment extends Fragment {
 		super.onViewCreated(view, savedInstanceState);
 		findThings();
 		initThings();
-		progressDialog.show();
+//		progressDialog.show();
 		FetchEmailsAsynTask asynTask = new FetchEmailsAsynTask();
-		asynTask.execute(new String[] { "Hello World" });
+		asynTask.execute(true);
+        // Set a listener to be invoked when the list should be refreshed.
+        emailLV.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
+            public void onRefresh() {
+                // Do work to refresh the list here.
+//                new PullToRefreshDataTask().execute();
+                new FetchEmailsAsynTask().execute(false);
+            }
+        });
 	}
 
 	private void findThings() {
-		emailLV = (ListView) getActivity().findViewById(R.id.email_LV);
+		emailLV = (PullAndLoadListView) getActivity().findViewById(R.id.email_LV);
 		notifyEmailTV = (TextView) getActivity().findViewById(
 				R.id.notify_email_TV);
+        progressBar = (ProgressBar) getActivity().findViewById(R.id.progressBar);
 	}
 
 	private void initThings() {
 		globalVariable = (GlobalVariable) getActivity().getApplicationContext();
+        if (globalVariable.getEmailList() != null){
+            progressBar.setVisibility(View.INVISIBLE);
+        }
 		dao = new EmailDAO(getActivity());
-		createDialog = new CreateDialog(getActivity());
-		progressDialog = createDialog.createProgressDialog("Loading",
-				"Fetching Emails", true, null);
+//		createDialog = new CreateDialog(getActivity());
+//		progressDialog = createDialog.createProgressDialog("Loading",
+//				"Fetching Emails", true, null);
 	}
 
 	private class FetchEmailsAsynTask extends
-			AsyncTask<String, Void, List<ParseObject>> {
+			AsyncTask<Boolean, Void, List<ParseObject>> {
 		// ParseUser user;
 		@Override
-		protected List<ParseObject> doInBackground(String... params) {
+		protected List<ParseObject> doInBackground(Boolean... params) {
 
+            if (globalVariable.getEmailList() != null && params[0]){
+                return null;
+            }
 			List<Email> emailList = new ArrayList<Email>();
 			List<ParseObject> emailPOList = dao.getEmailsForUser(ParseUser
 					.getCurrentUser().getEmail());
@@ -107,6 +122,7 @@ public class EmailFragment extends Fragment {
 				notifyEmailTV.setText("No emails found");
 				notifyEmailTV.setVisibility(View.VISIBLE);
 			} else {
+                emailLV.onRefreshComplete();
 				adapter = new EmailsAdapter(getActivity(), emailList);
 				emailLV.setAdapter(adapter);
 
@@ -131,7 +147,8 @@ public class EmailFragment extends Fragment {
 					}
 				});
 			}
-			progressDialog.dismiss();
+            progressBar.setVisibility(View.INVISIBLE);
+//			progressDialog.dismiss();
 		}
 
 	}// Asyn
@@ -162,4 +179,45 @@ public class EmailFragment extends Fragment {
 		}
 
 	}
+
+//    private class PullToRefreshDataTask extends AsyncTask<Void, Void, Void> {
+//
+//        @Override
+//        protected Void doInBackground(Void... params) {
+//
+//            if (isCancelled()) {
+//                return null;
+//            }
+//
+//            // Simulates a background task
+//            try {
+//                Thread.sleep(1000);
+//            } catch (InterruptedException e) {
+//            }
+//
+//            for (int i = 0; i < mAnimals.length; i++)
+//                mListItems.addFirst(mAnimals[i]);
+//
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void result) {
+//            mListItems.addFirst("Added after pull to refresh");
+//
+//            // We need notify the adapter that the data have been changed
+//            ((BaseAdapter) getListAdapter()).notifyDataSetChanged();
+//
+//            // Call onLoadMoreComplete when the LoadMore task, has finished
+//            ((PullAndLoadListView) getListView()).onRefreshComplete();
+//
+//            super.onPostExecute(result);
+//        }
+//
+//        @Override
+//        protected void onCancelled() {
+//            // Notify the loading more operation has finished
+//            ((PullAndLoadListView) getListView()).onLoadMoreComplete();
+//        }
+//    }
 }

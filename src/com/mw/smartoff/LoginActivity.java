@@ -137,7 +137,7 @@ public class LoginActivity extends Activity {
 		if (ParseUser.getCurrentUser() != null) {
 			System.out
 					.println(">>>>>>> LoginActivity::onCreate -> user is present in preferences");
-			collectUserData();
+//			collectUserData();
 			startActivity(nextIntent);
 		}
 
@@ -193,7 +193,7 @@ public class LoginActivity extends Activity {
 				System.out
 						.println(">>>>>>> LoginActivity::onPostCreate() - user is "
 								+ user.getUsername());
-				collectUserData();
+//				collectUserData();
 				// TODO: MainActivity needs to be replaced
 				PushService.subscribe(LoginActivity.this, ParseUser
 						.getCurrentUser().getUsername(), MainActivity.class);
