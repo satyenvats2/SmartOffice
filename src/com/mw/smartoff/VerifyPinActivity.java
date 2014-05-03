@@ -1,28 +1,21 @@
 package com.mw.smartoff;
 
-import java.util.Set;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.widget.*;
 import com.mw.smartoffice.R;
 import com.parse.ParseUser;
 import com.parse.PushService;
+
+import java.util.Set;
 
 public class VerifyPinActivity extends Activity implements View.OnClickListener {
 
@@ -30,6 +23,7 @@ public class VerifyPinActivity extends Activity implements View.OnClickListener 
     EditText pinET;
     TextView headerTV;
     TextView pinInfoTV;
+    TextView logoutTV;
     Button btn[] = new Button[10];
     ImageButton clearoneB;
     //	Button clearallB;
@@ -63,7 +57,7 @@ public class VerifyPinActivity extends Activity implements View.OnClickListener 
 //		clearallB = (Button) findViewById(R.id.clearall_B);
         loginB = (Button) findViewById(R.id.login_B);
         pinInfoTV = (TextView) findViewById(R.id.PINInfo_TV);
-        logoutLayout = (RelativeLayout) findViewById(R.id.logout_RL);
+        logoutTV = (TextView) findViewById(R.id.logout_TV);
 
         for (int i = 0; i < 10; i++) {
             btn[i].setOnClickListener(this);
@@ -107,7 +101,7 @@ public class VerifyPinActivity extends Activity implements View.OnClickListener 
         if (!isPinThereInPrefs) {
             headerTV.setText("Create your 4 digit PIN");
             pinInfoTV.setText("PIN allows access to SMART OFFICE without providing user name and password every time.");
-            logoutLayout.setVisibility(View.INVISIBLE);
+            logoutTV.setVisibility(View.INVISIBLE);
 //			loginB.setText("Save");
         }
     }
@@ -236,8 +230,8 @@ public class VerifyPinActivity extends Activity implements View.OnClickListener 
     
     public void onLogOut(View view) {
 
-    	if (doubleBackToExitPressedOnce) 
-    	{
+//    	if (doubleBackToExitPressedOnce)
+//    	{
             // Satyen: we are removing PIN here
             editor.remove("pin");
             editor.commit();
@@ -254,19 +248,19 @@ public class VerifyPinActivity extends Activity implements View.OnClickListener 
             ParseUser.logOut();
             finish();
 
-    	}           
-    	
-    	doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Click again to logout", Toast.LENGTH_SHORT).show();
-
-        new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce=false;                       
-            }
-        }, 2000);
-        
+//    	}
+//
+//    	doubleBackToExitPressedOnce = true;
+//        Toast.makeText(this, "Click again to logout", Toast.LENGTH_SHORT).show();
+//
+//        new Handler().postDelayed(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//                doubleBackToExitPressedOnce=false;
+//            }
+//        }, 2000);
+//
 
 //        nextIntent = new Intent(this, LoginActivity.class);
 //        startActivity(nextIntent);

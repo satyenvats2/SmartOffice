@@ -1,8 +1,5 @@
 package com.mw.smartoff;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,7 +19,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.mw.smartoff.DAO.EmailDAO;
 import com.mw.smartoff.DAO.MeetingDAO;
 import com.mw.smartoff.DAO.ResponseToMeetingDAO;
@@ -34,6 +30,9 @@ import com.mw.smartoffice.R;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.PushService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LoginActivity extends Activity {
 
@@ -197,7 +196,7 @@ public class LoginActivity extends Activity {
 				// TODO: MainActivity needs to be replaced
 				PushService.subscribe(LoginActivity.this, ParseUser
 						.getCurrentUser().getUsername(), MainActivity.class);
-				startActivity(nextIntent);
+			    startActivity(nextIntent);
 			} else {
 				System.out
 						.println(">>>>>>> LoginActivity::onPostCreate() - user is null");
