@@ -35,8 +35,6 @@ import com.parse.ParseUser;
 
 public class DisplayMeetingActivity extends Activity {
 
-//	Button acceptB;
-//	Button rejectB;
 	Button updateB;
 LinearLayout acceptRejectLL;
 	
@@ -75,11 +73,9 @@ LinearLayout acceptRejectLL;
 	GlobalVariable globalVariable;
 
 	private void findThings() {
-//		acceptB = (Button) findViewById(R.id.accept_Button);
-//		rejectB = (Button) findViewById(R.id.reject_Button);
 		updateB = (Button) findViewById(R.id.update_Button);
 		acceptRejectLL= (LinearLayout) findViewById(R.id.accept_reject_LL);
-		meetingSubjectTV = (TextView) findViewById(R.id.header_meeting_subject_TV);
+		meetingSubjectTV = (TextView) findViewById(R.id.meeting_subject_TV);
 		senderNameTV = (TextView) findViewById(R.id.sender_name_TV);
 		senderEmailIDTV = (TextView) findViewById(R.id.sender_emailID_TV);
 		messageTV = (TextView) findViewById(R.id.message_real_message_TV);
@@ -105,7 +101,6 @@ LinearLayout acceptRejectLL;
 	}
 
 	public void onSeeNotes(View view) {
-//		int temp = 2;
 		if (selectedMeeting.getResponses().get((Integer) view.getTag())
 				.getString("notes") == null)
 			Toast.makeText(this, "No notes by this user", Toast.LENGTH_SHORT)
@@ -186,8 +181,6 @@ LinearLayout acceptRejectLL;
 
 			if (selectedMeeting.isHasBeenResponsedTo()) {
 				acceptRejectLL.setVisibility(View.INVISIBLE);
-//				acceptB.setVisibility(View.INVISIBLE);
-//				rejectB.setVisibility(View.INVISIBLE);
 			} else
 				updateB.setVisibility(View.GONE);
 		}
@@ -239,8 +232,6 @@ LinearLayout acceptRejectLL;
 							dao2.repondToMeeting(ParseUser.getCurrentUser(),
 									selectedMeetingPO, isAttending, null);
 						acceptRejectLL.setVisibility(View.INVISIBLE);
-//						acceptB.setVisibility(View.INVISIBLE);
-//						rejectB.setVisibility(View.INVISIBLE);
 						updateB.setVisibility(View.VISIBLE);
 
 						dialog.dismiss();
@@ -281,11 +272,14 @@ LinearLayout acceptRejectLL;
 		Toast.makeText(this, "Put update functionality", Toast.LENGTH_SHORT)
 				.show();
 		acceptRejectLL.setVisibility(View.VISIBLE);
-//		acceptB.setVisibility(View.VISIBLE);
-//		rejectB.setVisibility(View.VISIBLE);
 		updateB.setVisibility(View.GONE);
 	}
 
+	public void onBack(View view)
+	{
+		finish();
+	}
+	
 	@Override
 	public void onBackPressed() {
 		this.setResult(RESULT_OK, previousIntent);

@@ -52,18 +52,18 @@ public class MessagesAdapter extends BaseAdapter {
 		viewHolder.messageTV.setText(tempMessage.getMessage());
 
 		LayoutParams lp = (LayoutParams) viewHolder.messageTV.getLayoutParams();
-		
+
 		if (tempMessage.getFromPU().getObjectId()
-				.equals(ParseUser.getCurrentUser().getObjectId()))
-			{lp.gravity = Gravity.RIGHT;
-		viewHolder.messageTV
-		.setBackgroundResource(R.drawable.speech_bubble_green);}
-		else {
+				.equals(ParseUser.getCurrentUser().getObjectId())) {
+			lp.gravity = Gravity.RIGHT;
+			viewHolder.messageTV
+					.setBackgroundResource(R.drawable.speech_bubble_green_l);
+		} else {
 			lp.gravity = Gravity.LEFT;
 			viewHolder.messageTV
-					.setBackgroundResource(R.drawable.speech_bubble_orange);
+					.setBackgroundResource(R.drawable.speech_bubble_blue_r);
 		}
-		
+
 		return convertView;
 	}
 

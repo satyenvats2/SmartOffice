@@ -11,7 +11,7 @@
         android:layout_margin="5sp"
         android:shadowDx="1"
         android:shadowDy="1"
-        android:background="@drawable/speech_bubble_green"
+        android:background="@drawable/speech_bubble_green_l"
         android:text="Medium Text"
         android:textSize="20sp" />
 

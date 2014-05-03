@@ -20,9 +20,42 @@
             <!-- android:layout_below="@+id/header_meeting_subject_TV" -->
 
             <RelativeLayout
-                android:id="@+id/message_body_header_RL"
+                    android:background="@drawable/custom_background_grey3"
+                android:id="@+id/fake_action_bar_RL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <ImageButton
+                    android:id="@+id/back_B"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:background="@null"
+                    android:onClick="onBack"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/back_button" />
+
+                <TextView
+                    android:id="@+id/meeting_subject_TV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/back_B"
+                    android:padding="20dp"
+                    android:text="Subject"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:typeface="serif" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/sender_RL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/fake_action_bar_RL"
                 android:layout_margin="10dp"
                 android:background="@drawable/custom_background_grey2"
                 android:padding="5dp" >
@@ -64,46 +97,15 @@
                 android:id="@+id/time_and_location_RL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/message_body_header_RL"
+                android:layout_below="@+id/sender_RL"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/custom_background_grey2" >
 
                 <RelativeLayout
-                    android:id="@+id/subject_RL"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp" >
-
-                    <!-- android:background="@drawable/custom_background_grey" -->
-
-                    <ImageView
-                        android:id="@+id/subject_IV"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_alignParentLeft="true"
-                        android:src="@drawable/subject" />
-
-                    <TextView
-                        android:id="@+id/header_meeting_subject_TV"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"
-                        android:layout_toRightOf="@+id/subject_IV"
-                        android:background="#FFFFFF"
-                        android:text="dfsadad"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:typeface="serif" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
                     android:id="@+id/time_RL"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/subject_RL"
                     android:padding="5dp" >
 
                     <!-- android:background="@drawable/custom_background_grey" -->
@@ -124,7 +126,6 @@
                         android:layout_toRightOf="@+id/time_IV"
                         android:text="dfsadad"
                         android:typeface="serif" />
-
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -149,7 +150,6 @@
                         android:layout_toRightOf="@+id/location_IV"
                         android:text="dfsadad"
                         android:typeface="serif" />
-
                 </RelativeLayout>
             </RelativeLayout>
 
@@ -201,10 +201,10 @@
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                    android:onClick="onAccept"
-                                        android:clickable="true" 
                 android:background="#98FB98"
-                android:gravity="center" >
+                android:clickable="true"
+                android:gravity="center"
+                android:onClick="onAccept" >
 
                 <ImageView
                     android:id="@+id/accept_Button"
@@ -220,10 +220,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#F08080"
-                    android:onClick="onReject"
-                    android:clickable="true" 
-                    
-                android:gravity="center" >
+                android:clickable="true"
+                android:gravity="center"
+                android:onClick="onReject" >
 
                 <ImageView
                     android:id="@+id/reject_Button"

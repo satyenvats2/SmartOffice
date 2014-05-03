@@ -1,118 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- <RelativeLayout
+<!--
+     <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
      >
- -->
-    <ScrollView
-     xmlns:android="http://schemas.android.com/apk/res/android"
+-->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="@android:color/white"
+    android:paddingBottom="10dp" >
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:paddingBottom="10dp"
-        android:layout_height="fill_parent" android:background="@android:color/white">
+        android:layout_height="wrap_content" >
 
         <RelativeLayout
+            android:id="@+id/fake_action_bar_RL"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+                android:background="@drawable/bottom_border"
+            android:orientation="horizontal"
+            android:paddingBottom="6dp"
+            android:paddingTop="6dp" >
+<!--             android:background="#FFFFFF" -->
+
+            <ImageButton
+                android:id="@+id/left_drawer_button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:background="@null"
+                android:onClick="onBack"
+                android:scaleType="fitXY"
+                android:src="@drawable/back_button" />
+
+            <TextView
+                android:id="@+id/email_subject_TV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/left_drawer_button"
+                android:padding="20dp"
+                android:text="Subject"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                android:typeface="serif" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/message_body_RL"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/fake_action_bar_RL"
+            android:background="#FFFFFF" >
 
             <RelativeLayout
-                    android:id="@+id/fakeActionBarRL"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#FFFFFF"
-                    android:orientation="horizontal"
-                    android:paddingBottom="6dp"
-                    android:paddingTop="6dp" >
-
-                <ImageButton
-                        android:id="@+id/left_drawer_button"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="16dp"
-                        android:background="@null"
-                        android:gravity="center_vertical"
-                        android:onClick="onOpenLeftDrawer"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/menu_blue" />
-
-                <TextView
-                        android:id="@+id/header_email_subject_TV"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bottom_border"
-                        android:padding="20dp"
-                        android:text="Subject"
-                        android:textSize="19sp"
-                        android:textStyle="bold" android:gravity="center" android:typeface="serif"/>
-
-            </RelativeLayout>
-
-
-            <RelativeLayout
-                android:id="@+id/message_body_RL"
+                android:id="@+id/message_body_header_RL"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/fakeActionBarRL"
-                android:background="#FFFFFF"
-                android:layout_alignParentRight="true" android:layout_alignParentLeft="true">
+                android:background="@drawable/bottom_border"
+                android:padding="10dp" >
+
+                <ImageView
+                    android:id="@+id/senders_IV"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_launcher" />
 
                 <RelativeLayout
-                    android:id="@+id/message_body_header_RL"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" android:background="@drawable/bottom_border"
-                    android:padding="10dp">
-
-                    <ImageView
-                        android:id="@+id/senders_IV"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/ic_launcher"/>
-
-                    <RelativeLayout
-                        android:id="@+id/senders_detais_RL"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_toRightOf="@+id/senders_IV" android:layout_alignTop="@+id/senders_IV">
-
-                        <TextView
-                            android:id="@+id/sender_name_TV"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Sender Username"
-                            android:textSize="18sp" android:typeface="serif"/>
-
-                        <TextView
-                            android:id="@+id/sender_emailID_TV"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/sender_name_TV"
-                            android:layout_marginTop="3dp"
-                            android:text="Sender EmailID"
-                            android:textSize="14sp" android:textStyle="italic"
-                            android:textColor="@android:color/darker_gray" android:typeface="serif"
-                            android:textIsSelectable="false"/>
-                        <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Friday 2nd May 2014, 09:35 AM"
-                                android:id="@+id/textView" android:layout_below="@+id/sender_emailID_TV"
-                                android:typeface="serif" android:textStyle="italic" android:textSize="14sp"
-                                android:textColor="@android:color/darker_gray" android:layout_marginTop="3dp"
-                                android:singleLine="false"/>
-                    </RelativeLayout>
-                </RelativeLayout>
-
-                <TextView
-                    android:id="@+id/message_real_message_TV"
+                    android:id="@+id/senders_detais_RL"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/message_body_header_RL"
-                    android:text="Hi User, \nContent of email will be displayed here. this will be repalced programmatically. \n\nThanks\nSmart Office Team" android:layout_margin="20dp" android:typeface="serif"
-                    android:textIsSelectable="false" android:textSize="16sp" android:singleLine="false"/>
-            </RelativeLayout>
-        </RelativeLayout>
-    </ScrollView>
+                    android:layout_alignTop="@+id/senders_IV"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/senders_IV" >
 
+                    <TextView
+                        android:id="@+id/sender_name_TV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sender Username"
+                        android:textSize="18sp"
+                        android:typeface="serif" />
+
+                    <TextView
+                        android:id="@+id/sender_emailID_TV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/sender_name_TV"
+                        android:layout_marginTop="3dp"
+                        android:text="Sender EmailID"
+                        android:textColor="@android:color/darker_gray"
+                        android:textIsSelectable="false"
+                        android:textSize="14sp"
+                        android:textStyle="italic"
+                        android:typeface="serif" />
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/sender_emailID_TV"
+                        android:layout_marginTop="3dp"
+                        android:singleLine="false"
+                        android:text="Friday 2nd May 2014, 09:35 AM"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="14sp"
+                        android:textStyle="italic"
+                        android:typeface="serif" />
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/message_real_message_TV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/message_body_header_RL"
+                android:layout_margin="20dp"
+                android:singleLine="false"
+                android:text="Hi User, \nContent of email will be displayed here. this will be repalced programmatically. \n\nThanks\nSmart Office Team"
+                android:textIsSelectable="false"
+                android:textSize="16sp"
+                android:typeface="serif" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</ScrollView>
 <!-- </RelativeLayout> -->
