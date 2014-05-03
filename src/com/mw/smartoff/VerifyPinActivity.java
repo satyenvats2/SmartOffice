@@ -100,7 +100,9 @@ public class VerifyPinActivity extends Activity implements View.OnClickListener 
         isPinThereInPrefs = sharedPreferences.contains("pin");
         if (!isPinThereInPrefs) {
             headerTV.setText("Create your 4 digit PIN");
-            pinInfoTV.setText("PIN allows access to SMART OFFICE without providing user name and password every time.");
+            pinInfoTV.setText("Secure your SMART OFFICE data with a 4-digit PIN. PIN ensures no one can access your data" +
+                    " even when your phone is lost. PIN also provides convenience of access to SMART OFFICE without providing " +
+                    " user name and password every time.");
             logoutTV.setVisibility(View.INVISIBLE);
 //			loginB.setText("Save");
         }
