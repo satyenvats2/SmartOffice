@@ -19,11 +19,12 @@
             android:id="@+id/fake_action_bar_RL"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-                android:background="@drawable/bottom_border"
+            android:background="@drawable/bottom_border"
             android:orientation="horizontal"
             android:paddingBottom="6dp"
             android:paddingTop="6dp" >
-<!--             android:background="#FFFFFF" -->
+
+            <!-- android:background="#FFFFFF" -->
 
             <ImageButton
                 android:id="@+id/left_drawer_button"
@@ -47,7 +48,6 @@
                 android:textSize="19sp"
                 android:textStyle="bold"
                 android:typeface="serif" />
-
         </RelativeLayout>
 
         <RelativeLayout
@@ -130,5 +130,4 @@
         </RelativeLayout>
     </RelativeLayout>
 
-</ScrollView>
-<!-- </RelativeLayout> -->
+</ScrollView><!-- </RelativeLayout> -->

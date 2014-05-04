@@ -139,7 +139,7 @@ LinearLayout acceptRejectLL;
 				tableRowView.setTag(i);
 				((TextView) tableRowView.findViewById(R.id.username_TV))
 						.setText(tempResponsePO.getParseUser("responseFrom")
-								.getUsername() + " is ");
+								.getString("name") + " is ");
 				TextView dsa = (TextView) tableRowView
 						.findViewById(R.id.status_tv);
 				if (tempResponsePO.getBoolean("isAttending") == true) {

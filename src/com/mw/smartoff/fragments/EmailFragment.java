@@ -3,8 +3,6 @@ package com.mw.smartoff.fragments;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import android.app.ProgressDialog;
 //import android.app.Fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -13,8 +11,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.costum.android.widget.PullAndLoadListView;
 import com.costum.android.widget.PullToRefreshListView;
@@ -22,7 +23,6 @@ import com.mw.smartoff.DisplayEmailActivity;
 import com.mw.smartoff.DAO.EmailDAO;
 import com.mw.smartoff.adapter.EmailsAdapter;
 import com.mw.smartoff.model.Email;
-import com.mw.smartoff.services.CreateDialog;
 import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
 import com.parse.ParseException;
@@ -99,9 +99,9 @@ public class EmailFragment extends Fragment {
 			if (emailPOList != null) {
 				for (int i = 0; i < emailPOList.size(); i++) {
 					ParseObject tempEmailPO = emailPOList.get(i);
-					Email tempMeeting = globalVariable
+					Email tempEmail = globalVariable
 							.convertPOtoEmail(tempEmailPO);
-					emailList.add(tempMeeting);
+					emailList.add(tempEmail);
 				}
 				globalVariable.setEmailList(emailList);
 			}

@@ -8,11 +8,21 @@ public class User implements Serializable {
 
 	String email;
 	String username;
+	String name;
 
-	public User(String email, String username) {
+	public User(String email, String username, String name) {
 		super();
 		this.email = email;
 		this.username = username;
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getEmail() {
