@@ -1,8 +1,5 @@
 package com.mw.smartoff;
 
-import java.util.ArrayList;
-import java.util.Set;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -16,12 +13,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.AdapterView;
+import android.widget.*;
+import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-
 import com.mw.smartoff.adapter.NavDrawerListAdapter;
 import com.mw.smartoff.fragments.ContactFragment;
 import com.mw.smartoff.fragments.EmailFragment;
@@ -33,6 +27,9 @@ import com.parse.ParseAnalytics;
 import com.parse.ParseUser;
 import com.parse.PushService;
 
+import java.util.ArrayList;
+import java.util.Set;
+
 public class MainActivity extends FragmentActivity {
 
 	DrawerLayout mDrawerLayout;
@@ -40,6 +37,8 @@ public class MainActivity extends FragmentActivity {
 
 	ListView leftDrawerLV;
 	ArrayList<NavDrawerItem> navDrawerItemList;
+
+    TextView usernameTV;
 
 	GlobalVariable globalVariable;
 	Intent nextIntent;
@@ -57,6 +56,7 @@ public class MainActivity extends FragmentActivity {
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		leftDrawerRLData = (RelativeLayout) findViewById(R.id.leftDrawer_RL);
 		leftDrawerLV = (ListView) findViewById(R.id.leftDrawer_LV);
+        usernameTV = (TextView) findViewById(R.id.username_TV);
 	}
 
 	private void initializeThings() {
@@ -101,6 +101,9 @@ public class MainActivity extends FragmentActivity {
 				displayView(position);
 			}
 		});
+
+        String username = (String) ParseUser.getCurrentUser().get("name");
+        usernameTV.setText(username);
 
 		if (savedInstanceState == null) {
 			// on first time display view for first nav item

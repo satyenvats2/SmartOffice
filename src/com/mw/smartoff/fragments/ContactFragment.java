@@ -1,7 +1,5 @@
 package com.mw.smartoff.fragments;
 
-import java.util.List;
-
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,25 +7,21 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.costum.android.widget.PullAndLoadListView;
-import com.costum.android.widget.PullToRefreshListView;
-import com.mw.smartoff.DisplayMessagesActivity;
 import com.mw.smartoff.DAO.UserDAO;
+import com.mw.smartoff.DisplayMessagesActivity;
 import com.mw.smartoff.adapter.ContactsAdapter;
 import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
 import com.parse.ParseUser;
 
+import java.util.List;
+
 public class ContactFragment extends Fragment {
 	TextView welcomeDashTV;
-	PullAndLoadListView contactLV;
-	ProgressBar progressBar;
+	ListView contactLV;
+//	ProgressBar progressBar;
 
 	UserDAO dao;
 	GlobalVariable globalVariable;
@@ -51,20 +45,12 @@ public class ContactFragment extends Fragment {
 
 		FetchAllUsersAsynTask asynTask = new FetchAllUsersAsynTask();
 		asynTask.execute(true);
-		
-		contactLV.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
-            public void onRefresh() {
-                // Do work to refresh the list here.
-//                new PullToRefreshDataTask().execute();
-                new FetchAllUsersAsynTask().execute(false);
-            }
-        });
 	}
 
 	private void findThings() {
-		contactLV = (PullAndLoadListView) getActivity().findViewById(R.id.contacts_LV);
-		progressBar = (ProgressBar) getActivity()
-				.findViewById(R.id.progressBar);
+		contactLV = (ListView) getActivity().findViewById(R.id.contacts_LV);
+//		progressBar = (ProgressBar) getActivity()
+//				.findViewById(R.id.progressBar);
 	}
 
 	private void initThings() {
@@ -97,11 +83,10 @@ public class ContactFragment extends Fragment {
 		@Override
 		protected void onPostExecute(List<ParseUser> usersListPOForDBUpdate) {
 			super.onPostExecute(usersListPOForDBUpdate);
-			progressBar.setVisibility(View.INVISIBLE);
+//			progressBar.setVisibility(View.INVISIBLE);
 
 			List<ParseUser> usersListPO = globalVariable.getUserList();
 			if (usersListPO != null && usersListPO.size() > 0) {
-				contactLV.onRefreshComplete();
 				adapter = new ContactsAdapter(getActivity(), usersListPO);
 				contactLV.setAdapter(adapter);
 
@@ -121,6 +106,6 @@ public class ContactFragment extends Fragment {
 			}
 		}
 
-	}// Asyn
+	}
 
 }

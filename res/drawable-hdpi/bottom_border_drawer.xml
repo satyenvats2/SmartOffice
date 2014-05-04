@@ -21,7 +21,7 @@
 					android:width="1dp"
 					android:color="#C1CDC1" />
 
-			<solid android:color="#FFFFFF" />
+			<!--<solid android:color="#C1CDC1" />-->
 			<!--<padding android:left="10dp"-->
 			         <!--android:right="10dp"-->
 			         <!--android:top="10dp"-->

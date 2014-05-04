@@ -11,7 +11,7 @@
         android:layout_alignParentTop="true"
         android:background="@null"
         android:scaleType="fitXY"
-        android:src="@drawable/menu_blue" />
+        android:src="@drawable/large_icon" />
 
     <TextView
         android:id="@+id/name_TV"
@@ -23,15 +23,15 @@
         android:text="Satyen Vats"
         android:textIsSelectable="false"
         android:textSize="18sp"
-        android:textStyle="italic"
         android:typeface="serif" android:layout_toRightOf="@+id/sender_IV" android:layout_toLeftOf="@+id/date_TV"
         android:layout_centerInParent="true" android:layout_marginLeft="10dp"/>
-    <ImageView
-        android:id="@+id/unread_msgs_IV"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="false"
-        android:layout_centerInParent="true" android:background="@android:color/holo_red_light"/>
+    <!-- COMMENTING IT OUT FOR NOW -->
+	<!--<ImageView-->
+        <!--android:id="@+id/unread_msgs_IV"-->
+        <!--android:layout_width="30dp"-->
+        <!--android:layout_height="30dp"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_alignParentTop="false"-->
+        <!--android:layout_centerInParent="true" android:background="@android:color/holo_red_light"/>-->
 
 </RelativeLayout>
