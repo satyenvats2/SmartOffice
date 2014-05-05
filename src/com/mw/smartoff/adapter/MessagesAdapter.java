@@ -57,11 +57,11 @@ public class MessagesAdapter extends BaseAdapter {
 				.equals(ParseUser.getCurrentUser().getObjectId())) {
 			lp.gravity = Gravity.RIGHT;
 			viewHolder.messageTV
-					.setBackgroundResource(R.drawable.speech_bubble_green_l);
+					.setBackgroundResource(R.drawable.speech_bubble_green_r2);
 		} else {
 			lp.gravity = Gravity.LEFT;
 			viewHolder.messageTV
-					.setBackgroundResource(R.drawable.speech_bubble_blue_r);
+					.setBackgroundResource(R.drawable.speech_bubble_orange);
 		}
 
 		return convertView;

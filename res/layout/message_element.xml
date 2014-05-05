@@ -9,12 +9,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5sp"
+        android:background="@drawable/speech_bubble_green_r2"
         android:shadowDx="1"
         android:shadowDy="1"
-        android:background="@drawable/speech_bubble_green_l"
         android:text="Medium Text"
         android:textSize="20sp" />
 
-<!--         android:textColor="@color/textColor"
-        android:shadowColor="@color/textShadow" -->
+    <!--
+             android:textColor="@color/textColor"
+        android:shadowColor="@color/textShadow"
+    -->
+
 </LinearLayout>
