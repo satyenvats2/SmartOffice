@@ -46,7 +46,7 @@ public class TestFragment3 extends Fragment {
 		notifyMeetingTV = (TextView) getActivity().findViewById(
 				R.id.notify_meeting_TV);
 		progressBar = (ProgressBar) getActivity()
-				.findViewById(R.id.progressBar2);
+				.findViewById(R.id.progressBar3);
 	}
 
 	private void initThings() {

@@ -4,10 +4,9 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:clickable="false"
-    android:padding="25dp"
-		>
+    android:padding="25dp" >
 
-	<TextView
+    <TextView
         android:id="@+id/header_TV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -236,7 +235,6 @@
             android:textSize="28dp"
             android:typeface="serif" />
 
-       
         <!-- row4 -->
 
         <Button
@@ -278,50 +276,29 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/keypad_GL"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
         android:singleLine="false"
         android:text="Forgot PIN - Logout and Login again to create a new PIN"
+        android:textSize="12sp"
         android:textStyle="italic"
-        android:typeface="serif"
-        android:gravity="center"/>
+        android:typeface="serif" />
 
-    <!--<RelativeLayout-->
-        <!--android:id="@+id/logout_RL"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignLeft="@+id/keypad_GL"-->
-        <!--android:layout_alignParentBottom="false"-->
-        <!--android:layout_alignRight="@+id/keypad_GL"-->
-        <!--android:layout_below="@+id/PINInfo_TV"-->
-        <!--android:layout_marginTop="10dp"-->
-        <!--android:background="@android:color/darker_gray"-->
-        <!--android:clickable="true"-->
-        <!--android:onClick="onLogOut"-->
-        <!--android:padding="5dp" >-->
-
-        <!--<ImageView-->
-            <!--android:id="@+id/logout_IV"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_toLeftOf="@+id/logout_TV"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:scaleType="fitStart"-->
-            <!--android:src="@drawable/logout_blue" />-->
-
-        <TextView
-            android:id="@+id/logout_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:singleLine="false"
-            android:text="LOGOUT"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:clickable="true"
-            android:onClick="onLogOut"
-            android:typeface="serif"
-            android:layout_centerHorizontal="true"
-            style="@android:style/Widget.Holo.Light.Button.Borderless.Small"
-            android:layout_alignParentBottom="true"
-            android:textColor="@android:color/holo_blue_dark"/>
-    <!--</RelativeLayout>-->
+    <TextView
+        android:id="@+id/logout_TV"
+        style="@android:style/Widget.Holo.Light.Button.Borderless.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:clickable="true"
+        android:onClick="onLogOut"
+        android:singleLine="false"
+        android:text="LOGOUT"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:typeface="serif" />
+    <!-- </RelativeLayout> -->
 
 </RelativeLayout>

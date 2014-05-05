@@ -28,7 +28,6 @@ import com.mw.smartoff.fragments.ContactFragment;
 import com.mw.smartoff.fragments.EmailFragment;
 import com.mw.smartoff.fragments.MeetingFragment;
 import com.mw.smartoff.model.NavDrawerItem;
-import com.mw.smartoff.services.CharacterDrawable;
 import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
 import com.parse.ParseAnalytics;
@@ -39,8 +38,9 @@ public class MainActivity extends FragmentActivity {
 
 	DrawerLayout mDrawerLayout;
 	RelativeLayout leftDrawerRLData;
-TextView usernameTV;
-	
+	TextView usernameTV;
+	TextView headerTitleTV;
+
 	ListView leftDrawerLV;
 	ArrayList<NavDrawerItem> navDrawerItemList;
 
@@ -49,18 +49,19 @@ TextView usernameTV;
 
 	Fragment fragment;
 	String tag;
-	
+
 	FragmentManager fragmentManager;
 	TypedArray navMenuIconsGreen;
-	
+
 	SharedPreferences sharedPreferences;
 	Editor editor;
-	
+
 	private void findThings() {
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		leftDrawerRLData = (RelativeLayout) findViewById(R.id.leftDrawer_RL);
 		leftDrawerLV = (ListView) findViewById(R.id.leftDrawer_LV);
 		usernameTV = (TextView) findViewById(R.id.username_TV);
+		headerTitleTV = (TextView) findViewById(R.id.header_title_TV);
 	}
 
 	private void initializeThings() {
@@ -76,23 +77,23 @@ TextView usernameTV;
 
 		usernameTV.setText(ParseUser.getCurrentUser().getString("name"));
 	}
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-        Intent intent = getIntent();
-        Bundle extras = intent.getExtras();
-        if (extras != null){
-            String jsonData = extras.getString( "com.parse.Data" );
-            return;
-        }
+		Intent intent = getIntent();
+		Bundle extras = intent.getExtras();
+		if (extras != null) {
+			String jsonData = extras.getString("com.parse.Data");
+			return;
+		}
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.main_activity);
 		findThings();
 		initializeThings();
-	initialVisibilityOfViews();
-	drawerConfiguration();
+		initialVisibilityOfViews();
+		drawerConfiguration();
 		prepareLeftDrawerItems();
 
 		NavDrawerListAdapter adapter = new NavDrawerListAdapter(this,
@@ -106,8 +107,9 @@ TextView usernameTV;
 				System.out.println("onItemClick");
 				leftDrawerLV.clearChoices();
 				leftDrawerLV.requestLayout();
-				((ImageView)view.findViewById(R.id.icon_IV)).setImageResource(navMenuIconsGreen
-				.getResourceId(position, -1));
+				((ImageView) view.findViewById(R.id.icon_IV))
+						.setImageResource(navMenuIconsGreen.getResourceId(
+								position, -1));
 				displayView(position);
 			}
 		});
@@ -126,8 +128,6 @@ TextView usernameTV;
 
 	}
 
-	
-
 	private void displayView(int position) {
 		// update the main content by replacing fragments
 
@@ -135,14 +135,17 @@ TextView usernameTV;
 		switch (position) {
 		case 0:
 			fragment = new EmailFragment();
+			headerTitleTV.setText("Mailbox");
 			tag = "EMAIL";
 			break;
 		case 1:
 			fragment = new MeetingFragment();
+			headerTitleTV.setText("Meetings");
 			tag = "MEETING";
 			break;
 		case 2:
 			fragment = new ContactFragment();
+			headerTitleTV.setText("Select Contact");
 			tag = "CONTACT";
 			break;
 		case 3:
@@ -165,7 +168,6 @@ TextView usernameTV;
 			leftDrawerLV.setItemChecked(position, true);
 			leftDrawerLV.setSelection(position);
 
-			
 			mDrawerLayout.closeDrawer(leftDrawerRLData);
 		} else {
 			// error in creating fragment
@@ -173,7 +175,6 @@ TextView usernameTV;
 		}
 	}
 
-	 
 	private void prepareLeftDrawerItems() {
 		String[] navMenuTitles = getResources().getStringArray(
 				R.array.nav_drawer_items_title);
@@ -187,8 +188,9 @@ TextView usernameTV;
 				.getResourceId(1, -1)));
 		navDrawerItemList.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons
 				.getResourceId(2, -1)));
-//		navDrawerItemList.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons
-//				.getResourceId(3, -1)));
+		// navDrawerItemList.add(new NavDrawerItem(navMenuTitles[3],
+		// navMenuIcons
+		// .getResourceId(3, -1)));
 
 		// Recycle the typed array
 		navMenuIcons.recycle();
@@ -201,24 +203,27 @@ TextView usernameTV;
 
 	public void onLogOut(View view) {
 
-        // Satyen: we are removing PIN here
+		// Satyen: we are removing PIN here
 		editor.remove("pin");
 		editor.commit();
-		
-		// Satyen: unsubscribing to channels
-        Set<String> setOfAllSubscriptions = PushService.getSubscriptions(this);
-        System.out.println(">>>>>>> Channels before clearing - " + setOfAllSubscriptions.toString());
-        for (String setOfAllSubscription : setOfAllSubscriptions) {
-            System.out.println(">>>>>>> MainActivity::onLogOut() - " + setOfAllSubscription);
-            PushService.unsubscribe(this, setOfAllSubscription);
-        }
-        setOfAllSubscriptions = PushService.getSubscriptions(this);
-        System.out.println(">>>>>>> Channels after cleared - " + setOfAllSubscriptions.toString());
-        ParseUser.logOut();
-        finish();
 
-        nextIntent = new Intent(this, LoginActivity.class);
-        startActivity(nextIntent);
+		// Satyen: unsubscribing to channels
+		Set<String> setOfAllSubscriptions = PushService.getSubscriptions(this);
+		System.out.println(">>>>>>> Channels before clearing - "
+				+ setOfAllSubscriptions.toString());
+		for (String setOfAllSubscription : setOfAllSubscriptions) {
+			System.out.println(">>>>>>> MainActivity::onLogOut() - "
+					+ setOfAllSubscription);
+			PushService.unsubscribe(this, setOfAllSubscription);
+		}
+		setOfAllSubscriptions = PushService.getSubscriptions(this);
+		System.out.println(">>>>>>> Channels after cleared - "
+				+ setOfAllSubscriptions.toString());
+		ParseUser.logOut();
+		finish();
+
+		nextIntent = new Intent(this, LoginActivity.class);
+		startActivity(nextIntent);
 	}
 
 	public void onEmail(View view) {

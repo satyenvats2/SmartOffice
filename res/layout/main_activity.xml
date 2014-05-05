@@ -15,6 +15,7 @@
             android:background="@drawable/bottom_border"
             android:orientation="horizontal"
             android:paddingBottom="6dp"
+            android:paddingLeft="12dp"
             android:paddingTop="6dp" >
 
             <ImageButton
@@ -23,12 +24,22 @@
                 android:layout_height="50dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="16dp"
                 android:background="@null"
                 android:gravity="center_vertical"
                 android:onClick="onOpenLeftDrawer"
                 android:scaleType="fitXY"
                 android:src="@drawable/menu_blue" />
+
+            <TextView
+                android:id="@+id/header_title_TV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dp"
+                android:text="Title"
+                android:textSize="22sp"
+                android:typeface="serif"
+                android:layout_toRightOf="@+id/left_drawer_button" />
 
             <!-- <ImageButton -->
             <!-- android:id="@+id/create_mail_or_meeting_button1" -->
@@ -83,7 +94,8 @@
             android:paddingBottom="6dp"
             android:paddingTop="6dp" >
 
-<!--                 android:layout_centerHorizontal="true" -->
+            <!-- android:layout_centerHorizontal="true" -->
+
             <ImageButton
                 android:id="@+id/left_drawer_user_image"
                 android:layout_width="50dp"
@@ -100,8 +112,8 @@
                 android:id="@+id/username_TV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/left_drawer_user_image"
                 android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/left_drawer_user_image"
                 android:paddingLeft="10dp"
                 android:text="First Name Last Name"
                 android:textColor="@android:color/white"
@@ -147,9 +159,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/logout_IV"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
+                android:layout_toRightOf="@+id/logout_IV"
                 android:text="Logout"
                 android:textColor="@color/drawer_elements_color"
                 android:textSize="18sp"
