@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.costum.android.widget.PullAndLoadListView;
 import com.costum.android.widget.PullToRefreshListView;
@@ -78,8 +79,7 @@ public class TestFragment extends Fragment {
 					public void onRefresh() {
 						// Do work to refresh the list here.
 						// new PullToRefreshDataTask().execute();
-						new FetchMeetingsAsynTask()
-								.execute(false);
+						new FetchMeetingsAsynTask().execute(false);
 					}
 				});
 
@@ -133,9 +133,10 @@ public class TestFragment extends Fragment {
 					@Override
 					public void onItemClick(AdapterView<?> parent, View v,
 							int position, long id) {
+						System.out.println("position  :  " + position);
 						nextIntent = new Intent(getActivity(),
 								DisplayMeetingActivity.class);
-						nextIntent.putExtra("position", position);
+						nextIntent.putExtra("position", position - 1);
 						startActivity(nextIntent);
 					}
 				});

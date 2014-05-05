@@ -48,7 +48,6 @@ public class MainActivity extends FragmentActivity {
 	String tag;
 
 	FragmentManager fragmentManager;
-	TypedArray navMenuIconsGreen;
 
 	SharedPreferences sharedPreferences;
 	Editor editor;
@@ -66,8 +65,6 @@ public class MainActivity extends FragmentActivity {
 
 	private void initializeThings() {
 		globalVariable = (GlobalVariable) getApplicationContext();
-		navMenuIconsGreen = getResources().obtainTypedArray(
-				R.array.nav_drawer_items_icons_green);
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this
 				.getApplicationContext());
 		editor = sharedPreferences.edit();
@@ -107,9 +104,6 @@ public class MainActivity extends FragmentActivity {
 				System.out.println("onItemClick");
 				leftDrawerLV.clearChoices();
 				leftDrawerLV.requestLayout();
-				((ImageView) view.findViewById(R.id.icon_IV))
-						.setImageResource(navMenuIconsGreen.getResourceId(
-								position, -1));
 				displayView(position);
 			}
 		});

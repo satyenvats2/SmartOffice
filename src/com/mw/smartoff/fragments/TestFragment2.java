@@ -33,12 +33,10 @@ public class TestFragment2 extends Fragment {
 	Intent nextIntent;
 	MeetingsAdapter adapter;
 
-	CreateDialog createDialog;
-//	ProgressDialog progressDialog;
 	MeetingDAO dao;
 	ResponseToMeetingDAO dao2;
 
-	List<Meeting> meetingList = new ArrayList<Meeting>();
+	List<Meeting> meetingList;// = new ArrayList<Meeting>();
 	List<Meeting> tempMeetingList;
 
 	private void findThings() {
@@ -49,9 +47,6 @@ public class TestFragment2 extends Fragment {
 
 	private void initThings() {
 		globalVariable = (GlobalVariable) getActivity().getApplicationContext();
-		createDialog = new CreateDialog(getActivity());
-//		progressDialog = createDialog.createProgressDialog("Loading",
-//				"Fetching Meetings", true, null);
 		dao = new MeetingDAO(getActivity());
 		dao2 = new ResponseToMeetingDAO(getActivity());
 
@@ -81,6 +76,7 @@ public class TestFragment2 extends Fragment {
 	@Override
 	public void setUserVisibleHint(boolean isVisibleToUser) {
 		super.setUserVisibleHint(isVisibleToUser);
+		meetingList = new ArrayList<Meeting>();
 		if (isVisibleToUser) {
 			Toast.makeText(getActivity(), "%%%% UserVisible true",
 					Toast.LENGTH_SHORT).show();
@@ -103,6 +99,7 @@ public class TestFragment2 extends Fragment {
 					@Override
 					public void onItemClick(AdapterView<?> parent, View v,
 							int position, long id) {
+						System.out.println("position  :  " + position);
 						nextIntent = new Intent(getActivity(),
 								DisplayMeetingActivity.class);
 						nextIntent.putExtra("position", position);

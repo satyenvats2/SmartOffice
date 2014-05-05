@@ -53,7 +53,7 @@
         android:onClick="onClearOne"
         android:scaleType="fitEnd"
         android:src="@drawable/backspace"
-        android:text="@string/clearone" />
+        />
 
     <TextView
         android:id="@+id/error_msg_TV"

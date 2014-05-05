@@ -1,6 +1,7 @@
 package com.mw.smartoff.adapter;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -23,12 +24,23 @@ public class MeetingsAdapter extends BaseAdapter {
 	LayoutInflater inflater;
 
 	Date todayDate;
-
+	
+	HashMap<String, Integer> myMap;
+	
+	
 	public MeetingsAdapter(Context context, List<Meeting> meetingList) {
 		super();
 		this.context = context;
 		this.meetingList = meetingList;
 		todayDate = new Date();
+		
+		String[] alphabets = context.getResources().getStringArray(
+				R.array.alphabets);
+		int[] hexCodes = context.getResources().getIntArray(R.array.hex_codes);
+		myMap = new HashMap<String, Integer>();
+		for (int i = 0; i < alphabets.length; i++) {
+			myMap.put(alphabets[i], hexCodes[i]);
+		}
 	}
 
 	static class ViewHolder {
@@ -69,8 +81,10 @@ public class MeetingsAdapter extends BaseAdapter {
 		}
 
 		Meeting tempMeeting = meetingList.get(position);
+		// toUpperCase(Locale.getDefault())
 		CharacterDrawable drawable = new CharacterDrawable(tempMeeting
-				.getFrom().getUsername().toUpperCase(Locale.getDefault()).charAt(0), 0xFF805781);
+				.getFrom().getUsername().toUpperCase(Locale.getDefault()).charAt(0), myMap.get(tempMeeting.getFrom()
+						.getUsername().toUpperCase(Locale.getDefault()).charAt(0)+""));
 		viewHolder.profilePicIV.setImageDrawable(drawable);
 		
 		viewHolder.subjectTV.setText(tempMeeting.getSubject());
