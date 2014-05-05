@@ -1,8 +1,5 @@
 package com.mw.smartoff.fragments;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,19 +11,20 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.costum.android.widget.PullAndLoadListView;
 import com.costum.android.widget.PullToRefreshListView;
-import com.mw.smartoff.DisplayMeetingActivity;
 import com.mw.smartoff.DAO.MeetingDAO;
 import com.mw.smartoff.DAO.ResponseToMeetingDAO;
+import com.mw.smartoff.DisplayMeetingActivity;
 import com.mw.smartoff.adapter.MeetingsAdapter;
 import com.mw.smartoff.model.Meeting;
 import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TestFragment3 extends Fragment {
 	PullAndLoadListView meetingLV;
@@ -68,9 +66,6 @@ public class TestFragment3 extends Fragment {
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		System.out.println("frag1");
-		Toast.makeText(getActivity(), "onViewCreated3", Toast.LENGTH_SHORT)
-		.show();
 		findThings();
 		initThings();
 		FetchMeetingsAsynTask asynTask = new FetchMeetingsAsynTask();
@@ -132,7 +127,7 @@ public class TestFragment3 extends Fragment {
 				notifyMeetingTV.setText("No meetings found");
 				notifyMeetingTV.setVisibility(View.VISIBLE);
 			} else {
-
+                meetingLV.onRefreshComplete();
 				adapter = new MeetingsAdapter(getActivity(), meetingList);
 				meetingLV.setAdapter(adapter);
 

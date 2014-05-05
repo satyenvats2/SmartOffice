@@ -11,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.costum.android.widget.PullAndLoadListView;
 import com.costum.android.widget.PullToRefreshListView;
 import com.mw.smartoff.DAO.MeetingDAO;
@@ -68,13 +67,12 @@ public class TestFragment2 extends Fragment {
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		Toast.makeText(getActivity(), "onViewCreated2", Toast.LENGTH_SHORT)
-				.show();
-
 		findThings();
 		initThings();
-		
-		meetingLV
+        SortMeetingsAsynTask asynTask = new SortMeetingsAsynTask();
+        asynTask.execute(true);
+
+        meetingLV
 		.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
 			public void onRefresh() {
 				// Do work to refresh the list here.
@@ -83,65 +81,6 @@ public class TestFragment2 extends Fragment {
 			}
 		});
 	}
-
-    public void onResume()
-    {
-        super.onResume();
-        SortMeetingsAsynTask asynTask = new SortMeetingsAsynTask();
-        asynTask.execute(true);
-
-    }
-
-    @Override
-    public void onPause()
-    {
-        super.onPause();
-    }
-
-//	@Override
-//	public void setUserVisibleHint(boolean isVisibleToUser) {
-//		super.setUserVisibleHint(isVisibleToUser);
-//		meetingList = new ArrayList<Meeting>();
-//		if (isVisibleToUser) {
-////			Toast.makeText(getActivity(), "%%%% UserVisible true",
-////					Toast.LENGTH_SHORT).show();
-//			System.out.println("%%%% UserVisible true");
-//
-//			SortMeetingsAsynTask asynTask = new SortMeetingsAsynTask();
-//			asynTask.execute(true);
-//			tempMeetingList = globalVariable.getMeetingList();
-//			for (int i = 0; i < tempMeetingList.size(); i++) {
-//				if (!tempMeetingList.get(i).isHasBeenResponsedTo())
-//					meetingList.add(tempMeetingList.get(i));
-//			}
-//			if (meetingList.size() == 0) {
-//				notifyMeetingTV.setText("No meetings found");
-//				notifyMeetingTV.setVisibility(View.VISIBLE);
-//			} else {
-//				Toast.makeText(getActivity(), "else" + meetingList.size(),
-//						Toast.LENGTH_SHORT).show();
-//				adapter = new MeetingsAdapter(getActivity(), meetingList);
-//				meetingLV.setAdapter(adapter);
-//
-//				meetingLV.setOnItemClickListener(new OnItemClickListener() {
-//					@Override
-//					public void onItemClick(AdapterView<?> parent, View v,
-//							int position, long id) {
-//						System.out.println("position  :  " + position);
-//						nextIntent = new Intent(getActivity(),
-//								DisplayMeetingActivity.class);
-//						nextIntent.putExtra("position", position);
-//						// nextIntent.putExtra("selected_meeting",
-//						// meetingList.get(position));
-//						startActivity(nextIntent);
-//					}
-//				});
-//			}
-//		} else {
-//			System.out.println("%%%% UserVisible false");
-//
-//		}
-//	}
 
 	private class SortMeetingsAsynTask extends AsyncTask<Boolean, Void, Void> {
 
@@ -172,9 +111,8 @@ public class TestFragment2 extends Fragment {
 				notifyMeetingTV.setText("No meetings found");
 				notifyMeetingTV.setVisibility(View.VISIBLE);
 			} else {
-				Toast.makeText(getActivity(), "else" + meetingList.size(),
-						Toast.LENGTH_SHORT).show();
-				adapter = new MeetingsAdapter(getActivity(), meetingList);
+                meetingLV.onRefreshComplete();
+                adapter = new MeetingsAdapter(getActivity(), meetingList);
 				meetingLV.setAdapter(adapter);
 
 				meetingLV.setOnItemClickListener(new OnItemClickListener() {

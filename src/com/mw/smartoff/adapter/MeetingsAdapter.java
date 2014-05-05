@@ -1,10 +1,5 @@
 package com.mw.smartoff.adapter;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,10 +7,15 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.mw.smartoff.model.Meeting;
 import com.mw.smartoff.services.CharacterDrawable;
 import com.mw.smartoffice.R;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 
 public class MeetingsAdapter extends BaseAdapter {
 
@@ -49,6 +49,7 @@ public class MeetingsAdapter extends BaseAdapter {
 		protected TextView senderUsernameTV;
 		protected TextView dateTV;
 		protected TextView locationTV;
+        protected TextView statusTV;
 		protected ImageView statusDotIV;
 
 	}
@@ -71,8 +72,8 @@ public class MeetingsAdapter extends BaseAdapter {
 					.findViewById(R.id.description_TV);
 			viewHolder.dateTV = (TextView) convertView
 					.findViewById(R.id.date_TV);
-//			viewHolder.locationTV = (TextView) convertView
-//					.findViewById(R.id.location_TV);
+			viewHolder.statusTV = (TextView) convertView
+					.findViewById(R.id.status_TV);
 			viewHolder.statusDotIV = (ImageView) convertView
 					.findViewById(R.id.status_dot_IV);
 			convertView.setTag(viewHolder);
@@ -89,17 +90,22 @@ public class MeetingsAdapter extends BaseAdapter {
 		
 		viewHolder.subjectTV.setText(tempMeeting.getSubject());
 		viewHolder.senderUsernameTV.setText(tempMeeting.getFrom().getName());
-		viewHolder.dateTV.setText(tempMeeting.getStartTime().toString());
+		viewHolder.dateTV.setText(getDisplayDate(tempMeeting.getStartTime()));
 		if (tempMeeting.isHasBeenResponsedTo())
-			if (tempMeeting.isCurrentResponse())
-				viewHolder.statusDotIV.setImageDrawable(context.getResources()
-						.getDrawable(R.drawable.dot_green));
-			else
-				viewHolder.statusDotIV.setImageDrawable(context.getResources()
-						.getDrawable(R.drawable.dot_red));
+			if (tempMeeting.isCurrentResponse()){
+                viewHolder.statusTV.setText("Accepted");
+//                viewHolder.statusTV.setTextColor();
+//				viewHolder.statusDotIV.setImageDrawable(context.getResources()
+//						.getDrawable(R.drawable.dot_green));
+            }
+                else
+                viewHolder.statusTV.setText("Rejected");
+//        viewHolder.statusDotIV.setImageDrawable(context.getResources()
+//						.getDrawable(R.drawable.dot_red));
 		else
-			viewHolder.statusDotIV.setImageDrawable(context.getResources()
-					.getDrawable(R.drawable.dot_blue));
+            viewHolder.statusTV.setText("Pending");
+//        viewHolder.statusDotIV.setImageDrawable(context.getResources()
+//					.getDrawable(R.drawable.dot_blue));
 		return convertView;
 	}
 
@@ -117,5 +123,11 @@ public class MeetingsAdapter extends BaseAdapter {
 	public long getItemId(int position) {
 		return 0;
 	}
+
+    public String getDisplayDate(Date date){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM, HH:mm");
+        String stringDate = simpleDateFormat.format(date);
+        return stringDate;
+    }
 
 }

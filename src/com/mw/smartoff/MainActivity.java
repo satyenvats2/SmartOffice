@@ -13,9 +13,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.*;
-import android.widget.TextView;
+import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import com.mw.smartoff.adapter.NavDrawerListAdapter;
 import com.mw.smartoff.fragments.ContactFragment;
 import com.mw.smartoff.fragments.EmailFragment;
@@ -239,7 +241,14 @@ public class MainActivity extends FragmentActivity {
 		setOfAllSubscriptions = PushService.getSubscriptions(this);
 		System.out.println(">>>>>>> Channels after cleared - "
 				+ setOfAllSubscriptions.toString());
-		ParseUser.logOut();
+
+        // Satyen: clear all lists
+        globalVariable.setEmailList(null);
+        globalVariable.setMeetingList(null);
+        globalVariable.setMeetingOwnList(null);
+        globalVariable.setMeetingPendingList(null);
+
+        ParseUser.logOut();
 		finish();
 
 		nextIntent = new Intent(this, LoginActivity.class);

@@ -11,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.costum.android.widget.PullAndLoadListView;
 import com.costum.android.widget.PullToRefreshListView;
 import com.mw.smartoff.DAO.MeetingDAO;
@@ -67,15 +66,12 @@ public class TestFragment extends Fragment {
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		Toast.makeText(getActivity(), "onViewCreated1", Toast.LENGTH_SHORT)
-				.show();
-		System.out.println("onViewCreated1");
 		findThings();
 		initThings();
-//		FetchMeetingsAsynTask asynTask = new FetchMeetingsAsynTask();
-//		asynTask.execute(true);
+        FetchMeetingsAsynTask asynTask = new FetchMeetingsAsynTask();
+        asynTask.execute(true);
 
-		meetingLV
+        meetingLV
 				.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
 					public void onRefresh() {
 						// Do work to refresh the list here.
@@ -85,56 +81,6 @@ public class TestFragment extends Fragment {
 				});
 
 	}
-
-	// @Override
-	// public void onResume(){
-	// super.onResume();
-	// Toast.makeText(getActivity(), "onResume1", Toast.LENGTH_SHORT).show();
-	// FetchMeetingsAsynTask asynTask = new FetchMeetingsAsynTask();
-	// asynTask.execute(false);
-	// }
-
-	// @Override
-	// public void onRestart(){
-	// super.onRestart();
-	// Toast.makeText(getActivity(), "onResume1", Toast.LENGTH_SHORT).show();
-	// FetchMeetingsAsynTask asynTask = new FetchMeetingsAsynTask();
-	// asynTask.execute(false);
-	// }
-
-//	@Override
-//	public void setUserVisibleHint(boolean isVisibleToUser) {
-//		super.setUserVisibleHint(isVisibleToUser);
-//		System.out.println("setUserVisibleHint1");
-//		if (isVisibleToUser) {
-//			Toast.makeText(getActivity(), "setUserVisibleHint1",
-//					Toast.LENGTH_SHORT).show();
-//
-//			// findThings();
-//			// initThings();
-//			FetchMeetingsAsynTask asynTask = new FetchMeetingsAsynTask();
-//			asynTask.execute(true);
-//
-//		} else {
-//			System.out.println("%%%% UserVisible false");
-//
-//		}
-//	}
-
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-        FetchMeetingsAsynTask asynTask = new FetchMeetingsAsynTask();
-        asynTask.execute(true);
-
-    }
-
-    @Override
-    public void onPause()
-    {
-        super.onPause();
-    }
 
 	private class FetchMeetingsAsynTask extends AsyncTask<Boolean, Void, Void> {
 
@@ -191,8 +137,6 @@ public class TestFragment extends Fragment {
 						nextIntent
 								.putExtra("type", GlobalVariable.MEETINGS_ALL);
 						startActivity(nextIntent);
-						// startActivityForResult(nextIntent,
-						// GlobalVariable.MEETINGS_ALL);
 					}
 				});
 			}

@@ -3,7 +3,7 @@ package com.mw.smartoff.fragments;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,12 +33,7 @@ public class MeetingFragment extends Fragment {
 	MeetingDAO dao;
 	ResponseToMeetingDAO dao2;
 
-    Fragment testFragment;
-    Fragment testFragment2;
-    Fragment testFragment3;
-
-
-    @Override
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		initThings();
@@ -55,7 +50,7 @@ public class MeetingFragment extends Fragment {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 
-		FragmentPagerAdapter adapter = new GoogleMusicAdapter(getActivity()
+		FragmentStatePagerAdapter adapter = new GoogleMusicAdapter(getActivity()
 				.getSupportFragmentManager());
 
 		ViewPager pager = (ViewPager) getActivity().findViewById(R.id.pager);
@@ -76,9 +71,6 @@ public class MeetingFragment extends Fragment {
     public void onResume()
     {
         super.onResume();
-        testFragment = new TestFragment();
-        testFragment2 = new TestFragment2();
-        testFragment3 = new TestFragment3();
     }
 
     @Override
@@ -120,7 +112,7 @@ public class MeetingFragment extends Fragment {
 		protected void onPostExecute(final List<Meeting> meetingList) {
 			super.onPostExecute(meetingList);
 			
-			FragmentPagerAdapter adapter = new GoogleMusicAdapter(getActivity()
+			FragmentStatePagerAdapter adapter = new GoogleMusicAdapter(getActivity()
 					.getSupportFragmentManager());
 
 			ViewPager pager = (ViewPager) getActivity().findViewById(R.id.pager);
@@ -155,23 +147,23 @@ public class MeetingFragment extends Fragment {
 
 	}// Asyn
 	
-	class GoogleMusicAdapter extends FragmentPagerAdapter {
+	class GoogleMusicAdapter extends FragmentStatePagerAdapter {
 		public GoogleMusicAdapter(
 				android.support.v4.app.FragmentManager fragmentManager) {
 			super(fragmentManager);
-        }
+		}
 
 		@Override
 		public android.support.v4.app.Fragment getItem(int position) {
 			switch (position) {
 			case 0:
-				return testFragment;
+				return new TestFragment();
 			case 1:
-				return testFragment2;
+				return new TestFragment2();
 			case 2:
-				return testFragment3;
+				return new TestFragment3();
 			}
-			return testFragment;
+			return null;
 		}
 
 		@Override

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:padding="10dp" >
 
@@ -19,8 +19,9 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_toLeftOf="@+id/status_dot_IV"
-        android:layout_toRightOf="@+id/sender_IV" >
+        android:layout_toRightOf="@+id/sender_IV"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="false">
 
         <TextView
             android:id="@+id/subject_TV"
@@ -52,11 +53,25 @@
             android:singleLine="true"
             android:text="29th Apr 2014,  4:30 PM"
             android:textColor="@android:color/darker_gray"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:textStyle="italic"
             android:typeface="serif" />
 
-        <!-- <TextView -->
+	    <TextView
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:text="Accepted"
+			    android:id="@+id/status_TV"
+			    android:layout_alignTop="@+id/date_TV"
+			    android:layout_alignParentRight="true"
+			    android:layout_alignParentBottom="false"
+			    android:layout_alignBottom="@+id/date_TV"
+			    android:textSize="14sp"
+			    android:typeface="serif"
+			    android:textColor="@android:color/holo_green_dark"
+			    android:gravity="right"/>
+
+	    <!-- <TextView -->
         <!-- android:id="@+id/location_TV" -->
         <!-- android:layout_width="fill_parent" -->
         <!-- android:layout_height="wrap_content" -->
