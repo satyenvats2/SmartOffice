@@ -92,7 +92,7 @@ public class EmailsAdapter extends BaseAdapter {
 
 		viewHolder.senderIV.setImageDrawable(drawable);
 
-		viewHolder.nameTV.setText(tempEmail.getFrom().getUsername());
+		viewHolder.nameTV.setText(tempEmail.getFrom().getName());
 		if (!tempEmail.isEmailRead())
 			viewHolder.nameTV.setTypeface(Typeface.SERIF, Typeface.BOLD_ITALIC);
 		viewHolder.subjectTV.setText(tempEmail.getSubject());

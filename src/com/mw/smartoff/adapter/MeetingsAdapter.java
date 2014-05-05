@@ -2,6 +2,7 @@ package com.mw.smartoff.adapter;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -69,13 +70,12 @@ public class MeetingsAdapter extends BaseAdapter {
 
 		Meeting tempMeeting = meetingList.get(position);
 		CharacterDrawable drawable = new CharacterDrawable(tempMeeting
-				.getFrom().getUsername().toUpperCase().charAt(0), 0xFF805781);
+				.getFrom().getUsername().toUpperCase(Locale.getDefault()).charAt(0), 0xFF805781);
 		viewHolder.profilePicIV.setImageDrawable(drawable);
 		
 		viewHolder.subjectTV.setText(tempMeeting.getSubject());
-		viewHolder.senderUsernameTV.setText(tempMeeting.getFrom().getUsername());
+		viewHolder.senderUsernameTV.setText(tempMeeting.getFrom().getName());
 		viewHolder.dateTV.setText(tempMeeting.getStartTime().toString());
-//		viewHolder.locationTV.setText(tempMeeting.getLocation());
 		if (tempMeeting.isHasBeenResponsedTo())
 			if (tempMeeting.isCurrentResponse())
 				viewHolder.statusDotIV.setImageDrawable(context.getResources()

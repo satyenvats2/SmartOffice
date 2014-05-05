@@ -37,8 +37,6 @@ public class TestFragment extends Fragment {
 	Intent nextIntent;
 	MeetingsAdapter adapter;
 
-	// CreateDialog createDialog;
-	// ProgressDialog progressDialog;
 	MeetingDAO dao;
 	ResponseToMeetingDAO dao2;
 
@@ -53,9 +51,6 @@ public class TestFragment extends Fragment {
 
 	private void initThings() {
 		globalVariable = (GlobalVariable) getActivity().getApplicationContext();
-		// createDialog = new CreateDialog(getActivity());
-		// progressDialog = createDialog.createProgressDialog("Loading11",
-		// "Fetching Meetings", true, null);
 		dao = new MeetingDAO(getActivity());
 		dao2 = new ResponseToMeetingDAO(getActivity());
 
@@ -75,7 +70,6 @@ public class TestFragment extends Fragment {
 		System.out.println("frag1");
 		findThings();
 		initThings();
-		// progressDialog.show();
 		FetchMeetingsAsynTask asynTask = new FetchMeetingsAsynTask();
 		asynTask.execute(true);
 
@@ -146,7 +140,6 @@ public class TestFragment extends Fragment {
 					}
 				});
 			}
-			// progressDialog.dismiss();
 		}// onPostExec
 
 	}// Asyn

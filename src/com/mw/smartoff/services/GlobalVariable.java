@@ -108,7 +108,7 @@ public class GlobalVariable extends android.app.Application {
 	}
 
 	public User convertParseObjectToUser(ParseUser userPO) {
-		return new User(userPO.getEmail(), userPO.getUsername());
+		return new User(userPO.getEmail(), userPO.getUsername(), userPO.getString("name"));
 
 	}
 

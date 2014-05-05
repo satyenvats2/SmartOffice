@@ -21,6 +21,7 @@ import com.mw.smartoff.fragments.ContactFragment;
 import com.mw.smartoff.fragments.EmailFragment;
 import com.mw.smartoff.fragments.MeetingFragment;
 import com.mw.smartoff.model.NavDrawerItem;
+import com.mw.smartoff.services.CharacterDrawable;
 import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
 import com.parse.ParseAnalytics;
@@ -59,7 +60,7 @@ public class MainActivity extends FragmentActivity {
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		leftDrawerRLData = (RelativeLayout) findViewById(R.id.leftDrawer_RL);
 		leftDrawerLV = (ListView) findViewById(R.id.leftDrawer_LV);
-        usernameTV = (TextView) findViewById(R.id.username_TV);
+		usernameTV = (TextView) findViewById(R.id.username_TV);
 	}
 
 	private void initializeThings() {
@@ -71,6 +72,11 @@ public class MainActivity extends FragmentActivity {
 		editor = sharedPreferences.edit();
 	}
 
+	private void initialVisibilityOfViews() {
+
+		usernameTV.setText(ParseUser.getCurrentUser().getString("name"));
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -85,7 +91,8 @@ public class MainActivity extends FragmentActivity {
 		setContentView(R.layout.main_activity);
 		findThings();
 		initializeThings();
-		drawerConfiguration();
+	initialVisibilityOfViews();
+	drawerConfiguration();
 		prepareLeftDrawerItems();
 
 		NavDrawerListAdapter adapter = new NavDrawerListAdapter(this,
