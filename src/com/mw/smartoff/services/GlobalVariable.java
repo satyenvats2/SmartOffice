@@ -1,5 +1,11 @@
 package com.mw.smartoff.services;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.List;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -8,28 +14,28 @@ import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.mw.smartoff.MainActivity;
 import com.mw.smartoff.model.Email;
 import com.mw.smartoff.model.Meeting;
 import com.mw.smartoff.model.Message;
 import com.mw.smartoff.model.User;
-import com.parse.*;
-
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.List;
-import java.util.Set;
+import com.parse.Parse;
+import com.parse.ParseACL;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 public class GlobalVariable extends android.app.Application {
 
+	public static int MEETINGS_ALL = 1;
+	public static int MEETINGS_PENDING = 10;
+	public static int MEETINGS_MY = 100;
+
 	List<Meeting> meetingList;
+	List<Meeting> meetingPendingList;
 	List<Meeting> meetingOwnList;
 
 	List<Email> emailList;
 	List<ParseUser> userList;
-	
+
 	public GlobalVariable() {
 	}
 
@@ -70,6 +76,14 @@ public class GlobalVariable extends android.app.Application {
 
 	}
 
+	public List<Meeting> getMeetingPendingList() {
+		return meetingPendingList;
+	}
+
+	public void setMeetingPendingList(List<Meeting> meetingPendingList) {
+		this.meetingPendingList = meetingPendingList;
+	}
+
 	public List<ParseUser> getUserList() {
 		return userList;
 	}
@@ -77,8 +91,6 @@ public class GlobalVariable extends android.app.Application {
 	public void setUserList(List<ParseUser> userList) {
 		this.userList = userList;
 	}
-
-	
 
 	public List<Email> getEmailList() {
 		return emailList;
@@ -115,7 +127,8 @@ public class GlobalVariable extends android.app.Application {
 	}
 
 	public User convertParseObjectToUser(ParseUser userPO) {
-		return new User(userPO.getEmail(), userPO.getUsername(), userPO.getString("name"));
+		return new User(userPO.getEmail(), userPO.getUsername(),
+				userPO.getString("name"));
 
 	}
 
@@ -154,7 +167,7 @@ public class GlobalVariable extends android.app.Application {
 				targetHeight), null);
 		return targetBitmap;
 	}
-	
+
 	public boolean haveNetworkConnection() {
 
 		System.out.println("internet check");
@@ -173,7 +186,7 @@ public class GlobalVariable extends android.app.Application {
 		}
 		return haveConnectedWifi || haveConnectedMobile;
 	}
-	
+
 	public static boolean hasActiveInternetConnection() {
 		HttpURLConnection urlc;
 		try {

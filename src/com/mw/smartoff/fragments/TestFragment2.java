@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,21 +12,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.costum.android.widget.PullAndLoadListView;
+import com.costum.android.widget.PullToRefreshListView;
 import com.mw.smartoff.DisplayMeetingActivity;
 import com.mw.smartoff.DAO.MeetingDAO;
 import com.mw.smartoff.DAO.ResponseToMeetingDAO;
 import com.mw.smartoff.adapter.MeetingsAdapter;
 import com.mw.smartoff.model.Meeting;
-import com.mw.smartoff.services.CreateDialog;
 import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
 
 public class TestFragment2 extends Fragment {
-	ListView meetingLV;
+	PullAndLoadListView meetingLV;
 	TextView notifyMeetingTV;
 
 	GlobalVariable globalVariable;
@@ -39,10 +41,14 @@ public class TestFragment2 extends Fragment {
 	List<Meeting> meetingList;// = new ArrayList<Meeting>();
 	List<Meeting> tempMeetingList;
 
+	ProgressBar progressBar;
+
 	private void findThings() {
-		meetingLV = (ListView) getActivity().findViewById(R.id.meeting_LV2);
+		meetingLV = (PullAndLoadListView) getActivity().findViewById(R.id.meeting_LV2);
 		notifyMeetingTV = (TextView) getActivity().findViewById(
 				R.id.notify_meeting_TV);
+		progressBar = (ProgressBar) getActivity().findViewById(
+				R.id.progressBar2);
 	}
 
 	private void initThings() {
@@ -55,9 +61,6 @@ public class TestFragment2 extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		Toast.makeText(getActivity(), "onCreateView", Toast.LENGTH_SHORT)
-				.show();
-
 		View rootView = inflater.inflate(R.layout.test_fragment2, container,
 				false);
 		return rootView;
@@ -66,11 +69,20 @@ public class TestFragment2 extends Fragment {
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		Toast.makeText(getActivity(), "onViewCreated", Toast.LENGTH_SHORT)
+		Toast.makeText(getActivity(), "onViewCreated2", Toast.LENGTH_SHORT)
 				.show();
 
 		findThings();
 		initThings();
+		
+		meetingLV
+		.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
+			public void onRefresh() {
+				// Do work to refresh the list here.
+				// new PullToRefreshDataTask().execute();
+				new SortMeetingsAsynTask().execute(false);
+			}
+		});
 	}
 
 	@Override
@@ -78,14 +90,71 @@ public class TestFragment2 extends Fragment {
 		super.setUserVisibleHint(isVisibleToUser);
 		meetingList = new ArrayList<Meeting>();
 		if (isVisibleToUser) {
-			Toast.makeText(getActivity(), "%%%% UserVisible true",
-					Toast.LENGTH_SHORT).show();
+//			Toast.makeText(getActivity(), "%%%% UserVisible true",
+//					Toast.LENGTH_SHORT).show();
 			System.out.println("%%%% UserVisible true");
+			
+			SortMeetingsAsynTask asynTask = new SortMeetingsAsynTask();
+			asynTask.execute(true);
+//			tempMeetingList = globalVariable.getMeetingList();
+//			for (int i = 0; i < tempMeetingList.size(); i++) {
+//				if (!tempMeetingList.get(i).isHasBeenResponsedTo())
+//					meetingList.add(tempMeetingList.get(i));
+//			}
+//			if (meetingList.size() == 0) {
+//				notifyMeetingTV.setText("No meetings found");
+//				notifyMeetingTV.setVisibility(View.VISIBLE);
+//			} else {
+//				Toast.makeText(getActivity(), "else" + meetingList.size(),
+//						Toast.LENGTH_SHORT).show();
+//				adapter = new MeetingsAdapter(getActivity(), meetingList);
+//				meetingLV.setAdapter(adapter);
+//
+//				meetingLV.setOnItemClickListener(new OnItemClickListener() {
+//					@Override
+//					public void onItemClick(AdapterView<?> parent, View v,
+//							int position, long id) {
+//						System.out.println("position  :  " + position);
+//						nextIntent = new Intent(getActivity(),
+//								DisplayMeetingActivity.class);
+//						nextIntent.putExtra("position", position);
+//						// nextIntent.putExtra("selected_meeting",
+//						// meetingList.get(position));
+//						startActivity(nextIntent);
+//					}
+//				});
+//			}
+		} else {
+			System.out.println("%%%% UserVisible false");
+
+		}
+	}
+
+	private class SortMeetingsAsynTask extends AsyncTask<Boolean, Void, Void> {
+
+		@Override
+		protected Void doInBackground(Boolean... params) {
+
+			if (globalVariable.getMeetingPendingList() != null && params[0])
+				return null;
+
+			meetingList = new ArrayList<Meeting>();
 			tempMeetingList = globalVariable.getMeetingList();
 			for (int i = 0; i < tempMeetingList.size(); i++) {
 				if (!tempMeetingList.get(i).isHasBeenResponsedTo())
 					meetingList.add(tempMeetingList.get(i));
 			}
+
+			globalVariable.setMeetingPendingList(meetingList);
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+			progressBar.setVisibility(View.INVISIBLE);
+			final List<Meeting> meetingList = globalVariable
+					.getMeetingPendingList();
 			if (meetingList.size() == 0) {
 				notifyMeetingTV.setText("No meetings found");
 				notifyMeetingTV.setVisibility(View.VISIBLE);
@@ -102,17 +171,14 @@ public class TestFragment2 extends Fragment {
 						System.out.println("position  :  " + position);
 						nextIntent = new Intent(getActivity(),
 								DisplayMeetingActivity.class);
-						nextIntent.putExtra("position", position);
-//						nextIntent.putExtra("selected_meeting",
-//								meetingList.get(position));
+						nextIntent.putExtra("position", position-1);
+						nextIntent.putExtra("type", GlobalVariable.MEETINGS_PENDING);
 						startActivity(nextIntent);
 					}
 				});
 			}
-		} else {
-			System.out.println("%%%% UserVisible false");
 
-		}
-	}
+		}// onPostExec
 
+	}// Asyn
 }

@@ -68,7 +68,9 @@ public class TestFragment extends Fragment {
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		System.out.println("frag1");
+		Toast.makeText(getActivity(), "onViewCreated1", Toast.LENGTH_SHORT)
+				.show();
+		System.out.println("onViewCreated1");
 		findThings();
 		initThings();
 		FetchMeetingsAsynTask asynTask = new FetchMeetingsAsynTask();
@@ -83,6 +85,41 @@ public class TestFragment extends Fragment {
 					}
 				});
 
+	}
+
+	// @Override
+	// public void onResume(){
+	// super.onResume();
+	// Toast.makeText(getActivity(), "onResume1", Toast.LENGTH_SHORT).show();
+	// FetchMeetingsAsynTask asynTask = new FetchMeetingsAsynTask();
+	// asynTask.execute(false);
+	// }
+
+	// @Override
+	// public void onRestart(){
+	// super.onRestart();
+	// Toast.makeText(getActivity(), "onResume1", Toast.LENGTH_SHORT).show();
+	// FetchMeetingsAsynTask asynTask = new FetchMeetingsAsynTask();
+	// asynTask.execute(false);
+	// }
+
+	@Override
+	public void setUserVisibleHint(boolean isVisibleToUser) {
+		super.setUserVisibleHint(isVisibleToUser);
+		System.out.println("setUserVisibleHint1");
+		if (isVisibleToUser) {
+			Toast.makeText(getActivity(), "setUserVisibleHint1",
+					Toast.LENGTH_SHORT).show();
+
+			// findThings();
+			// initThings();
+			// FetchMeetingsAsynTask asynTask = new FetchMeetingsAsynTask();
+			// asynTask.execute(true);
+
+		} else {
+			System.out.println("%%%% UserVisible false");
+
+		}
 	}
 
 	private class FetchMeetingsAsynTask extends AsyncTask<Boolean, Void, Void> {
@@ -137,11 +174,16 @@ public class TestFragment extends Fragment {
 						nextIntent = new Intent(getActivity(),
 								DisplayMeetingActivity.class);
 						nextIntent.putExtra("position", position - 1);
+						nextIntent
+								.putExtra("type", GlobalVariable.MEETINGS_ALL);
 						startActivity(nextIntent);
+						// startActivityForResult(nextIntent,
+						// GlobalVariable.MEETINGS_ALL);
 					}
 				});
 			}
 		}// onPostExec
 
 	}// Asyn
+
 }

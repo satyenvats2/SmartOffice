@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.costum.android.widget.PullAndLoadListView;
 import com.costum.android.widget.PullToRefreshListView;
@@ -45,8 +46,8 @@ public class TestFragment3 extends Fragment {
 				R.id.meeting_LV3);
 		notifyMeetingTV = (TextView) getActivity().findViewById(
 				R.id.notify_meeting_TV);
-		progressBar = (ProgressBar) getActivity()
-				.findViewById(R.id.progressBar3);
+		progressBar = (ProgressBar) getActivity().findViewById(
+				R.id.progressBar3);
 	}
 
 	private void initThings() {
@@ -68,6 +69,8 @@ public class TestFragment3 extends Fragment {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		System.out.println("frag1");
+		Toast.makeText(getActivity(), "onViewCreated3", Toast.LENGTH_SHORT)
+		.show();
 		findThings();
 		initThings();
 		FetchMeetingsAsynTask asynTask = new FetchMeetingsAsynTask();
@@ -95,6 +98,7 @@ public class TestFragment3 extends Fragment {
 			List<ParseObject> meetingsPOList = dao
 					.getOwnMeetingsForUser(ParseUser.getCurrentUser());
 
+			System.out.println("size is  :  " + meetingsPOList.size());
 			// make a list of meetings including response
 			for (int i = 0; i < meetingsPOList.size(); i++) {
 				meetingsPOList.get(i).put("from", ParseUser.getCurrentUser());
@@ -105,7 +109,11 @@ public class TestFragment3 extends Fragment {
 						.getAllResponsesForMeeting(tempMeetingPO);
 				if (allResponsesPO != null) {
 					tempMeeting.setResponses(allResponsesPO);
+					System.out.println("not nullla");
 				}
+				else
+					System.out.println("nullla");
+
 				meetingList.add(tempMeeting);
 			}// for()
 			globalVariable.setMeetingOwnList(meetingList);
@@ -115,9 +123,9 @@ public class TestFragment3 extends Fragment {
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
-			
+
 			progressBar.setVisibility(View.INVISIBLE);
-			
+
 			final List<Meeting> meetingList = globalVariable
 					.getMeetingOwnList();
 			if (meetingList.size() == 0) {
@@ -134,7 +142,8 @@ public class TestFragment3 extends Fragment {
 							int position, long id) {
 						nextIntent = new Intent(getActivity(),
 								DisplayMeetingActivity.class);
-						nextIntent.putExtra("position", position);
+						nextIntent.putExtra("position", position-1);
+						nextIntent.putExtra("type", GlobalVariable.MEETINGS_MY);
 						startActivity(nextIntent);
 					}
 				});

@@ -36,8 +36,8 @@ import com.parse.ParseUser;
 public class DisplayMeetingActivity extends Activity {
 
 	Button updateB;
-LinearLayout acceptRejectLL;
-	
+	LinearLayout acceptRejectLL;
+
 	TextView meetingSubjectTV;
 	TextView senderNameTV;
 	TextView senderEmailIDTV;
@@ -74,7 +74,7 @@ LinearLayout acceptRejectLL;
 
 	private void findThings() {
 		updateB = (Button) findViewById(R.id.update_Button);
-		acceptRejectLL= (LinearLayout) findViewById(R.id.accept_reject_LL);
+		acceptRejectLL = (LinearLayout) findViewById(R.id.accept_reject_LL);
 		meetingSubjectTV = (TextView) findViewById(R.id.meeting_subject_TV);
 		senderNameTV = (TextView) findViewById(R.id.sender_name_TV);
 		senderEmailIDTV = (TextView) findViewById(R.id.sender_emailID_TV);
@@ -90,8 +90,22 @@ LinearLayout acceptRejectLL;
 	private void initThings() {
 		globalVariable = (GlobalVariable) getApplicationContext();
 		previousIntent = getIntent();
-		selectedMeeting = globalVariable.getMeetingList().get(
-				(previousIntent.getIntExtra("position", -1)));
+		if (previousIntent.getIntExtra("type", -1) == GlobalVariable.MEETINGS_ALL) {
+			selectedMeeting = globalVariable.getMeetingList().get(
+					(previousIntent.getIntExtra("position", -1)));
+			System.out.println("MEETINGS_ALL");
+			Toast.makeText(this, "MEETINGS_ALL", Toast.LENGTH_SHORT).show();
+		} else if (previousIntent.getIntExtra("type", -1) == GlobalVariable.MEETINGS_PENDING) {
+			selectedMeeting = globalVariable.getMeetingPendingList().get(
+					(previousIntent.getIntExtra("position", -1)));
+			System.out.println("MEETINGS_PENDING");
+			Toast.makeText(this, "MEETINGS_PENDING", Toast.LENGTH_SHORT).show();
+		} else if (previousIntent.getIntExtra("type", -1) == GlobalVariable.MEETINGS_MY) {
+			selectedMeeting = globalVariable.getMeetingOwnList().get(
+					(previousIntent.getIntExtra("position", -1)));
+			System.out.println("MEETINGS_MY");
+			Toast.makeText(this, "MEETINGS_MY", Toast.LENGTH_SHORT).show();
+		}
 		dao = new MeetingDAO(this);
 		dao2 = new ResponseToMeetingDAO(this);
 		createDialog = new CreateDialog(this);
@@ -114,6 +128,7 @@ LinearLayout acceptRejectLL;
 
 	private void initialVisibilityOfViews() {
 
+		// if(my meetings)
 		if (selectedMeeting.getFrom().equals(
 				globalVariable.convertParseObjectToUser(ParseUser
 						.getCurrentUser()))) {
@@ -125,12 +140,18 @@ LinearLayout acceptRejectLL;
 							dialog.dismiss();
 						}
 					});
-			displayNotesView = inflater.inflate(R.layout.display_notes, null, false);
+			displayNotesView = inflater.inflate(R.layout.display_notes, null,
+					false);
 
 			alertDialog = alertDialogBuilder.create();
 
 			footerMeetingRL.setVisibility(View.GONE);
 			responsesTL.setVisibility(View.VISIBLE);
+			if(selectedMeeting == null )
+				System.out.println("im im null");
+			else
+				System.out.println("im im not null");
+			if(selectedMeeting.getResponses() != null)
 			for (int i = 0; i < selectedMeeting.getResponses().size(); i++) {
 				ParseObject tempResponsePO = selectedMeeting.getResponses()
 						.get(i);
@@ -185,7 +206,7 @@ LinearLayout acceptRejectLL;
 				updateB.setVisibility(View.GONE);
 		}
 		meetingSubjectTV.setText(selectedMeeting.getSubject());
-		senderNameTV.setText(selectedMeeting.getFrom().getUsername());
+		senderNameTV.setText(selectedMeeting.getFrom().getName());
 		senderEmailIDTV.setText(selectedMeeting.getFrom().getEmail());
 		messageTV.setText(selectedMeeting.getContent());
 		timeTV.setText(selectedMeeting.getStartTime().toString());
@@ -275,11 +296,10 @@ LinearLayout acceptRejectLL;
 		updateB.setVisibility(View.GONE);
 	}
 
-	public void onBack(View view)
-	{
+	public void onBack(View view) {
 		finish();
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		this.setResult(RESULT_OK, previousIntent);
