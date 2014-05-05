@@ -51,7 +51,10 @@ public class MainActivity extends FragmentActivity {
 	
 	SharedPreferences sharedPreferences;
 	Editor editor;
-	
+
+    // Hack for now
+    Boolean flagNextIntent = false;
+
 	private void findThings() {
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		leftDrawerRLData = (RelativeLayout) findViewById(R.id.leftDrawer_RL);
@@ -119,6 +122,27 @@ public class MainActivity extends FragmentActivity {
 
 	}
 
+//    @Override
+//    public void onRestart(){
+//
+//        super.onRestart();
+//        Boolean pauseStatus = sharedPreferences.getBoolean("appPauseStatus", false);
+//
+//        if (pauseStatus){
+//            Intent nextIntent = new Intent(this, VerifyPinActivity.class);
+//            startActivity(nextIntent);
+//        }
+//    }
+//
+//    @Override
+//    public void onStop(){
+//
+//        super.onStop();
+//        if (!flagNextIntent){
+//            editor.putBoolean("appPauseStatus", true);
+//            editor.commit();
+//        }
+//    }
 	
 
 	private void displayView(int position) {
@@ -215,11 +239,13 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	public void onEmail(View view) {
+        flagNextIntent = true;
 		nextIntent = new Intent(this, CreateEmailActivity.class);
 		startActivity(nextIntent);
 	}
 
 	public void onMeeting(View view) {
+        flagNextIntent = true;
 		nextIntent = new Intent(this, CreateMeetingActivity.class);
 		startActivity(nextIntent);
 	}
