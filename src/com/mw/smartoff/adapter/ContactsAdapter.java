@@ -1,8 +1,5 @@
 package com.mw.smartoff.adapter;
 
-import java.util.HashMap;
-import java.util.List;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +7,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.mw.smartoff.services.CharacterDrawable;
 import com.mw.smartoffice.R;
 import com.parse.ParseUser;
+
+import java.util.HashMap;
+import java.util.List;
 
 public class ContactsAdapter extends BaseAdapter {
 
@@ -56,8 +55,8 @@ public class ContactsAdapter extends BaseAdapter {
 					.findViewById(R.id.sender_IV);
 			viewHolder.nameTV = (TextView) convertView
 					.findViewById(R.id.name_TV);
-			viewHolder.unreadMsgsIV = (ImageView) convertView
-					.findViewById(R.id.unread_msgs_IV);
+//			viewHolder.unreadMsgsIV = (ImageView) convertView
+//					.findViewById(R.id.unread_msgs_IV);
 			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
@@ -71,7 +70,7 @@ public class ContactsAdapter extends BaseAdapter {
 
 		viewHolder.senderIV.setImageDrawable(drawable);
 
-		viewHolder.nameTV.setText(tempPU.getUsername());
+		viewHolder.nameTV.setText((String)tempPU.get("name"));
 
 		return convertView;
 	}

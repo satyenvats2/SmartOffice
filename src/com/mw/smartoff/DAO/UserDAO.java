@@ -1,15 +1,12 @@
 package com.mw.smartoff.DAO;
 
-import java.util.List;
-
 import android.content.Context;
-
-import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import java.util.List;
 
 public class UserDAO {
 
@@ -34,7 +31,7 @@ public class UserDAO {
 		System.out.println("get all users");
 		List<ParseUser> userList = null;
 		try {
-			userList = query.find();
+			userList = query.orderByAscending("name").find();
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

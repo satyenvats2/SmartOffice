@@ -1,8 +1,5 @@
 package com.mw.smartoff;
 
-import java.util.ArrayList;
-import java.util.Set;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -16,13 +13,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
+import android.widget.*;
 import android.widget.TextView;
-
+import android.widget.AdapterView.OnItemClickListener;
 import com.mw.smartoff.adapter.NavDrawerListAdapter;
 import com.mw.smartoff.fragments.ContactFragment;
 import com.mw.smartoff.fragments.EmailFragment;
@@ -34,10 +27,14 @@ import com.parse.ParseAnalytics;
 import com.parse.ParseUser;
 import com.parse.PushService;
 
+import java.util.ArrayList;
+import java.util.Set;
+
 public class MainActivity extends FragmentActivity {
 
 	DrawerLayout mDrawerLayout;
 	RelativeLayout leftDrawerRLData;
+
 	TextView usernameTV;
 	TextView headerTitleTV;
 
@@ -55,6 +52,9 @@ public class MainActivity extends FragmentActivity {
 
 	SharedPreferences sharedPreferences;
 	Editor editor;
+
+	// Hack for now
+	Boolean flagNextIntent = false;
 
 	private void findThings() {
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -114,6 +114,9 @@ public class MainActivity extends FragmentActivity {
 			}
 		});
 
+		String username = (String) ParseUser.getCurrentUser().get("name");
+		usernameTV.setText(username);
+
 		if (savedInstanceState == null) {
 			// on first time display view for first nav item
 			displayView(0);
@@ -127,6 +130,29 @@ public class MainActivity extends FragmentActivity {
 				android.R.color.transparent));
 
 	}
+
+	// @Override
+	// public void onRestart(){
+	//
+	// super.onRestart();
+	// Boolean pauseStatus = sharedPreferences.getBoolean("appPauseStatus",
+	// false);
+	//
+	// if (pauseStatus){
+	// Intent nextIntent = new Intent(this, VerifyPinActivity.class);
+	// startActivity(nextIntent);
+	// }
+	// }
+	//
+	// @Override
+	// public void onStop(){
+	//
+	// super.onStop();
+	// if (!flagNextIntent){
+	// editor.putBoolean("appPauseStatus", true);
+	// editor.commit();
+	// }
+	// }
 
 	private void displayView(int position) {
 		// update the main content by replacing fragments
@@ -227,11 +253,13 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	public void onEmail(View view) {
+		flagNextIntent = true;
 		nextIntent = new Intent(this, CreateEmailActivity.class);
 		startActivity(nextIntent);
 	}
 
 	public void onMeeting(View view) {
+		flagNextIntent = true;
 		nextIntent = new Intent(this, CreateMeetingActivity.class);
 		startActivity(nextIntent);
 	}

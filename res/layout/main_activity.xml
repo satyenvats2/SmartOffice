@@ -6,7 +6,9 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:clickable="false">
 
         <RelativeLayout
             android:id="@+id/fakeActionBarRL"
@@ -71,7 +73,8 @@
             android:id="@+id/frame_to_be_replaced"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/fakeActionBarRL" >
+            android:layout_below="@+id/fakeActionBarRL"
+            android:background="@android:color/white">
         </FrameLayout>
     </RelativeLayout>
 
