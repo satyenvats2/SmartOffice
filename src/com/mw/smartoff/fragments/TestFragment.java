@@ -1,8 +1,5 @@
 package com.mw.smartoff.fragments;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,18 +12,20 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.costum.android.widget.PullAndLoadListView;
 import com.costum.android.widget.PullToRefreshListView;
-import com.mw.smartoff.DisplayMeetingActivity;
 import com.mw.smartoff.DAO.MeetingDAO;
 import com.mw.smartoff.DAO.ResponseToMeetingDAO;
+import com.mw.smartoff.DisplayMeetingActivity;
 import com.mw.smartoff.adapter.MeetingsAdapter;
 import com.mw.smartoff.model.Meeting;
 import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TestFragment extends Fragment {
 	PullAndLoadListView meetingLV;
@@ -73,8 +72,8 @@ public class TestFragment extends Fragment {
 		System.out.println("onViewCreated1");
 		findThings();
 		initThings();
-		FetchMeetingsAsynTask asynTask = new FetchMeetingsAsynTask();
-		asynTask.execute(true);
+//		FetchMeetingsAsynTask asynTask = new FetchMeetingsAsynTask();
+//		asynTask.execute(true);
 
 		meetingLV
 				.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
@@ -103,24 +102,39 @@ public class TestFragment extends Fragment {
 	// asynTask.execute(false);
 	// }
 
-	@Override
-	public void setUserVisibleHint(boolean isVisibleToUser) {
-		super.setUserVisibleHint(isVisibleToUser);
-		System.out.println("setUserVisibleHint1");
-		if (isVisibleToUser) {
-			Toast.makeText(getActivity(), "setUserVisibleHint1",
-					Toast.LENGTH_SHORT).show();
+//	@Override
+//	public void setUserVisibleHint(boolean isVisibleToUser) {
+//		super.setUserVisibleHint(isVisibleToUser);
+//		System.out.println("setUserVisibleHint1");
+//		if (isVisibleToUser) {
+//			Toast.makeText(getActivity(), "setUserVisibleHint1",
+//					Toast.LENGTH_SHORT).show();
+//
+//			// findThings();
+//			// initThings();
+//			FetchMeetingsAsynTask asynTask = new FetchMeetingsAsynTask();
+//			asynTask.execute(true);
+//
+//		} else {
+//			System.out.println("%%%% UserVisible false");
+//
+//		}
+//	}
 
-			// findThings();
-			// initThings();
-			// FetchMeetingsAsynTask asynTask = new FetchMeetingsAsynTask();
-			// asynTask.execute(true);
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        FetchMeetingsAsynTask asynTask = new FetchMeetingsAsynTask();
+        asynTask.execute(true);
 
-		} else {
-			System.out.println("%%%% UserVisible false");
+    }
 
-		}
-	}
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+    }
 
 	private class FetchMeetingsAsynTask extends AsyncTask<Boolean, Void, Void> {
 

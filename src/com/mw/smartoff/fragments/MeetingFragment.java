@@ -1,10 +1,5 @@
 package com.mw.smartoff.fragments;
 
-import java.util.ArrayList;
-import java.util.List;
-
-//import android.app.Fragment;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,12 +8,9 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
-
 import com.mw.smartoff.DAO.MeetingDAO;
 import com.mw.smartoff.DAO.ResponseToMeetingDAO;
-import com.mw.smartoff.adapter.MeetingsAdapter;
 import com.mw.smartoff.model.Meeting;
 import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
@@ -26,21 +18,27 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.viewpagerindicator.TabPageIndicator;
 
+import java.util.ArrayList;
+import java.util.List;
+
+//import android.app.Fragment;
+
 public class MeetingFragment extends Fragment {
-	private static final String[] CONTENT = new String[] { "All", "Pending",
+	private static final String[] CONTENT = new String[] { "All Meetings", "Pending",
 			"My Meetings" };
 
-	ListView meetingLV;
 	TextView notifyMeetingTV;
 
 	GlobalVariable globalVariable;
 	MeetingDAO dao;
 	ResponseToMeetingDAO dao2;
 
-	MeetingsAdapter adapter;
-	Intent nextIntent;
+    Fragment testFragment;
+    Fragment testFragment2;
+    Fragment testFragment3;
 
-	@Override
+
+    @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		initThings();
@@ -74,6 +72,20 @@ public class MeetingFragment extends Fragment {
 		dao = new MeetingDAO(getActivity());
 		dao2 = new ResponseToMeetingDAO(getActivity());
 	}
+
+    public void onResume()
+    {
+        super.onResume();
+        testFragment = new TestFragment();
+        testFragment2 = new TestFragment2();
+        testFragment3 = new TestFragment3();
+    }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+    }
 
 	//
 	private class FetchMeetingsAsynTask extends
@@ -147,19 +159,19 @@ public class MeetingFragment extends Fragment {
 		public GoogleMusicAdapter(
 				android.support.v4.app.FragmentManager fragmentManager) {
 			super(fragmentManager);
-		}
+        }
 
 		@Override
 		public android.support.v4.app.Fragment getItem(int position) {
 			switch (position) {
 			case 0:
-				return new TestFragment();
+				return testFragment;
 			case 1:
-				return new TestFragment2();
+				return testFragment2;
 			case 2:
-				return new TestFragment3();
+				return testFragment3;
 			}
-			return null;
+			return testFragment;
 		}
 
 		@Override

@@ -246,15 +246,4 @@ public class MainActivity extends FragmentActivity {
 		startActivity(nextIntent);
 	}
 
-	public void onEmail(View view) {
-		flagNextIntent = true;
-		nextIntent = new Intent(this, CreateEmailActivity.class);
-		startActivity(nextIntent);
-	}
-
-	public void onMeeting(View view) {
-		flagNextIntent = true;
-		nextIntent = new Intent(this, CreateMeetingActivity.class);
-		startActivity(nextIntent);
-	}
 }

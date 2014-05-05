@@ -15,7 +15,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+		        >
 
             <!-- android:layout_below="@+id/header_meeting_subject_TV" -->
 
@@ -58,7 +59,7 @@
                 android:layout_below="@+id/fake_action_bar_RL"
                 android:layout_margin="10dp"
                 android:background="@drawable/custom_background_grey2"
-                android:padding="5dp" >
+                android:padding="10dp" >
 
                 <ImageView
                     android:id="@+id/senders_IV"
@@ -70,7 +71,7 @@
                     android:id="@+id/senders_detais_RL"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@+id/senders_IV" >
 
                     <TextView
@@ -78,7 +79,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Sender Username"
-                        android:textSize="17sp" />
+                        android:textSize="18sp"
+                        android:typeface="serif"/>
 
                     <TextView
                         android:id="@+id/sender_emailID_TV"
@@ -87,7 +89,10 @@
                         android:layout_below="@+id/sender_name_TV"
                         android:layout_marginTop="3dp"
                         android:text="Sender EmailID"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"
+                        android:typeface="serif"
+                        android:textStyle="italic"
+                        android:textColor="@android:color/darker_gray"/>
                 </RelativeLayout>
             </RelativeLayout>
 
@@ -98,9 +103,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/sender_RL"
+                android:background="@drawable/custom_background_grey2"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@drawable/custom_background_grey2" >
+                android:padding="10dp">
 
                 <RelativeLayout
                     android:id="@+id/time_RL"
@@ -122,10 +128,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="20dp"
                         android:layout_toRightOf="@+id/time_IV"
-                        android:text="dfsadad"
-                        android:typeface="serif" />
+                        android:text="time"
+                        android:typeface="serif"
+                        android:textSize="14sp"/>
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -146,10 +153,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="20dp"
                         android:layout_toRightOf="@+id/location_IV"
-                        android:text="dfsadad"
-                        android:typeface="serif" />
+                        android:text="location"
+                        android:typeface="serif"
+                        android:textSize="14sp"/>
                 </RelativeLayout>
             </RelativeLayout>
 
@@ -162,8 +170,11 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/custom_background_grey2"
-                android:padding="5dp"
-                android:text="Message\nmessage\nmessage\nmessage\nmessage\nmessage\nmessage" />
+                android:padding="10dp"
+                android:text="This is text for the meeting"
+                android:textSize="14sp"
+                android:typeface="serif"
+                android:singleLine="false"/>
             <!-- </RelativeLayout> -->
 
 
@@ -236,11 +247,13 @@
 
         <Button
             android:id="@+id/update_Button"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:onClick="onUpdate"
-            android:text="Update" />
+            android:text="Update response for meeting"
+            android:typeface="serif"
+            android:background="@android:color/holo_blue_light"/>
     </RelativeLayout>
 
 </RelativeLayout>
