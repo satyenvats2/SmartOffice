@@ -122,28 +122,7 @@ public class MeetingFragment extends Fragment {
 			TabPageIndicator indicator = (TabPageIndicator) getActivity()
 					.findViewById(R.id.indicator);
 			indicator.setViewPager(pager);
-			
-			
-			// if (meetingList.size() == 0) {
-			// notifyMeetingTV.setText("No meetings found");
-			// notifyMeetingTV.setVisibility(View.VISIBLE);
-			// } else {
-			//
-			// adapter = new MeetingsAdapter(getActivity(), meetingList);
-			// meetingLV.setAdapter(adapter);
-			//
-			// meetingLV.setOnItemClickListener(new OnItemClickListener() {
-			// @Override
-			// public void onItemClick(AdapterView<?> parent, View v,
-			// int position, long id) {
-			// nextIntent = new Intent(getActivity(),
-			// DisplayMeetingActivity.class);
-			// nextIntent.putExtra("selected_meeting",
-			// meetingList.get(position));
-			// startActivity(nextIntent);
-			// }
-			// });
-			// }
+
 		}// onPostExec
 
 	}// Asyn

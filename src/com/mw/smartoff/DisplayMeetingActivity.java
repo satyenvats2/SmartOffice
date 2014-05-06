@@ -3,10 +3,9 @@ package com.mw.smartoff;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.*;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract.Events;
 import android.view.LayoutInflater;
@@ -25,6 +24,7 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.util.Calendar;
+import java.util.TimeZone;
 import java.util.HashMap;
 
 public class DisplayMeetingActivity extends Activity {
@@ -273,28 +273,45 @@ public class DisplayMeetingActivity extends Activity {
 						dialog.dismiss();
 
 						if (isAttending) {
-							Calendar cal = Calendar.getInstance();
-							cal.setTime(selectedMeeting.getStartTime());
-							Intent intent = new Intent(Intent.ACTION_EDIT);
-							intent.setType("vnd.android.cursor.item/event");
-							intent.putExtra("beginTime", cal.getTimeInMillis());
-							intent.putExtra("allDay", false);
-							intent.putExtra("endTime",
-									cal.getTimeInMillis() + 60 * 60 * 1000);
-							intent.putExtra("title",
-									selectedMeeting.getSubject());
-							intent.putExtra("description",
-									selectedMeeting.getContent());
-							System.out.println("hello");
-							System.out.println("hello"
-									+ selectedMeeting.getLocation());
-							System.out.println("hello");
-							intent.putExtra(Events.EVENT_LOCATION,
-									selectedMeeting.getLocation());
+//							Calendar cal = Calendar.getInstance();
+//							cal.setTime(selectedMeeting.getStartTime());
+//							Intent intent = new Intent(Intent.ACTION_EDIT);
+//							intent.setType("vnd.android.cursor.item/event");
+//							intent.putExtra("beginTime", cal.getTimeInMillis());
+//							intent.putExtra("allDay", false);
+//							intent.putExtra("endTime",
+//									cal.getTimeInMillis() + 60 * 60 * 1000);
+//							intent.putExtra("title",
+//									selectedMeeting.getSubject());
+//							intent.putExtra("description",
+//									selectedMeeting.getContent());
+//							System.out.println("hello");
+//							System.out.println("hello"
+//									+ selectedMeeting.getLocation());
+//							System.out.println("hello");
+//							intent.putExtra(Events.EVENT_LOCATION,
+//									selectedMeeting.getLocation());
+//
+//							startActivity(intent);
+                            //
+                            ContentValues cv = new ContentValues();
+                            cv.put(Events.CALENDAR_ID, 1);
+                            cv.put(Events.TITLE, selectedMeeting.getSubject());
+                            cv.put(Events.DESCRIPTION, selectedMeeting.getContent());
+                            cv.put(Events.EVENT_LOCATION, selectedMeeting.getLocation());
 
-							startActivity(intent);
-						}
-						previousIntent.putExtra("isAttending", isAttending);
+                            Calendar cal = Calendar.getInstance();
+                            TimeZone tz = cal.getTimeZone();
+							cal.setTime(selectedMeeting.getStartTime());
+                            cv.put(Events.DTSTART, cal.getTimeInMillis());
+                            cv.put(Events.DTEND, cal.getTimeInMillis() + 60 * 60 * 1000);
+                            cv.put(Events.EVENT_TIMEZONE, tz.getDisplayName());
+
+                            ContentResolver cr = getContentResolver();
+                            Uri uri = cr.insert(Events.CONTENT_URI, cv);
+                            System.out.println("Event URI ["+uri+"]");
+                            previousIntent.putExtra("isAttending", isAttending);
+                        }
 					}
 				});
 
