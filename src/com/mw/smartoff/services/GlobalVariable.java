@@ -26,6 +26,8 @@ import java.util.List;
 
 public class GlobalVariable extends android.app.Application {
 
+	public static int PIN = 0;
+	
 	public static int MEETINGS_ALL = 1;
 	public static int MEETINGS_PENDING = 10;
 	public static int MEETINGS_MY = 100;

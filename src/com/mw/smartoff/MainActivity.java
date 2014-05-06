@@ -124,30 +124,33 @@ public class MainActivity extends FragmentActivity {
 
 	}
 
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-    }
+	@Override
+	public void onResume() {
+		super.onResume();
+		if (GlobalVariable.PIN == 0) {
+			nextIntent = new Intent(this, VerifyPinActivity.class);
+			startActivity(nextIntent);
+		}
+//		GlobalVariable.PIN++;
+	}
 
-    @Override
-    public void onPause()
-    {
-        super.onPause();
-    }
+	@Override
+	public void onPause() {
+		super.onPause();
+	}
 
-    @Override
-	public void onRestart(){
+	@Override
+	public void onRestart() {
 
-    	super.onRestart();
+		super.onRestart();
 
 	}
 
 	@Override
-	public void onStop(){
+	public void onStop() {
 
-    	super.onStop();
-
+		super.onStop();
+		GlobalVariable.PIN--;
 	}
 
 	private void displayView(int position) {
@@ -242,13 +245,13 @@ public class MainActivity extends FragmentActivity {
 		System.out.println(">>>>>>> Channels after cleared - "
 				+ setOfAllSubscriptions.toString());
 
-        // Satyen: clear all lists
-        globalVariable.setEmailList(null);
-        globalVariable.setMeetingList(null);
-        globalVariable.setMeetingOwnList(null);
-        globalVariable.setMeetingPendingList(null);
+		// Satyen: clear all lists
+		globalVariable.setEmailList(null);
+		globalVariable.setMeetingList(null);
+		globalVariable.setMeetingOwnList(null);
+		globalVariable.setMeetingPendingList(null);
 
-        ParseUser.logOut();
+		ParseUser.logOut();
 		finish();
 
 		nextIntent = new Intent(this, LoginActivity.class);

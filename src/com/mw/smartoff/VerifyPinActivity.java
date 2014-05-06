@@ -11,6 +11,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.*;
+
+import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
 import com.parse.ParseUser;
 import com.parse.PushService;
@@ -125,13 +127,17 @@ public class VerifyPinActivity extends Activity implements View.OnClickListener 
         if (!isPinThereInPrefs) {
             editor.putString("pin", pinET.getText().toString());
             editor.commit();
+            GlobalVariable.PIN = 1;
             startActivityForResult(nextIntent, MAIN_ACTIVITY);
         } else if (!sharedPreferences.getString("pin", null).equals(
                 pinET.getText().toString())) {
             errorMsgTV.setVisibility(View.VISIBLE);
             errorMsgTV.setText("PIN is incorrect");
         } else
+        {
+        	GlobalVariable.PIN  = 1;    
             startActivityForResult(nextIntent, MAIN_ACTIVITY);
+        }
     }
 
     private boolean validate() {

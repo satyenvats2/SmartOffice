@@ -156,4 +156,37 @@ public class DisplayMessagesActivity extends ListActivity {
 		asynTask.execute(new String[] { messagesET.getText().toString().trim() });
 
 	}
+	
+	Intent nextIntent;
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        if (GlobalVariable.PIN == 0) {
+			nextIntent = new Intent(this, VerifyPinActivity.class);
+			startActivity(nextIntent);
+		}
+        GlobalVariable.PIN++;
+    }
+
+    @Override
+    public void onRestart(){
+
+        super.onRestart();
+
+    }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+    }
+
+    @Override
+    public void onStop(){
+
+        super.onStop();
+        GlobalVariable.PIN--;
+    }
 }

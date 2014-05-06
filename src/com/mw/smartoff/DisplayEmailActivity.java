@@ -68,11 +68,17 @@ public class DisplayEmailActivity extends Activity {
 	{
 		finish();
 	}
+	Intent nextIntent;
 
     @Override
     public void onResume()
     {
         super.onResume();
+        if (GlobalVariable.PIN == 0) {
+			nextIntent = new Intent(this, VerifyPinActivity.class);
+			startActivity(nextIntent);
+		}
+        GlobalVariable.PIN++;
     }
 
     @Override
@@ -92,6 +98,6 @@ public class DisplayEmailActivity extends Activity {
     public void onStop(){
 
         super.onStop();
-
+        GlobalVariable.PIN--;
     }
 }
