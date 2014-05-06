@@ -94,18 +94,15 @@ public class MeetingsAdapter extends BaseAdapter {
 		if (tempMeeting.isHasBeenResponsedTo())
 			if (tempMeeting.isCurrentResponse()){
                 viewHolder.statusTV.setText("Accepted");
-//                viewHolder.statusTV.setTextColor(context.getResources().getIdentifier(andr));
-//				viewHolder.statusDotIV.setImageDrawable(context.getResources()
-//						.getDrawable(R.drawable.dot_green));
+                viewHolder.statusTV.setTextColor(context.getResources().getColor(android.R.color.holo_green_dark));
             }
-                else
+                else {
                 viewHolder.statusTV.setText("Rejected");
-//        viewHolder.statusDotIV.setImageDrawable(context.getResources()
-//						.getDrawable(R.drawable.dot_red));
+                viewHolder.statusTV.setTextColor(context.getResources().getColor(android.R.color.holo_red_dark));
+            }
 		else
             viewHolder.statusTV.setText("Pending");
-//        viewHolder.statusDotIV.setImageDrawable(context.getResources()
-//					.getDrawable(R.drawable.dot_blue));
+            viewHolder.statusTV.setTextColor(context.getResources().getColor(android.R.color.holo_orange_dark));
 		return convertView;
 	}
 

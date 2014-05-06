@@ -24,7 +24,7 @@ import java.util.List;
 //import android.app.Fragment;
 
 public class MeetingFragment extends Fragment {
-	private static final String[] CONTENT = new String[] { "All Meetings", "Pending",
+	private static final String[] CONTENT = new String[] { "All Meetings", "New Meetings",
 			"My Meetings" };
 
 	TextView notifyMeetingTV;
@@ -67,6 +67,18 @@ public class MeetingFragment extends Fragment {
 		dao = new MeetingDAO(getActivity());
 		dao2 = new ResponseToMeetingDAO(getActivity());
 	}
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+    }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+    }
 
 	//
 	private class FetchMeetingsAsynTask extends
