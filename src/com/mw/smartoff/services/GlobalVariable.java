@@ -28,6 +28,10 @@ public class GlobalVariable extends android.app.Application {
 
 	public static int PIN = 0;
 	public static boolean FROM_VERIFY_PIN;
+	
+	public static boolean RESPONDED_TO_MEETING;
+	public static boolean RESPONSE_TO_MEETING;
+	
 	public static int MEETINGS_ALL = 1;
 	public static int MEETINGS_PENDING = 10;
 	public static int MEETINGS_MY = 100;
