@@ -100,10 +100,11 @@ public class MeetingsAdapter extends BaseAdapter {
                 viewHolder.statusTV.setText("Rejected");
                 viewHolder.statusTV.setTextColor(context.getResources().getColor(android.R.color.holo_red_dark));
             }
-		else
+		else {
             viewHolder.statusTV.setText("Pending");
             viewHolder.statusTV.setTextColor(context.getResources().getColor(android.R.color.holo_orange_dark));
-		return convertView;
+        }
+        return convertView;
 	}
 
 	@Override
