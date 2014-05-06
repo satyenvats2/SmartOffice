@@ -69,7 +69,7 @@ public class DisplayMeetingActivity extends Activity {
 	GlobalVariable globalVariable;
 
 	HashMap<String, Integer> myMap;
-	
+
 	private void findThings() {
 		updateB = (Button) findViewById(R.id.update_Button);
 		acceptRejectLL = (LinearLayout) findViewById(R.id.accept_reject_LL);
@@ -111,8 +111,7 @@ public class DisplayMeetingActivity extends Activity {
 
 		inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-		String[] alphabets = getResources().getStringArray(
-				R.array.alphabets);
+		String[] alphabets = getResources().getStringArray(R.array.alphabets);
 		int[] hexCodes = getResources().getIntArray(R.array.hex_codes);
 		myMap = new HashMap<String, Integer>();
 		for (int i = 0; i < alphabets.length; i++) {
@@ -220,8 +219,10 @@ public class DisplayMeetingActivity extends Activity {
 		timeTV.setText(selectedMeeting.getStartTime().toString());
 		locationTV.setText(selectedMeeting.getLocation());
 		CharacterDrawable drawable = new CharacterDrawable(selectedMeeting
-				.getFrom().getName().toUpperCase().charAt(0), myMap.get(selectedMeeting
-						.getFrom().getName().toUpperCase().charAt(0)+""));
+				.getFrom().getName().toUpperCase().charAt(0),
+				myMap.get(selectedMeeting.getFrom().getName().toUpperCase()
+						.charAt(0)
+						+ ""));
 		sendersIV.setImageDrawable(drawable);
 	}
 
@@ -253,10 +254,14 @@ public class DisplayMeetingActivity extends Activity {
 					public void onClick(DialogInterface dialog, int id) {
 						selectedMeeting.setHasBeenResponsedTo(true);
 						selectedMeeting.setCurrentResponse(isAttending);
-//						globalVariable.getMeetingP
-						System.out.println(">> response in GV : " + globalVariable.getMeetingList().get(
-								previousIntent.getIntExtra("position", -1)).isCurrentResponse());
-						
+						// globalVariable.getMeetingP
+						System.out.println(">> response in GV : "
+								+ globalVariable
+										.getMeetingList()
+										.get(previousIntent.getIntExtra(
+												"position", -1))
+										.isCurrentResponse());
+
 						selectedMeetingPO = dao.getMeetingByID(selectedMeeting
 								.getID());
 						if (notesET.getText().toString().trim().length() > 0)
@@ -273,45 +278,27 @@ public class DisplayMeetingActivity extends Activity {
 						dialog.dismiss();
 
 						if (isAttending) {
-//							Calendar cal = Calendar.getInstance();
-//							cal.setTime(selectedMeeting.getStartTime());
-//							Intent intent = new Intent(Intent.ACTION_EDIT);
-//							intent.setType("vnd.android.cursor.item/event");
-//							intent.putExtra("beginTime", cal.getTimeInMillis());
-//							intent.putExtra("allDay", false);
-//							intent.putExtra("endTime",
-//									cal.getTimeInMillis() + 60 * 60 * 1000);
-//							intent.putExtra("title",
-//									selectedMeeting.getSubject());
-//							intent.putExtra("description",
-//									selectedMeeting.getContent());
-//							System.out.println("hello");
-//							System.out.println("hello"
-//									+ selectedMeeting.getLocation());
-//							System.out.println("hello");
-//							intent.putExtra(Events.EVENT_LOCATION,
-//									selectedMeeting.getLocation());
-//
-//							startActivity(intent);
-                            //
-                            ContentValues cv = new ContentValues();
-                            cv.put(Events.CALENDAR_ID, 1);
-                            cv.put(Events.TITLE, selectedMeeting.getSubject());
-                            cv.put(Events.DESCRIPTION, selectedMeeting.getContent());
-                            cv.put(Events.EVENT_LOCATION, selectedMeeting.getLocation());
+							ContentValues cv = new ContentValues();
+							cv.put(Events.CALENDAR_ID, 1);
+							cv.put(Events.TITLE, selectedMeeting.getSubject());
+							cv.put(Events.DESCRIPTION,
+									selectedMeeting.getContent());
+							cv.put(Events.EVENT_LOCATION,
+									selectedMeeting.getLocation());
 
-                            Calendar cal = Calendar.getInstance();
-                            TimeZone tz = cal.getTimeZone();
+							Calendar cal = Calendar.getInstance();
+							TimeZone tz = cal.getTimeZone();
 							cal.setTime(selectedMeeting.getStartTime());
-                            cv.put(Events.DTSTART, cal.getTimeInMillis());
-                            cv.put(Events.DTEND, cal.getTimeInMillis() + 60 * 60 * 1000);
-                            cv.put(Events.EVENT_TIMEZONE, tz.getDisplayName());
+							cv.put(Events.DTSTART, cal.getTimeInMillis());
+							cv.put(Events.DTEND,
+									cal.getTimeInMillis() + 60 * 60 * 1000);
+							cv.put(Events.EVENT_TIMEZONE, tz.getDisplayName());
 
-                            ContentResolver cr = getContentResolver();
-                            Uri uri = cr.insert(Events.CONTENT_URI, cv);
-                            System.out.println("Event URI ["+uri+"]");
-                            previousIntent.putExtra("isAttending", isAttending);
-                        }
+							ContentResolver cr = getContentResolver();
+							Uri uri = cr.insert(Events.CONTENT_URI, cv);
+							System.out.println("Event URI [" + uri + "]");
+							previousIntent.putExtra("isAttending", isAttending);
+						}
 					}
 				});
 
