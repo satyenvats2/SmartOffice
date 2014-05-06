@@ -253,6 +253,7 @@ public class DisplayMeetingActivity extends Activity {
 					public void onClick(DialogInterface dialog, int id) {
 						selectedMeeting.setHasBeenResponsedTo(true);
 						selectedMeeting.setCurrentResponse(isAttending);
+//						globalVariable.getMeetingP
 						System.out.println(">> response in GV : " + globalVariable.getMeetingList().get(
 								previousIntent.getIntExtra("position", -1)).isCurrentResponse());
 						
