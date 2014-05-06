@@ -1,7 +1,5 @@
 package com.mw.smartoff;
 
-import java.util.Calendar;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -14,15 +12,7 @@ import android.provider.CalendarContract.Events;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TableLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.widget.*;
 import com.mw.smartoff.DAO.MeetingDAO;
 import com.mw.smartoff.DAO.ResponseToMeetingDAO;
 import com.mw.smartoff.model.Meeting;
@@ -32,6 +22,8 @@ import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+
+import java.util.Calendar;
 
 public class DisplayMeetingActivity extends Activity {
 
@@ -94,17 +86,17 @@ public class DisplayMeetingActivity extends Activity {
 			selectedMeeting = globalVariable.getMeetingList().get(
 					(previousIntent.getIntExtra("position", -1)));
 			System.out.println("MEETINGS_ALL");
-			Toast.makeText(this, "MEETINGS_ALL", Toast.LENGTH_SHORT).show();
+//			Toast.makeText(this, "MEETINGS_ALL", Toast.LENGTH_SHORT).show();
 		} else if (previousIntent.getIntExtra("type", -1) == GlobalVariable.MEETINGS_PENDING) {
 			selectedMeeting = globalVariable.getMeetingPendingList().get(
 					(previousIntent.getIntExtra("position", -1)));
 			System.out.println("MEETINGS_PENDING");
-			Toast.makeText(this, "MEETINGS_PENDING", Toast.LENGTH_SHORT).show();
+//			Toast.makeText(this, "MEETINGS_PENDING", Toast.LENGTH_SHORT).show();
 		} else if (previousIntent.getIntExtra("type", -1) == GlobalVariable.MEETINGS_MY) {
 			selectedMeeting = globalVariable.getMeetingOwnList().get(
 					(previousIntent.getIntExtra("position", -1)));
 			System.out.println("MEETINGS_MY");
-			Toast.makeText(this, "MEETINGS_MY", Toast.LENGTH_SHORT).show();
+//			Toast.makeText(this, "MEETINGS_MY", Toast.LENGTH_SHORT).show();
 		}
 		dao = new MeetingDAO(this);
 		dao2 = new ResponseToMeetingDAO(this);
