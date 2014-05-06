@@ -22,9 +22,9 @@
             android:layout_marginLeft="16dp"
             android:background="@null"
             android:gravity="center_vertical"
-            android:onClick="onOpenLeftDrawer"
+            android:onClick="onBack"
             android:scaleType="fitXY"
-            android:src="@drawable/menu_blue" />
+            android:src="@drawable/back_button" />
 
     </RelativeLayout>
 

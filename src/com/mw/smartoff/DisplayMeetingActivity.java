@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+
 import com.mw.smartoff.DAO.MeetingDAO;
 import com.mw.smartoff.DAO.ResponseToMeetingDAO;
 import com.mw.smartoff.model.Meeting;
@@ -24,6 +25,7 @@ import com.parse.ParseUser;
 
 import java.util.Calendar;
 import java.util.TimeZone;
+import java.util.HashMap;
 
 public class DisplayMeetingActivity extends Activity {
 
@@ -42,6 +44,8 @@ public class DisplayMeetingActivity extends Activity {
 	ImageView sendersIV;
 
 	Intent previousIntent;
+	Intent nextIntent;
+
 	Meeting selectedMeeting;
 
 	MeetingDAO dao;
@@ -64,6 +68,8 @@ public class DisplayMeetingActivity extends Activity {
 
 	GlobalVariable globalVariable;
 
+	HashMap<String, Integer> myMap;
+	
 	private void findThings() {
 		updateB = (Button) findViewById(R.id.update_Button);
 		acceptRejectLL = (LinearLayout) findViewById(R.id.accept_reject_LL);
@@ -86,17 +92,18 @@ public class DisplayMeetingActivity extends Activity {
 			selectedMeeting = globalVariable.getMeetingList().get(
 					(previousIntent.getIntExtra("position", -1)));
 			System.out.println("MEETINGS_ALL");
-//			Toast.makeText(this, "MEETINGS_ALL", Toast.LENGTH_SHORT).show();
+			// Toast.makeText(this, "MEETINGS_ALL", Toast.LENGTH_SHORT).show();
 		} else if (previousIntent.getIntExtra("type", -1) == GlobalVariable.MEETINGS_PENDING) {
 			selectedMeeting = globalVariable.getMeetingPendingList().get(
 					(previousIntent.getIntExtra("position", -1)));
 			System.out.println("MEETINGS_PENDING");
-//			Toast.makeText(this, "MEETINGS_PENDING", Toast.LENGTH_SHORT).show();
+			// Toast.makeText(this, "MEETINGS_PENDING",
+			// Toast.LENGTH_SHORT).show();
 		} else if (previousIntent.getIntExtra("type", -1) == GlobalVariable.MEETINGS_MY) {
 			selectedMeeting = globalVariable.getMeetingOwnList().get(
 					(previousIntent.getIntExtra("position", -1)));
 			System.out.println("MEETINGS_MY");
-//			Toast.makeText(this, "MEETINGS_MY", Toast.LENGTH_SHORT).show();
+			// Toast.makeText(this, "MEETINGS_MY", Toast.LENGTH_SHORT).show();
 		}
 		dao = new MeetingDAO(this);
 		dao2 = new ResponseToMeetingDAO(this);
@@ -104,6 +111,13 @@ public class DisplayMeetingActivity extends Activity {
 
 		inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
+		String[] alphabets = getResources().getStringArray(
+				R.array.alphabets);
+		int[] hexCodes = getResources().getIntArray(R.array.hex_codes);
+		myMap = new HashMap<String, Integer>();
+		for (int i = 0; i < alphabets.length; i++) {
+			myMap.put(alphabets[i], hexCodes[i]);
+		}
 	}
 
 	public void onSeeNotes(View view) {
@@ -139,42 +153,44 @@ public class DisplayMeetingActivity extends Activity {
 
 			footerMeetingRL.setVisibility(View.GONE);
 			responsesTL.setVisibility(View.VISIBLE);
-			if(selectedMeeting == null )
+			if (selectedMeeting == null)
 				System.out.println("im im null");
 			else
 				System.out.println("im im not null");
-			if(selectedMeeting.getResponses() != null)
-			for (int i = 0; i < selectedMeeting.getResponses().size(); i++) {
-				ParseObject tempResponsePO = selectedMeeting.getResponses()
-						.get(i);
-				tableRowView = inflater.inflate(R.layout.response_element,
-						null, false);
-				tableRowView.setTag(i);
-				((TextView) tableRowView.findViewById(R.id.username_TV))
-						.setText(tempResponsePO.getParseUser("responseFrom")
-								.getString("name") + " is ");
-				TextView dsa = (TextView) tableRowView
-						.findViewById(R.id.status_tv);
-				if (tempResponsePO.getBoolean("isAttending") == true) {
-					dsa.setText("attending.");
-					dsa.setTextColor(Color.parseColor("#0000FF"));
-				} else {
-					dsa.setText("not attending.");
-					dsa.setTextColor(Color.parseColor("#FF0000"));
+			if (selectedMeeting.getResponses() != null)
+				for (int i = 0; i < selectedMeeting.getResponses().size(); i++) {
+					ParseObject tempResponsePO = selectedMeeting.getResponses()
+							.get(i);
+					tableRowView = inflater.inflate(R.layout.response_element,
+							null, false);
+					tableRowView.setTag(i);
+					((TextView) tableRowView.findViewById(R.id.username_TV))
+							.setText(tempResponsePO
+									.getParseUser("responseFrom").getString(
+											"name")
+									+ " is ");
+					TextView dsa = (TextView) tableRowView
+							.findViewById(R.id.status_tv);
+					if (tempResponsePO.getBoolean("isAttending") == true) {
+						dsa.setText("attending.");
+						dsa.setTextColor(Color.parseColor("#0000FF"));
+					} else {
+						dsa.setText("not attending.");
+						dsa.setTextColor(Color.parseColor("#FF0000"));
+					}
+					System.out.println(tempResponsePO.has("notes")
+							+ "dfsadfdsaf" + tempResponsePO.getString("notes"));
+					if (tempResponsePO.getString("notes") == null) {
+						((ImageView) tableRowView.findViewById(R.id.notes_IV))
+								.setVisibility(View.INVISIBLE);
+					} else {
+						TextView tvTV = (TextView) displayNotesView
+								.findViewById(R.id.display_notes_TV);
+						tvTV.setTextSize(18);
+						tvTV.setText(tempResponsePO.getString("notes"));
+					}
+					responsesTL.addView(tableRowView);
 				}
-				System.out.println(tempResponsePO.has("notes") + "dfsadfdsaf"
-						+ tempResponsePO.getString("notes"));
-				if (tempResponsePO.getString("notes") == null) {
-					((ImageView) tableRowView.findViewById(R.id.notes_IV))
-							.setVisibility(View.INVISIBLE);
-				} else {
-					TextView tvTV = (TextView) displayNotesView
-							.findViewById(R.id.display_notes_TV);
-					tvTV.setTextSize(18);
-					tvTV.setText(tempResponsePO.getString("notes"));
-				}
-				responsesTL.addView(tableRowView);
-			}
 		} else {
 			alertDialogBuilder = createDialog.createAlertDialog("Add Notes",
 					null, false);
@@ -204,7 +220,8 @@ public class DisplayMeetingActivity extends Activity {
 		timeTV.setText(selectedMeeting.getStartTime().toString());
 		locationTV.setText(selectedMeeting.getLocation());
 		CharacterDrawable drawable = new CharacterDrawable(selectedMeeting
-				.getFrom().getUsername().charAt(0), 0xFF805781);
+				.getFrom().getName().toUpperCase().charAt(0), myMap.get(selectedMeeting
+						.getFrom().getName().toUpperCase().charAt(0)+""));
 		sendersIV.setImageDrawable(drawable);
 	}
 
@@ -234,7 +251,11 @@ public class DisplayMeetingActivity extends Activity {
 		alertDialogBuilder.setNegativeButton(buttonTitle,
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
-
+						selectedMeeting.setHasBeenResponsedTo(true);
+						selectedMeeting.setCurrentResponse(isAttending);
+						System.out.println(">> response in GV : " + globalVariable.getMeetingList().get(
+								previousIntent.getIntExtra("position", -1)).isCurrentResponse());
+						
 						selectedMeetingPO = dao.getMeetingByID(selectedMeeting
 								.getID());
 						if (notesET.getText().toString().trim().length() > 0)
@@ -244,6 +265,7 @@ public class DisplayMeetingActivity extends Activity {
 						else
 							dao2.repondToMeeting(ParseUser.getCurrentUser(),
 									selectedMeetingPO, isAttending, null);
+
 						acceptRejectLL.setVisibility(View.INVISIBLE);
 						updateB.setVisibility(View.VISIBLE);
 
@@ -270,7 +292,6 @@ public class DisplayMeetingActivity extends Activity {
 //									selectedMeeting.getLocation());
 //
 //							startActivity(intent);
-
                             //
                             ContentValues cv = new ContentValues();
                             cv.put(Events.CALENDAR_ID, 1);
@@ -288,7 +309,7 @@ public class DisplayMeetingActivity extends Activity {
                             ContentResolver cr = getContentResolver();
                             Uri uri = cr.insert(Events.CONTENT_URI, cv);
                             System.out.println("Event URI ["+uri+"]");
-
+                            previousIntent.putExtra("isAttending", isAttending);
                         }
 					}
 				});
@@ -301,86 +322,48 @@ public class DisplayMeetingActivity extends Activity {
 	}
 
 	public void onUpdate(View view) {
-		Toast.makeText(this, "Put update functionality", Toast.LENGTH_SHORT)
-				.show();
 		acceptRejectLL.setVisibility(View.VISIBLE);
 		updateB.setVisibility(View.GONE);
 	}
 
 	public void onBack(View view) {
+		GlobalVariable.RESPONDED_TO_MEETING = true;
 		finish();
 	}
 
 	@Override
 	public void onBackPressed() {
 		this.setResult(RESULT_OK, previousIntent);
+		GlobalVariable.RESPONDED_TO_MEETING = true;
 		finish();
 	}
-	
-	Intent nextIntent;
 
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-        if (GlobalVariable.PIN == 0) {
+	@Override
+	public void onResume() {
+		super.onResume();
+		if (GlobalVariable.PIN == 0) {
 			nextIntent = new Intent(this, VerifyPinActivity.class);
 			startActivity(nextIntent);
 		}
-        GlobalVariable.PIN++;
-    }
+		GlobalVariable.PIN++;
+	}
 
-    @Override
-    public void onRestart(){
+	@Override
+	public void onRestart() {
+		super.onRestart();
+	}
 
-        super.onRestart();
+	@Override
+	public void onPause() {
+		super.onPause();
+	}
 
-    }
+	@Override
+	public void onStop() {
 
-    @Override
-    public void onPause()
-    {
-        super.onPause();
-    }
-
-    @Override
-    public void onStop(){
-
-        super.onStop();
-        GlobalVariable.PIN--;
-    }
-
-//    public void addEvent(CalendarEvent evt) {
-//
-//        ContentResolver cr = this.getContentResolver();
-//        Uri uri = cr.insert(Events.CONTENT_URI, CalendarEvent.toICSContentValues(evt));
-//        System.out.println("Event URI ["+uri+"]");
-//
-//    }
-//
-//    public static ContentValues toICSContentValues(CalendarEvent evt) {
-//
-//        ContentValues cv = new ContentValues();
-//        cv.put(Events.CALENDAR_ID, evt.getIdCalendar());
-//        cv.put(Events.TITLE, evt.getTitle());
-//        cv.put(Events.DESCRIPTION, evt.getDescr());
-//        cv.put(Events.EVENT_LOCATION, evt.getLocation());
-//        cv.put(Events.DTSTART, evt.getStartTime());
-//        cv.put(Events.DTEND, evt.getEndTime());
-//
-//        Calendar cal = Calendar.getInstance();
-//        TimeZone tz = cal.getTimeZone();
-//
-//        cv.put(Events.EVENT_TIMEZONE, tz.getDisplayName());
-//    /*
-//    cv.put(Events.STATUS, 1);
-//    cv.put(Events.VISIBLE, 0);
-//    cv.put("transparency", 0);
-//
-//    return cv;
-//    */
-//
-//        return cv;
-//    }
+		super.onStop();
+		if (GlobalVariable.PIN != 0)
+			GlobalVariable.PIN--;
+	}
 
 }

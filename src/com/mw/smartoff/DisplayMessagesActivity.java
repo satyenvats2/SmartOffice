@@ -51,12 +51,13 @@ public class DisplayMessagesActivity extends ListActivity {
 		globalVariable = (GlobalVariable) getApplicationContext();
 		previousIntent = getIntent();
 		dao = new MessageDAO(this);
-        if (previousIntent.hasExtra("fromUserId")){
-            selectedContactPU = new UserDAO(this).getUserById(previousIntent.getStringExtra("fromUserId"));
-        } else {
-            selectedContactPU = globalVariable.getUserList().get(
-                    (previousIntent.getIntExtra("position", -1)));
-        }
+		if (previousIntent.hasExtra("fromUserId")) {
+			selectedContactPU = new UserDAO(this).getUserById(previousIntent
+					.getStringExtra("fromUserId"));
+		} else {
+			selectedContactPU = globalVariable.getUserList().get(
+					(previousIntent.getIntExtra("position", -1)));
+		}
 		createDialog = new CreateDialog(this);
 		progressDialog = createDialog.createProgressDialog("Loading",
 				"Fetching Meetings", true, null);
@@ -80,23 +81,22 @@ public class DisplayMessagesActivity extends ListActivity {
 		progressDialog.show();
 		FetchMsgsAsynTask asynTask = new FetchMsgsAsynTask();
 		asynTask.execute(new String[] { "Helelo Worldsdfsdd" });
-		
+
 		((RelativeLayout) findViewById(R.id.messages_list_RL))
-		.setOnTouchListener(new OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-				imm.hideSoftInputFromWindow(getCurrentFocus()
-						.getWindowToken(), 0);
-				return false;
-			}
-		});
+				.setOnTouchListener(new OnTouchListener() {
+					@Override
+					public boolean onTouch(View v, MotionEvent event) {
+						InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+						imm.hideSoftInputFromWindow(getCurrentFocus()
+								.getWindowToken(), 0);
+						return false;
+					}
+				});
 	}
 
 	List<Message> msgsList;
 
-	private class FetchMsgsAsynTask extends
-			AsyncTask<String, Void, Void> {
+	private class FetchMsgsAsynTask extends AsyncTask<String, Void, Void> {
 		@Override
 		protected Void doInBackground(String... params) {
 
@@ -120,7 +120,8 @@ public class DisplayMessagesActivity extends ListActivity {
 			if (msgsList == null || msgsList.size() == 0) {
 				notificationTV.setVisibility(View.VISIBLE);
 			} else {
-				adapter = new MessagesAdapter(DisplayMessagesActivity.this, msgsList);
+				adapter = new MessagesAdapter(DisplayMessagesActivity.this,
+						msgsList);
 				setListAdapter(adapter);
 			}
 			progressDialog.dismiss();
@@ -132,7 +133,7 @@ public class DisplayMessagesActivity extends ListActivity {
 		@Override
 		protected Void doInBackground(String... params) {
 			dao.saveMessage(ParseUser.getCurrentUser(), selectedContactPU,
-                    params[0]);
+					params[0]);
 			return null;
 		}
 
@@ -156,37 +157,39 @@ public class DisplayMessagesActivity extends ListActivity {
 		asynTask.execute(new String[] { messagesET.getText().toString().trim() });
 
 	}
-	
+
+	public void onBack(View view) {
+		finish();
+	}
+
 	Intent nextIntent;
 
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-        if (GlobalVariable.PIN == 0) {
+	@Override
+	public void onResume() {
+		super.onResume();
+		if (GlobalVariable.PIN == 0) {
 			nextIntent = new Intent(this, VerifyPinActivity.class);
 			startActivity(nextIntent);
 		}
-        GlobalVariable.PIN++;
-    }
+		GlobalVariable.PIN++;
+	}
 
-    @Override
-    public void onRestart(){
+	@Override
+	public void onRestart() {
 
-        super.onRestart();
+		super.onRestart();
 
-    }
+	}
 
-    @Override
-    public void onPause()
-    {
-        super.onPause();
-    }
+	@Override
+	public void onPause() {
+		super.onPause();
+	}
 
-    @Override
-    public void onStop(){
+	@Override
+	public void onStop() {
 
-        super.onStop();
-        GlobalVariable.PIN--;
-    }
+		super.onStop();
+		GlobalVariable.PIN--;
+	}
 }
