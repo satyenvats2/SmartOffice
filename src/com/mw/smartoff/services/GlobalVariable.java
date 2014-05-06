@@ -27,7 +27,7 @@ import java.util.List;
 public class GlobalVariable extends android.app.Application {
 
 	public static int PIN = 0;
-	
+	public static boolean FROM_VERIFY_PIN;
 	public static int MEETINGS_ALL = 1;
 	public static int MEETINGS_PENDING = 10;
 	public static int MEETINGS_MY = 100;
@@ -38,7 +38,7 @@ public class GlobalVariable extends android.app.Application {
 
 	List<Email> emailList;
 	List<ParseUser> userList;
-
+	
 	public GlobalVariable() {
 	}
 
@@ -120,7 +120,6 @@ public class GlobalVariable extends android.app.Application {
 	}
 
 	public Email convertPOtoEmail(ParseObject emailPO) {
-
 		ParseUser parseUser = emailPO.getParseUser("from");
 		System.out.println("sender's email   :  " + parseUser.getEmail());
 		return new Email(emailPO.getObjectId(),
@@ -129,18 +128,17 @@ public class GlobalVariable extends android.app.Application {
 				emailPO.getBoolean("isMailRead"), emailPO.getCreatedAt());
 	}
 
-	public User convertParseObjectToUser(ParseUser userPO) {
-		return new User(userPO.getEmail(), userPO.getUsername(),
-				userPO.getString("name"));
-
-	}
-
 	public Meeting convertPOtoMeeting(ParseObject meetingPO) {
 		return new Meeting(meetingPO.getObjectId(),
 				convertParseObjectToUser(meetingPO.getParseUser("from")),
 				meetingPO.getString("subject"),
 				meetingPO.getString("description"),
 				meetingPO.getString("location"), meetingPO.getDate("startTime"));
+	}
+
+	public User convertParseObjectToUser(ParseUser userPO) {
+		return new User(userPO.getEmail(), userPO.getUsername(),
+				userPO.getString("name"));
 	}
 
 	public Message convertPOtoMessage(ParseObject meetingPO) {

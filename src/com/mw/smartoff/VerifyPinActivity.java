@@ -127,7 +127,6 @@ public class VerifyPinActivity extends Activity implements View.OnClickListener 
         if (!isPinThereInPrefs) {
             editor.putString("pin", pinET.getText().toString());
             editor.commit();
-            GlobalVariable.PIN = 1;
             startActivityForResult(nextIntent, MAIN_ACTIVITY);
         } else if (!sharedPreferences.getString("pin", null).equals(
                 pinET.getText().toString())) {
@@ -135,7 +134,6 @@ public class VerifyPinActivity extends Activity implements View.OnClickListener 
             errorMsgTV.setText("PIN is incorrect");
         } else
         {
-        	GlobalVariable.PIN  = 1;    
             startActivityForResult(nextIntent, MAIN_ACTIVITY);
         }
     }

@@ -53,6 +53,8 @@ public class MainActivity extends FragmentActivity {
 
 	SharedPreferences sharedPreferences;
 	Editor editor;
+	
+	boolean gotoPinFlag;
 
 	private void findThings() {
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -127,11 +129,14 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public void onResume() {
 		super.onResume();
-		if (GlobalVariable.PIN == 0) {
+		if (GlobalVariable.PIN == 0 && !GlobalVariable.FROM_VERIFY_PIN) {
+			GlobalVariable.FROM_VERIFY_PIN = true;
 			nextIntent = new Intent(this, VerifyPinActivity.class);
 			startActivity(nextIntent);
+		} else {
+			GlobalVariable.FROM_VERIFY_PIN = false;
+			GlobalVariable.PIN++;
 		}
-//		GlobalVariable.PIN++;
 	}
 
 	@Override
@@ -150,7 +155,8 @@ public class MainActivity extends FragmentActivity {
 	public void onStop() {
 
 		super.onStop();
-		GlobalVariable.PIN--;
+		if (GlobalVariable.PIN != 0)
+			GlobalVariable.PIN--;
 	}
 
 	private void displayView(int position) {

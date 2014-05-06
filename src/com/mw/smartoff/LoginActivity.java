@@ -121,7 +121,7 @@ public class LoginActivity extends Activity {
 					}
 				});
 
-		nextIntent = new Intent(LoginActivity.this, VerifyPinActivity.class);
+		nextIntent = new Intent(LoginActivity.this, MainActivity.class);
 	}
 
 	@Override

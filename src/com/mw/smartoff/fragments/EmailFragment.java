@@ -3,6 +3,7 @@ package com.mw.smartoff.fragments;
 import java.util.ArrayList;
 import java.util.List;
 
+
 //import android.app.Fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -25,8 +26,10 @@ import com.mw.smartoff.adapter.EmailsAdapter;
 import com.mw.smartoff.model.Email;
 import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -39,10 +42,16 @@ public class EmailFragment extends Fragment {
 
 	EmailsAdapter adapter;
 	Intent nextIntent;
+	
+	ParseQuery<ParseObject> query;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		Parse.initialize(getActivity(), "wHhiiTucu7ntVNl3otR9f59eGg4UD1UavTlWvFzo",
+				"sdGM0MdrbQjeVsha7pAFT9YL5WuUt7dA7f2zb0LW");
+		query = ParseQuery.getQuery("Emails");
+
 		View rootView = inflater.inflate(R.layout.email_list_fragment,
 				container, false);
 		return rootView;
@@ -79,9 +88,6 @@ public class EmailFragment extends Fragment {
             progressBar.setVisibility(View.INVISIBLE);
         }
 		dao = new EmailDAO(getActivity());
-//		createDialog = new CreateDialog(getActivity());
-//		progressDialog = createDialog.createProgressDialog("Loading",
-//				"Fetching Emails", true, null);
 	}
 
 	private class FetchEmailsAsynTask extends
@@ -113,7 +119,9 @@ public class EmailFragment extends Fragment {
 		@Override
 		protected void onPostExecute(final List<ParseObject> emailPOList) {
 			super.onPostExecute(emailPOList);
+			
 			final List<Email> emailList = globalVariable.getEmailList();
+			
 			if (emailList.size() == 0) {
 				notifyEmailTV.setText("No emails found");
 				notifyEmailTV.setVisibility(View.VISIBLE);
@@ -126,45 +134,55 @@ public class EmailFragment extends Fragment {
 					@Override
 					public void onItemClick(AdapterView<?> parent, View v,
 							int position, long id) {
-						if (!emailList.get(position).isEmailRead()) {
+						System.out.println(">>>>email position  : " + position);
+						Email tempEmail = emailList.get(position - 1); 
+						if (!tempEmail.isEmailRead()) {
 
-							emailList.get(position).setEmailRead(true);
-							adapter.swapData(emailList);
-							adapter.notifyDataSetChanged();
-
+							tempEmail.setEmailRead(true);
+							emailList.set(position -1, tempEmail);
+							
 							MarkEmailAsReadAsynTask asynTask = new MarkEmailAsReadAsynTask();
-							asynTask.execute(new ParseObject[] { emailPOList
-									.get(position) });
+//							asynTask.execute(new ParseObject[] { emailPOList
+//									.get(position - 1) });
+							asynTask.execute(tempEmail.getObjectID());
 						}
 						nextIntent = new Intent(getActivity(),
 								DisplayEmailActivity.class);
-						nextIntent.putExtra("position", position);
+						nextIntent.putExtra("position", position -1);
 						startActivity(nextIntent);
 					}
 				});
 			}
             progressBar.setVisibility(View.INVISIBLE);
-//			progressDialog.dismiss();
 		}
 
 	}// Asyn
 
 	private class MarkEmailAsReadAsynTask extends
-			AsyncTask<ParseObject, Void, Void> {
-		// ParseUser user;
+			AsyncTask<String, Void, Void> {
 		@Override
-		protected Void doInBackground(ParseObject... params) {
-			ParseObject emailPO = params[0];
-			emailPO.put("isMailRead", true);
-			emailPO.saveEventually(new SaveCallback() {
+		protected Void doInBackground(String... params) {
+			
+			ParseObject emailPO = null;
+			try {
+				emailPO = query.get(params[0]);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			if (emailPO != null) {
+				emailPO.put("isMailRead", true);
+				emailPO.saveEventually(new SaveCallback() {
 
-				@Override
-				public void done(ParseException arg0) {
-					Toast.makeText(getActivity(), "mark as read",
-							Toast.LENGTH_SHORT).show();
+					@Override
+					public void done(ParseException arg0) {
+						Toast.makeText(getActivity(), "marked as read",
+								Toast.LENGTH_SHORT).show();
 
-				}
-			});
+					}
+				});
+			}
 			return null;
 		}
 
@@ -175,45 +193,10 @@ public class EmailFragment extends Fragment {
 		}
 
 	}
-
-//    private class PullToRefreshDataTask extends AsyncTask<Void, Void, Void> {
-//
-//        @Override
-//        protected Void doInBackground(Void... params) {
-//
-//            if (isCancelled()) {
-//                return null;
-//            }
-//
-//            // Simulates a background task
-//            try {
-//                Thread.sleep(1000);
-//            } catch (InterruptedException e) {
-//            }
-//
-//            for (int i = 0; i < mAnimals.length; i++)
-//                mListItems.addFirst(mAnimals[i]);
-//
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Void result) {
-//            mListItems.addFirst("Added after pull to refresh");
-//
-//            // We need notify the adapter that the data have been changed
-//            ((BaseAdapter) getListAdapter()).notifyDataSetChanged();
-//
-//            // Call onLoadMoreComplete when the LoadMore task, has finished
-//            ((PullAndLoadListView) getListView()).onRefreshComplete();
-//
-//            super.onPostExecute(result);
-//        }
-//
-//        @Override
-//        protected void onCancelled() {
-//            // Notify the loading more operation has finished
-//            ((PullAndLoadListView) getListView()).onLoadMoreComplete();
-//        }
-//    }
+	
+	@Override
+	public void onResume(){
+		super.onResume();
+        new FetchEmailsAsynTask().execute(true);
+	}
 }
