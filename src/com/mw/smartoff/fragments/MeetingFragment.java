@@ -24,9 +24,12 @@ import java.util.List;
 //import android.app.Fragment;
 
 public class MeetingFragment extends Fragment {
-	private static final String[] CONTENT = new String[] { "All Meetings", "New Meetings",
-			"My Meetings" };
+//	private static final String[] CONTENT = new String[] { "All Meetings", "New Meetings",
+//			"My Meetings" };
 
+	private static final String[] CONTENT = new String[] { "All Meetings", 
+	"My Meetings" };
+	
 	TextView notifyMeetingTV;
 
 	GlobalVariable globalVariable;
@@ -139,7 +142,8 @@ public class MeetingFragment extends Fragment {
 			case 0:
 				return new TestFragment();
 			case 1:
-				return new TestFragment2();
+//				return new TestFragment2();
+				return new TestFragment3();
 			case 2:
 				return new TestFragment3();
 			}

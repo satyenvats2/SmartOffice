@@ -48,6 +48,7 @@ public class MessageDAO {
 	}
 	
 	public void saveMessage(ParseUser fromPU, ParseUser toPU, String message) {
+		System.out.println("message is  : " + message);
 		ParseObject parseObject = new ParseObject("Messages");
 		parseObject.put("fromUser", fromPU);
 		parseObject.put("toUser", toPU);

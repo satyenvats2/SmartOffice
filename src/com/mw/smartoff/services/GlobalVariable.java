@@ -7,10 +7,12 @@ import android.graphics.Path;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+
 import com.mw.smartoff.model.Email;
 import com.mw.smartoff.model.Meeting;
 import com.mw.smartoff.model.Message;
 import com.mw.smartoff.model.User;
+import com.mw.smartoffice.R;
 import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseObject;
@@ -22,16 +24,17 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class GlobalVariable extends android.app.Application {
 
 	public static int PIN = 0;
 	public static boolean FROM_VERIFY_PIN;
-	
+
 	public static boolean RESPONDED_TO_MEETING;
 	public static boolean RESPONSE_TO_MEETING;
-	
+
 	public static int MEETINGS_ALL = 1;
 	public static int MEETINGS_PENDING = 10;
 	public static int MEETINGS_MY = 100;
@@ -42,14 +45,30 @@ public class GlobalVariable extends android.app.Application {
 
 	List<Email> emailList;
 	List<ParseUser> userList;
-	
+
+	HashMap<String, Integer> myMap;
+
 	public GlobalVariable() {
+		System.out.println(">>>>>>> Globallll  1");
 	}
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		System.out.println(">>>>>>> Globallll  2");
 
+		String[] alphabets = getResources().getStringArray(R.array.alphabets);
+		int[] hexCodes = getResources().getIntArray(R.array.hex_codes);
+		myMap = new HashMap<String, Integer>();
+		for (int i = 0; i < alphabets.length; i++) {
+			myMap.put(alphabets[i], hexCodes[i]);
+		}
+
+		
+		if(myMap == null)
+			System.out.println("map null");
+		else
+			System.out.println("map not null");
 		// Initialize the Parse SDK.
 		Parse.initialize(this, "wHhiiTucu7ntVNl3otR9f59eGg4UD1UavTlWvFzo",
 				"sdGM0MdrbQjeVsha7pAFT9YL5WuUt7dA7f2zb0LW");
@@ -121,6 +140,14 @@ public class GlobalVariable extends android.app.Application {
 
 	public void setMeetingList(List<Meeting> meetingList) {
 		this.meetingList = meetingList;
+	}
+
+	public HashMap<String, Integer> getMyMap() {
+		return myMap;
+	}
+
+	public void setMyMap(HashMap<String, Integer> myMap) {
+		this.myMap = myMap;
 	}
 
 	public Email convertPOtoEmail(ParseObject emailPO) {
@@ -251,9 +278,10 @@ public class GlobalVariable extends android.app.Application {
 		return 0;
 	}
 
-    public String getDisplayDate(Date date){
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM, hh:mm");
-        String stringDate = simpleDateFormat.format(date);
-        return stringDate;
-    }
+	public String getDisplayDate(Date date) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
+				"dd MMM, hh:mm");
+		String stringDate = simpleDateFormat.format(date);
+		return stringDate;
+	}
 }

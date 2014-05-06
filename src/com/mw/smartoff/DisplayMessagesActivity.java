@@ -150,12 +150,17 @@ public class DisplayMessagesActivity extends ListActivity {
 		Message tempMessage = new Message(null, ParseUser.getCurrentUser(),
 				selectedContactPU, messagesET.getText().toString().trim());
 		msgsList.add(tempMessage);
-		adapter.notifyDataSetChanged();
-		messagesET.setText("");
+		if (adapter == null) {
+			adapter = new MessagesAdapter(DisplayMessagesActivity.this,
+					msgsList);
+			setListAdapter(adapter);
+		} else
+			adapter.notifyDataSetChanged();
 
 		SaveMsgAsynTask asynTask = new SaveMsgAsynTask();
 		asynTask.execute(new String[] { messagesET.getText().toString().trim() });
 
+		messagesET.setText("");
 	}
 
 	public void onBack(View view) {

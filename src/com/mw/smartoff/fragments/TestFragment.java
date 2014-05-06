@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.costum.android.widget.PullAndLoadListView;
@@ -30,7 +29,7 @@ import com.parse.ParseUser;
 
 public class TestFragment extends Fragment {
 	PullAndLoadListView meetingLV;
-	TextView notifyMeetingTV;
+//	TextView notifyMeetingTV;
 	ProgressBar progressBar;
 
 	GlobalVariable globalVariable;
@@ -44,8 +43,8 @@ public class TestFragment extends Fragment {
 	private void findThings() {
 		meetingLV = (PullAndLoadListView) getActivity().findViewById(
 				R.id.meeting_LV);
-		notifyMeetingTV = (TextView) getActivity().findViewById(
-				R.id.notify_meeting_TV);
+//		notifyMeetingTV = (TextView) getActivity().findViewById(
+//				R.id.notify_meeting_TV);
 		progressBar = (ProgressBar) getActivity()
 				.findViewById(R.id.progressBar);
 	}
@@ -120,10 +119,7 @@ public class TestFragment extends Fragment {
 			super.onPostExecute(result);
 			progressBar.setVisibility(View.INVISIBLE);
 			final List<Meeting> meetingList = globalVariable.getMeetingList();
-			if (meetingList.size() == 0) {
-				notifyMeetingTV.setText("No meetings found");
-				notifyMeetingTV.setVisibility(View.VISIBLE);
-			} else {
+			if (meetingList.size() > 0) {
 				meetingLV.onRefreshComplete();
 				adapter = new MeetingsAdapter(getActivity(), meetingList);
 				meetingLV.setAdapter(adapter);

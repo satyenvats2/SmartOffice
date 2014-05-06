@@ -92,18 +92,14 @@ public class DisplayMeetingActivity extends Activity {
 			selectedMeeting = globalVariable.getMeetingList().get(
 					(previousIntent.getIntExtra("position", -1)));
 			System.out.println("MEETINGS_ALL");
-			// Toast.makeText(this, "MEETINGS_ALL", Toast.LENGTH_SHORT).show();
 		} else if (previousIntent.getIntExtra("type", -1) == GlobalVariable.MEETINGS_PENDING) {
 			selectedMeeting = globalVariable.getMeetingPendingList().get(
 					(previousIntent.getIntExtra("position", -1)));
 			System.out.println("MEETINGS_PENDING");
-			// Toast.makeText(this, "MEETINGS_PENDING",
-			// Toast.LENGTH_SHORT).show();
 		} else if (previousIntent.getIntExtra("type", -1) == GlobalVariable.MEETINGS_MY) {
 			selectedMeeting = globalVariable.getMeetingOwnList().get(
 					(previousIntent.getIntExtra("position", -1)));
 			System.out.println("MEETINGS_MY");
-			// Toast.makeText(this, "MEETINGS_MY", Toast.LENGTH_SHORT).show();
 		}
 		dao = new MeetingDAO(this);
 		dao2 = new ResponseToMeetingDAO(this);
@@ -216,11 +212,11 @@ public class DisplayMeetingActivity extends Activity {
 		senderNameTV.setText(selectedMeeting.getFrom().getName());
 		senderEmailIDTV.setText(selectedMeeting.getFrom().getEmail());
 		messageTV.setText(selectedMeeting.getContent());
-		timeTV.setText(selectedMeeting.getStartTime().toString());
+		timeTV.setText(globalVariable.getDisplayDate(selectedMeeting.getStartTime()));
 		locationTV.setText(selectedMeeting.getLocation());
 		CharacterDrawable drawable = new CharacterDrawable(selectedMeeting
 				.getFrom().getName().toUpperCase().charAt(0),
-				myMap.get(selectedMeeting.getFrom().getName().toUpperCase()
+				globalVariable.getMyMap().get(selectedMeeting.getFrom().getName().toUpperCase()
 						.charAt(0)
 						+ ""));
 		sendersIV.setImageDrawable(drawable);
@@ -254,7 +250,7 @@ public class DisplayMeetingActivity extends Activity {
 					public void onClick(DialogInterface dialog, int id) {
 						selectedMeeting.setHasBeenResponsedTo(true);
 						selectedMeeting.setCurrentResponse(isAttending);
-						// globalVariable.getMeetingP
+//						 globalVariable.setMeetingPendingList(null);
 						System.out.println(">> response in GV : "
 								+ globalVariable
 										.getMeetingList()

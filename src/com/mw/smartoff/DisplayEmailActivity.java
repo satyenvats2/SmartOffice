@@ -18,14 +18,15 @@ public class DisplayEmailActivity extends Activity {
 	ImageView sendersIV;
 	TextView senderNameTV;
 	TextView senderEmailIDTV;
+	TextView sendDateTV;
 	TextView messageRealMessageTV;
 
 	Intent previousIntent;
-	
+
 	GlobalVariable globalVariable;
-	
+
 	Email selectedEmail;
-	
+
 	private void findThings() {
 
 		emailSubjectTV = (TextView) findViewById(R.id.email_subject_TV);
@@ -33,6 +34,7 @@ public class DisplayEmailActivity extends Activity {
 		senderNameTV = (TextView) findViewById(R.id.sender_name_TV);
 		senderEmailIDTV = (TextView) findViewById(R.id.sender_emailID_TV);
 		messageRealMessageTV = (TextView) findViewById(R.id.message_real_message_TV);
+		sendDateTV = (TextView) findViewById(R.id.date_TV);
 
 	}
 
@@ -47,11 +49,18 @@ public class DisplayEmailActivity extends Activity {
 	private void initialVisibilityOfViews() {
 
 		emailSubjectTV.setText(selectedEmail.getSubject());
-		senderNameTV.setText(selectedEmail.getFrom().getUsername());
+		senderNameTV.setText(selectedEmail.getFrom().getName());
 		senderEmailIDTV.setText(selectedEmail.getFrom().getEmail());
+		sendDateTV.setText(globalVariable.getDisplayDate(selectedEmail
+				.getCreatedAt()));
 		messageRealMessageTV.setText(selectedEmail.getContent());
+
 		CharacterDrawable drawable = new CharacterDrawable(selectedEmail
-				.getFrom().getUsername().charAt(0), 0xFF805781);
+				.getFrom().getUsername().toUpperCase().charAt(0),
+				globalVariable.getMyMap().get(
+						selectedEmail.getFrom().getUsername().toUpperCase()
+								.charAt(0)
+								+ ""));
 		sendersIV.setImageDrawable(drawable);
 	}
 
@@ -64,40 +73,38 @@ public class DisplayEmailActivity extends Activity {
 		initialVisibilityOfViews();
 	}
 
-	public void onBack(View view)
-	{
+	public void onBack(View view) {
 		finish();
 	}
+
 	Intent nextIntent;
 
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-        if (GlobalVariable.PIN == 0) {
+	@Override
+	public void onResume() {
+		super.onResume();
+		if (GlobalVariable.PIN == 0) {
 			nextIntent = new Intent(this, VerifyPinActivity.class);
 			startActivity(nextIntent);
 		}
-        GlobalVariable.PIN++;
-    }
+		GlobalVariable.PIN++;
+	}
 
-    @Override
-    public void onRestart(){
+	@Override
+	public void onRestart() {
 
-        super.onRestart();
+		super.onRestart();
 
-    }
+	}
 
-    @Override
-    public void onPause()
-    {
-        super.onPause();
-    }
+	@Override
+	public void onPause() {
+		super.onPause();
+	}
 
-    @Override
-    public void onStop(){
+	@Override
+	public void onStop() {
 
-        super.onStop();
-        GlobalVariable.PIN--;
-    }
+		super.onStop();
+		GlobalVariable.PIN--;
+	}
 }
