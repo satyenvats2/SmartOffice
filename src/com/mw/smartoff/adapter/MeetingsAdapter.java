@@ -94,7 +94,7 @@ public class MeetingsAdapter extends BaseAdapter {
 		if (tempMeeting.isHasBeenResponsedTo())
 			if (tempMeeting.isCurrentResponse()){
                 viewHolder.statusTV.setText("Accepted");
-//                viewHolder.statusTV.setTextColor();
+//                viewHolder.statusTV.setTextColor(context.getResources().getIdentifier(andr));
 //				viewHolder.statusDotIV.setImageDrawable(context.getResources()
 //						.getDrawable(R.drawable.dot_green));
             }

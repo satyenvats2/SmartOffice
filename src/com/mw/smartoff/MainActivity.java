@@ -54,9 +54,6 @@ public class MainActivity extends FragmentActivity {
 	SharedPreferences sharedPreferences;
 	Editor editor;
 
-	// Hack for now
-	Boolean flagNextIntent = false;
-
 	private void findThings() {
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		leftDrawerRLData = (RelativeLayout) findViewById(R.id.leftDrawer_RL);
@@ -127,28 +124,31 @@ public class MainActivity extends FragmentActivity {
 
 	}
 
-	// @Override
-	// public void onRestart(){
-	//
-	// super.onRestart();
-	// Boolean pauseStatus = sharedPreferences.getBoolean("appPauseStatus",
-	// false);
-	//
-	// if (pauseStatus){
-	// Intent nextIntent = new Intent(this, VerifyPinActivity.class);
-	// startActivity(nextIntent);
-	// }
-	// }
-	//
-	// @Override
-	// public void onStop(){
-	//
-	// super.onStop();
-	// if (!flagNextIntent){
-	// editor.putBoolean("appPauseStatus", true);
-	// editor.commit();
-	// }
-	// }
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+    }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+    }
+
+    @Override
+	public void onRestart(){
+
+    	super.onRestart();
+
+	}
+
+	@Override
+	public void onStop(){
+
+    	super.onStop();
+
+	}
 
 	private void displayView(int position) {
 		// update the main content by replacing fragments

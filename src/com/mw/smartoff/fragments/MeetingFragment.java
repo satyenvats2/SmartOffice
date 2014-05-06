@@ -68,17 +68,6 @@ public class MeetingFragment extends Fragment {
 		dao2 = new ResponseToMeetingDAO(getActivity());
 	}
 
-    public void onResume()
-    {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause()
-    {
-        super.onPause();
-    }
-
 	//
 	private class FetchMeetingsAsynTask extends
 			AsyncTask<String, Void, List<Meeting>> {
