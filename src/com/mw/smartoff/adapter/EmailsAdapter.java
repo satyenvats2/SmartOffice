@@ -18,12 +18,15 @@ import android.widget.TextView;
 
 import com.mw.smartoff.model.Email;
 import com.mw.smartoff.services.CharacterDrawable;
+import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
 
 public class EmailsAdapter extends BaseAdapter {
 
 	Context context;
 	List<Email> emailList;
+
+	GlobalVariable globalVariable;
 	LayoutInflater inflater;
 
 	Date todayDate;
@@ -34,14 +37,11 @@ public class EmailsAdapter extends BaseAdapter {
 		super();
 		this.context = context;
 		this.emailList = emailList;
+
+		globalVariable = (GlobalVariable) context.getApplicationContext();
+		
 		todayDate = new Date();
-		String[] alphabets = context.getResources().getStringArray(
-				R.array.alphabets);
-		int[] hexCodes = context.getResources().getIntArray(R.array.hex_codes);
-		myMap = new HashMap<String, Integer>();
-		for (int i = 0; i < alphabets.length; i++) {
-			myMap.put(alphabets[i], hexCodes[i]);
-		}
+		myMap = globalVariable.getMyMap();
 	}
 
 	public void swapData(List<Email> emailList) {

@@ -53,9 +53,8 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:background="#FFF"
-            android:hint="this is your message"
+            android:hint="Your message..."
             android:padding="5sp" />
-        <!-- android:textColor="@color/default_title_indicator_text_color" -->
 
         <ImageButton
             android:layout_width="60dp"
@@ -74,6 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="No messages."
+        android:typeface="serif"
         android:visibility="gone" />
 
 </RelativeLayout>

@@ -99,7 +99,7 @@ public class TestFragment3 extends Fragment {
 				meetingsPOList.get(i).put("from", ParseUser.getCurrentUser());
 				ParseObject tempMeetingPO = meetingsPOList.get(i);
 				Meeting tempMeeting = globalVariable
-						.convertPOtoMeeting(meetingsPOList.get(i));
+						.convertPOtoMeeting(tempMeetingPO);
 				List<ParseObject> allResponsesPO = dao2
 						.getAllResponsesForMeeting(tempMeetingPO);
 				if (allResponsesPO != null) {

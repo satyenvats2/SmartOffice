@@ -193,7 +193,6 @@ public class LoginActivity extends Activity {
 						.println(">>>>>>> LoginActivity::onPostCreate() - user is "
 								+ user.getUsername());
 //				collectUserData();
-				// TODO: MainActivity needs to be replaced
 				PushService.subscribe(LoginActivity.this, ParseUser
 						.getCurrentUser().getUsername(), MainActivity.class);
 			    startActivity(nextIntent);

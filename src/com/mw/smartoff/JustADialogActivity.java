@@ -22,12 +22,12 @@ public class JustADialogActivity extends Activity {
 		setContentView(R.layout.broadcast_alert);
 		Intent previousIntent = getIntent();
 		Bundle extras = previousIntent.getExtras();
-		int notificationType = -1;
-        String userId = null;
+		int notificationType = 0;
+//        String userId = null;
 		if (extras != null) {
 			notificationType = extras.getInt("type");
-            userId = extras.getString("fromUserId");
-			System.out.println(">>>>>>>" + notificationType + userId);
+//            userId = extras.getString("fromUserId");
+			System.out.println(">>>>>>>" + notificationType );
 		}
 
 		String dialogNoteTitle = null;
@@ -35,18 +35,24 @@ public class JustADialogActivity extends Activity {
 
 		switch (notificationType) {
 		case 0:
-			nextIntent = new Intent(this, DisplayEmailActivity.class);
+//			nextIntent = new Intent(this, DisplayEmailActivity.class);
+			nextIntent = new Intent(this, MainActivity.class);
+			nextIntent.putExtra("type", notificationType);
 			dialogNoteTitle = "New Email";
 			dialogNoteMessage = "You have a new Email";
 			break;
 		case 1:
-			nextIntent = new Intent(this, DisplayMeetingActivity.class);
+//			nextIntent = new Intent(this, DisplayMeetingActivity.class);
+			nextIntent = new Intent(this, MainActivity.class);
+			nextIntent.putExtra("type", notificationType);
 			dialogNoteTitle = "New Meeting Invite";
 			dialogNoteMessage = "You have a new Meeting Invite";
 			break;
 		case 2:
-			nextIntent = new Intent(this, DisplayMessagesActivity.class);
-            nextIntent.putExtra("fromUserId", userId);
+//			nextIntent = new Intent(this, DisplayMessagesActivity.class);
+			nextIntent = new Intent(this, MainActivity.class);
+			nextIntent.putExtra("type", notificationType);
+//          nextIntent.putExtra("fromUserId", userId);
 			dialogNoteTitle = "New Message";
 			dialogNoteMessage = "You have a new Message";
 			break;

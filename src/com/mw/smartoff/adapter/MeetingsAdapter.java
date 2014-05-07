@@ -1,14 +1,17 @@
 package com.mw.smartoff.adapter;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.mw.smartoff.model.Meeting;
 import com.mw.smartoff.services.CharacterDrawable;
+import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
 
 import java.text.SimpleDateFormat;
@@ -27,20 +30,18 @@ public class MeetingsAdapter extends BaseAdapter {
 	
 	HashMap<String, Integer> myMap;
 	
+	GlobalVariable globalVariable;
 	
 	public MeetingsAdapter(Context context, List<Meeting> meetingList) {
 		super();
 		this.context = context;
 		this.meetingList = meetingList;
-		todayDate = new Date();
+
+		globalVariable = (GlobalVariable) context.getApplicationContext();
 		
-		String[] alphabets = context.getResources().getStringArray(
-				R.array.alphabets);
-		int[] hexCodes = context.getResources().getIntArray(R.array.hex_codes);
-		myMap = new HashMap<String, Integer>();
-		for (int i = 0; i < alphabets.length; i++) {
-			myMap.put(alphabets[i], hexCodes[i]);
-		}
+		todayDate = new Date();
+		myMap = globalVariable.getMyMap();
+		
 	}
 
 	static class ViewHolder {
@@ -102,6 +103,7 @@ public class MeetingsAdapter extends BaseAdapter {
             }
 		else {
             viewHolder.statusTV.setText("Pending");
+//            viewHolder.statusTV.setTypeface(Typeface.DEFAULT_BOLD);
             viewHolder.statusTV.setTextColor(context.getResources().getColor(android.R.color.holo_orange_dark));
         }
         return convertView;

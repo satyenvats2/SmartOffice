@@ -64,10 +64,6 @@ public class DisplayMessagesActivity extends ListActivity {
 	}
 
 	private void initialVisibilityOfViews() {
-
-		// CharacterDrawable drawable = new CharacterDrawable(selectedEmail
-		// .getFrom().getUsername().charAt(0), 0xFF805781);
-		// sendersIV.setImageDrawable(drawable);
 	}
 
 	@Override

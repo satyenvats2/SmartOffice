@@ -53,7 +53,7 @@ public class MainActivity extends FragmentActivity {
 
 	SharedPreferences sharedPreferences;
 	Editor editor;
-	
+
 	boolean gotoPinFlag;
 
 	private void findThings() {
@@ -80,12 +80,6 @@ public class MainActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		Intent intent = getIntent();
-		Bundle extras = intent.getExtras();
-		if (extras != null) {
-			String jsonData = extras.getString("com.parse.Data");
-			return;
-		}
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.main_activity);
 		findThings();
@@ -112,7 +106,19 @@ public class MainActivity extends FragmentActivity {
 		String username = (String) ParseUser.getCurrentUser().get("name");
 		usernameTV.setText(username);
 
-		if (savedInstanceState == null) {
+		Intent previousIntent = getIntent();
+		if (previousIntent.hasExtra("type")) {
+			displayView(previousIntent.getIntExtra("type", 0));
+			GlobalVariable.TYPE_NOTIFICATION = previousIntent.getIntExtra(
+					"type", 0);
+			// put in global variable
+		} else if (GlobalVariable.TYPE_NOTIFICATION != -1) {
+			int temp = GlobalVariable.TYPE_NOTIFICATION;
+			GlobalVariable.TYPE_NOTIFICATION = -1;
+			displayView(temp);
+			// reset global variable to -1
+
+		} else if (savedInstanceState == null) {
 			// on first time display view for first nav item
 			displayView(0);
 		}
@@ -139,17 +145,15 @@ public class MainActivity extends FragmentActivity {
 		}
 	}
 
-	@Override
-	public void onPause() {
-		super.onPause();
-	}
-
-	@Override
-	public void onRestart() {
-
-		super.onRestart();
-
-	}
+	// @Override
+	// public void onPause() {
+	// super.onPause();
+	// }
+	//
+	// @Override
+	// public void onRestart() {
+	// super.onRestart();
+	// }
 
 	@Override
 	public void onStop() {
