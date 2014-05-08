@@ -36,7 +36,8 @@ public class DisplayMessagesActivity extends ListActivity {
 	GlobalVariable globalVariable;
 	MessageDAO dao;
 	TextView notificationTV;
-
+TextView usernameTV;
+	
 	MessagesAdapter adapter;
 
 	CreateDialog createDialog;
@@ -47,6 +48,7 @@ public class DisplayMessagesActivity extends ListActivity {
 	private void findThings() {
 		notificationTV = (TextView) findViewById(R.id.notification_TV);
 		messagesET = (TextView) findViewById(R.id.message_ET);
+		usernameTV = (TextView) findViewById(R.id.username_TV);
 	}
 
 	private void initThings() {
@@ -66,6 +68,7 @@ public class DisplayMessagesActivity extends ListActivity {
 	}
 
 	private void initialVisibilityOfViews() {
+		usernameTV.setText(selectedContactPU.getString("name"));
 	}
 
 	@Override

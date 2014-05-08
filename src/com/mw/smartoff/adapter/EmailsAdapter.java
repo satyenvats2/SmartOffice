@@ -38,9 +38,11 @@ public class EmailsAdapter extends BaseAdapter {
 		super();
 		this.context = context;
 		this.emailList = emailList;
-
+		if (context == null) {
+			System.out.println(">>>>>> context null");
+		}
 		globalVariable = (GlobalVariable) context.getApplicationContext();
-		
+
 		todayDate = new Date();
 		myMap = globalVariable.getMyMap();
 	}
@@ -86,16 +88,15 @@ public class EmailsAdapter extends BaseAdapter {
 		}
 
 		Email tempEmail = emailList.get(position);
-		System.out.println("int  " + myMap.get(tempEmail.getFrom()
-				.getUsername().toUpperCase().charAt(0)) );
 		CharacterDrawable drawable = new CharacterDrawable(tempEmail.getFrom()
-				.getUsername().toUpperCase().charAt(0), myMap.get(tempEmail.getFrom()
-						.getUsername().toUpperCase().charAt(0)+""));
+				.getUsername().toUpperCase().charAt(0), myMap.get(tempEmail
+				.getFrom().getUsername().toUpperCase().charAt(0)
+				+ ""));
 
 		viewHolder.senderIV.setImageDrawable(drawable);
 
 		viewHolder.nameTV.setText(tempEmail.getFrom().getName());
-		if (!tempEmail.isEmailRead()){
+		if (!tempEmail.isEmailRead()) {
 			viewHolder.unreadIV.setVisibility(View.VISIBLE);
 		}
 		viewHolder.subjectTV.setText(tempEmail.getSubject());
@@ -128,7 +129,7 @@ public class EmailsAdapter extends BaseAdapter {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		System.out.println("\naa" + date2 + "\nbb" + todayDate2);
+		// System.out.println("\naa" + date2 + "\nbb" + todayDate2);
 		if (date2.compareTo(todayDate2) == 0)
 			NEW_FORMAT = "HH:mm";
 		else {

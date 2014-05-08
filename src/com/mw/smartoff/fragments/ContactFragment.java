@@ -94,9 +94,6 @@ public class ContactFragment extends Fragment {
 					@Override
 					public void onItemClick(AdapterView<?> parent, View v,
 							int position, long id) {
-//						Toast.makeText(getActivity(),
-//								"position  : " + position, Toast.LENGTH_SHORT)
-//								.show();
 						nextIntent = new Intent(getActivity(),
 								DisplayMessagesActivity.class);
 						nextIntent.putExtra("position", position);
@@ -104,8 +101,8 @@ public class ContactFragment extends Fragment {
 					}
 				});
 			}
-		}
+		}// onPostExecute()
 
-	}
+	}// Asyn
 
 }

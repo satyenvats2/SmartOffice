@@ -25,6 +25,18 @@
             android:onClick="onBack"
             android:scaleType="fitXY"
             android:src="@drawable/back_button" />
+
+        <TextView
+            android:id="@+id/username_TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/left_drawer_button"
+            android:singleLine="true"
+            android:text="User Name"
+            android:textSize="24sp"
+            android:typeface="serif" />
     </RelativeLayout>
 
     <ListView

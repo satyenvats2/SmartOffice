@@ -1,11 +1,13 @@
 package com.mw.smartoff;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.*;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.CalendarContract.Events;
 import android.view.LayoutInflater;
@@ -24,9 +26,11 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.TimeZone;
 import java.util.HashMap;
 
+@SuppressLint("DefaultLocale")
 public class DisplayMeetingActivity extends Activity {
 
 	Button updateB;
@@ -55,7 +59,10 @@ public class DisplayMeetingActivity extends Activity {
 	ProgressDialog progressDialog;
 	AlertDialog.Builder alertDialogBuilder;
 	AlertDialog alertDialog;
-
+	
+	AlertDialog.Builder alertDialogBuilder2;
+	AlertDialog alertDialog2;
+	
 	EditText notesET;
 
 	LinearLayout.LayoutParams lp;
@@ -113,6 +120,15 @@ public class DisplayMeetingActivity extends Activity {
 		for (int i = 0; i < alphabets.length; i++) {
 			myMap.put(alphabets[i], hexCodes[i]);
 		}
+		
+		alertDialogBuilder2 = createDialog.createAlertDialog("Alert", "Do you want to add to calendar?",
+				false);
+		alertDialogBuilder2.setPositiveButton("Cancel",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.dismiss();
+					}
+				});
 	}
 
 	public void onSeeNotes(View view) {
@@ -145,7 +161,11 @@ public class DisplayMeetingActivity extends Activity {
 					false);
 
 			alertDialog = alertDialogBuilder.create();
-
+			
+System.out.println(">>>>>>>" + alertDialog2==null);
+			
+			
+			
 			footerMeetingRL.setVisibility(View.GONE);
 			responsesTL.setVisibility(View.VISIBLE);
 			if (selectedMeeting == null)
@@ -260,13 +280,18 @@ public class DisplayMeetingActivity extends Activity {
 
 						selectedMeetingPO = dao.getMeetingByID(selectedMeeting
 								.getID());
-						if (notesET.getText().toString().trim().length() > 0)
-							dao2.repondToMeeting(ParseUser.getCurrentUser(),
-									selectedMeetingPO, isAttending, notesET
-											.getText().toString().trim());
-						else
-							dao2.repondToMeeting(ParseUser.getCurrentUser(),
-									selectedMeetingPO, isAttending, null);
+						
+						RespondToMeetingAsynTask asynTask = new RespondToMeetingAsynTask();
+						asynTask.execute(isAttending);
+						
+						// do this in an asyn
+//						if (notesET.getText().toString().trim().length() > 0)
+//							dao2.repondToMeeting(ParseUser.getCurrentUser(),
+//									selectedMeetingPO, isAttending, notesET
+//											.getText().toString().trim());
+//						else
+//							dao2.repondToMeeting(ParseUser.getCurrentUser(),
+//									selectedMeetingPO, isAttending, null);
 
 						acceptRejectLL.setVisibility(View.INVISIBLE);
 						updateB.setVisibility(View.VISIBLE);
@@ -274,29 +299,47 @@ public class DisplayMeetingActivity extends Activity {
 						dialog.dismiss();
 
 						if (isAttending) {
-							ContentValues cv = new ContentValues();
-							cv.put(Events.CALENDAR_ID, 1);
-							cv.put(Events.TITLE, selectedMeeting.getSubject());
-							cv.put(Events.DESCRIPTION,
-									selectedMeeting.getContent());
-							cv.put(Events.EVENT_LOCATION,
-									selectedMeeting.getLocation());
+							alertDialogBuilder2.setNegativeButton("Yes",
+									new DialogInterface.OnClickListener() {
+										public void onClick(DialogInterface dialog, int id) {
+											ContentValues cv = new ContentValues();
+											cv.put(Events.CALENDAR_ID, 1);
+											cv.put(Events.TITLE, selectedMeeting.getSubject());
+											cv.put(Events.DESCRIPTION,
+													selectedMeeting.getContent());
+											cv.put(Events.EVENT_LOCATION,
+													selectedMeeting.getLocation());
 
-							Calendar cal = Calendar.getInstance();
-							TimeZone tz = cal.getTimeZone();
-							cal.setTime(selectedMeeting.getStartTime());
-							cv.put(Events.DTSTART, cal.getTimeInMillis());
-							cv.put(Events.DTEND,
-									cal.getTimeInMillis() + 60 * 60 * 1000);
-							cv.put(Events.EVENT_TIMEZONE, tz.getDisplayName());
+											Calendar cal = Calendar.getInstance();
+											TimeZone tz = cal.getTimeZone();
+											cal.setTime(selectedMeeting.getStartTime());
+											cv.put(Events.DTSTART, cal.getTimeInMillis());
+											cv.put(Events.DTEND,
+													cal.getTimeInMillis() + 60 * 60 * 1000);
+											cv.put(Events.EVENT_TIMEZONE, tz.getDisplayName());
 
-							ContentResolver cr = getContentResolver();
-							Uri uri = cr.insert(Events.CONTENT_URI, cv);
-							System.out.println("Event URI [" + uri + "]");
-							previousIntent.putExtra("isAttending", isAttending);
-						}
+											ContentResolver cr = getContentResolver();
+											Uri uri = cr.insert(Events.CONTENT_URI, cv);
+											System.out.println("Event URI [" + uri + "]");
+											previousIntent.putExtra("isAttending", true);
+											dialog.dismiss();
+											alertDialogBuilder2 = createDialog.createAlertDialog("Alert", "Meeting added to your calendar.",
+													false);
+											alertDialogBuilder2.setPositiveButton("OK",
+													new DialogInterface.OnClickListener() {
+														public void onClick(DialogInterface dialog, int id) {
+															dialog.dismiss();
+														}
+													});
+											alertDialog2 = alertDialogBuilder2.create();
+											alertDialog2.show();
+										}
+									});
+							alertDialog2 = alertDialogBuilder2.create();
+							alertDialog2.show();
+						}//if
 					}
-				});
+				});// setNegativeButton
 
 		alertDialog = alertDialogBuilder.create();
 		if ((ViewGroup) notesET.getParent() != null)
@@ -333,16 +376,6 @@ public class DisplayMeetingActivity extends Activity {
 	}
 
 	@Override
-	public void onRestart() {
-		super.onRestart();
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-	}
-
-	@Override
 	public void onStop() {
 
 		super.onStop();
@@ -350,4 +383,25 @@ public class DisplayMeetingActivity extends Activity {
 			GlobalVariable.PIN--;
 	}
 
+	
+	private class RespondToMeetingAsynTask extends AsyncTask<Boolean, Void, Void> {
+
+		@Override
+		protected Void doInBackground(Boolean... params) {
+			if (notesET.getText().toString().trim().length() > 0)
+				dao2.repondToMeeting(ParseUser.getCurrentUser(),
+						selectedMeetingPO, params[0], notesET
+								.getText().toString().trim());
+			else
+				dao2.repondToMeeting(ParseUser.getCurrentUser(),
+						selectedMeetingPO, params[0], null);
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+		}// onPostExecute()
+
+	}// Asyn
 }

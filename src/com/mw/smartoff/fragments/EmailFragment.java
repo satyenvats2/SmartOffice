@@ -3,7 +3,6 @@ package com.mw.smartoff.fragments;
 import java.util.ArrayList;
 import java.util.List;
 
-
 //import android.app.Fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -34,21 +33,22 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 public class EmailFragment extends Fragment {
-    PullAndLoadListView emailLV;
+	PullAndLoadListView emailLV;
 	GlobalVariable globalVariable;
 	EmailDAO dao;
 	TextView notifyEmailTV;
-    ProgressBar progressBar;
+	ProgressBar progressBar;
 
 	EmailsAdapter adapter;
 	Intent nextIntent;
-	
+
 	ParseQuery<ParseObject> query;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		Parse.initialize(getActivity(), "wHhiiTucu7ntVNl3otR9f59eGg4UD1UavTlWvFzo",
+		Parse.initialize(getActivity(),
+				"wHhiiTucu7ntVNl3otR9f59eGg4UD1UavTlWvFzo",
 				"sdGM0MdrbQjeVsha7pAFT9YL5WuUt7dA7f2zb0LW");
 		query = ParseQuery.getQuery("Emails");
 
@@ -65,28 +65,30 @@ public class EmailFragment extends Fragment {
 		initThings();
 		FetchEmailsAsynTask asynTask = new FetchEmailsAsynTask();
 		asynTask.execute(true);
-        // Set a listener to be invoked when the list should be refreshed.
-        emailLV.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
-            public void onRefresh() {
-                // Do work to refresh the list here.
-//                new PullToRefreshDataTask().execute();
-                new FetchEmailsAsynTask().execute(false);
-            }
-        });
+		// Set a listener to be invoked when the list should be refreshed.
+		emailLV.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
+			public void onRefresh() {
+				// Do work to refresh the list here.
+				// new PullToRefreshDataTask().execute();
+				new FetchEmailsAsynTask().execute(false);
+			}
+		});
 	}
 
 	private void findThings() {
-		emailLV = (PullAndLoadListView) getActivity().findViewById(R.id.email_LV);
+		emailLV = (PullAndLoadListView) getActivity().findViewById(
+				R.id.email_LV);
 		notifyEmailTV = (TextView) getActivity().findViewById(
 				R.id.notify_email_TV);
-        progressBar = (ProgressBar) getActivity().findViewById(R.id.progressBar);
+		progressBar = (ProgressBar) getActivity()
+				.findViewById(R.id.progressBar);
 	}
 
 	private void initThings() {
 		globalVariable = (GlobalVariable) getActivity().getApplicationContext();
-        if (globalVariable.getEmailList() != null){
-            progressBar.setVisibility(View.INVISIBLE);
-        }
+		if (globalVariable.getEmailList() != null) {
+			progressBar.setVisibility(View.INVISIBLE);
+		}
 		dao = new EmailDAO(getActivity());
 	}
 
@@ -95,10 +97,11 @@ public class EmailFragment extends Fragment {
 		// ParseUser user;
 		@Override
 		protected List<ParseObject> doInBackground(Boolean... params) {
-
-            if (globalVariable.getEmailList() != null && params[0]){
-                return null;
-            }
+			
+			if (globalVariable.getEmailList() != null && params[0]) {
+				return null;
+			}
+			System.out.println(">>>>>>>elseseses");
 			List<Email> emailList = new ArrayList<Email>();
 			List<ParseObject> emailPOList = dao.getEmailsForUser(ParseUser
 					.getCurrentUser().getEmail());
@@ -111,22 +114,24 @@ public class EmailFragment extends Fragment {
 				}
 				globalVariable.setEmailList(emailList);
 			}
-			// globalVariable.setEmailList(emailList);
-			// System.out.println("size is : " + asdf.size());
 			return emailPOList;
 		}
 
 		@Override
 		protected void onPostExecute(final List<ParseObject> emailPOList) {
 			super.onPostExecute(emailPOList);
-			
+
 			final List<Email> emailList = globalVariable.getEmailList();
-			
+
 			if (emailList.size() == 0) {
 				notifyEmailTV.setText("No emails found");
 				notifyEmailTV.setVisibility(View.VISIBLE);
 			} else {
-                emailLV.onRefreshComplete();
+				emailLV.onRefreshComplete();
+//				if(getActivity() == null)
+//				{
+//					System.out.println(">>>>>>>activity null");
+//				}
 				adapter = new EmailsAdapter(getActivity(), emailList);
 				emailLV.setAdapter(adapter);
 
@@ -135,34 +140,33 @@ public class EmailFragment extends Fragment {
 					public void onItemClick(AdapterView<?> parent, View v,
 							int position, long id) {
 						System.out.println(">>>>email position  : " + position);
-						Email tempEmail = emailList.get(position - 1); 
+						Email tempEmail = emailList.get(position - 1);
 						if (!tempEmail.isEmailRead()) {
 
 							tempEmail.setEmailRead(true);
-							emailList.set(position -1, tempEmail);
-							
+							emailList.set(position - 1, tempEmail);
+
 							MarkEmailAsReadAsynTask asynTask = new MarkEmailAsReadAsynTask();
-//							asynTask.execute(new ParseObject[] { emailPOList
-//									.get(position - 1) });
+							// asynTask.execute(new ParseObject[] { emailPOList
+							// .get(position - 1) });
 							asynTask.execute(tempEmail.getObjectID());
 						}
 						nextIntent = new Intent(getActivity(),
 								DisplayEmailActivity.class);
-						nextIntent.putExtra("position", position -1);
+						nextIntent.putExtra("position", position - 1);
 						startActivity(nextIntent);
 					}
 				});
 			}
-            progressBar.setVisibility(View.INVISIBLE);
+			progressBar.setVisibility(View.INVISIBLE);
 		}
 
 	}// Asyn
 
-	private class MarkEmailAsReadAsynTask extends
-			AsyncTask<String, Void, Void> {
+	private class MarkEmailAsReadAsynTask extends AsyncTask<String, Void, Void> {
 		@Override
 		protected Void doInBackground(String... params) {
-			
+
 			ParseObject emailPO = null;
 			try {
 				emailPO = query.get(params[0]);
@@ -170,7 +174,7 @@ public class EmailFragment extends Fragment {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 			if (emailPO != null) {
 				emailPO.put("isMailRead", true);
 				emailPO.saveEventually(new SaveCallback() {
@@ -193,10 +197,10 @@ public class EmailFragment extends Fragment {
 		}
 
 	}
-	
+
 	@Override
-	public void onResume(){
+	public void onResume() {
 		super.onResume();
-        new FetchEmailsAsynTask().execute(true);
+		new FetchEmailsAsynTask().execute(true);
 	}
 }

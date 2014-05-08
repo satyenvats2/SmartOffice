@@ -68,7 +68,7 @@ public class TestFragment3 extends Fragment {
 		super.onViewCreated(view, savedInstanceState);
 		findThings();
 		initThings();
-		FetchMeetingsAsynTask asynTask = new FetchMeetingsAsynTask();
+		FetchMeetingsOwnAsynTask asynTask = new FetchMeetingsOwnAsynTask();
 		asynTask.execute(true);
 
 		meetingLV
@@ -76,12 +76,12 @@ public class TestFragment3 extends Fragment {
 					public void onRefresh() {
 						// Do work to refresh the list here.
 						// new PullToRefreshDataTask().execute();
-						new FetchMeetingsAsynTask().execute(false);
+						new FetchMeetingsOwnAsynTask().execute(false);
 					}
 				});
 	}
 
-	private class FetchMeetingsAsynTask extends AsyncTask<Boolean, Void, Void> {
+	private class FetchMeetingsOwnAsynTask extends AsyncTask<Boolean, Void, Void> {
 
 		@Override
 		protected Void doInBackground(Boolean... params) {

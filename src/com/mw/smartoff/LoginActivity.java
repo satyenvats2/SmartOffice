@@ -15,14 +15,19 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
+
 import com.mw.smartoff.DAO.EmailDAO;
 import com.mw.smartoff.DAO.MeetingDAO;
 import com.mw.smartoff.DAO.ResponseToMeetingDAO;
 import com.mw.smartoff.DAO.UserDAO;
+import com.mw.smartoff.adapter.ContactsAdapter;
+import com.mw.smartoff.adapter.MeetingsAdapter;
 import com.mw.smartoff.model.Email;
 import com.mw.smartoff.model.Meeting;
 import com.mw.smartoff.services.GlobalVariable;
@@ -136,7 +141,7 @@ public class LoginActivity extends Activity {
 		if (ParseUser.getCurrentUser() != null) {
 			System.out
 					.println(">>>>>>> LoginActivity::onCreate -> user is present in preferences");
-//			collectUserData();
+			collectUserData();
 			startActivity(nextIntent);
 		}
 
@@ -192,10 +197,10 @@ public class LoginActivity extends Activity {
 				System.out
 						.println(">>>>>>> LoginActivity::onPostCreate() - user is "
 								+ user.getUsername());
-//				collectUserData();
+				collectUserData();
 				PushService.subscribe(LoginActivity.this, ParseUser
 						.getCurrentUser().getUsername(), MainActivity.class);
-			    startActivity(nextIntent);
+				startActivity(nextIntent);
 			} else {
 				System.out
 						.println(">>>>>>> LoginActivity::onPostCreate() - user is null");
@@ -207,12 +212,44 @@ public class LoginActivity extends Activity {
 	}
 
 	private void collectUserData() {
-		FetchMeetingsAsynTask asynTask = new FetchMeetingsAsynTask();
-		asynTask.execute(new String[]{"Hello Worlkd"});
+		// FetchEmailsAsynTask asynTask = new FetchEmailsAsynTask();
+		// asynTask.execute(new String[] { "Hello Worlkd" });
 
-		FetchEmailsAsynTask asynTask2 = new FetchEmailsAsynTask();
-		asynTask2.execute(new String[]{"Hello Worlkd"});
+		FetchMeetingsAsynTask asynTask2 = new FetchMeetingsAsynTask();
+		asynTask2.execute(new String[] { "Hello Worlkd" });
+
+//		FetchMeetingsOwnAsynTask asynTask3 = new FetchMeetingsOwnAsynTask();
+//		asynTask3.execute(true);
+
+		FetchAllUsersAsynTask asynTask4 = new FetchAllUsersAsynTask();
+		asynTask4.execute(true);
 	}
+
+	private class FetchEmailsAsynTask extends AsyncTask<String, Void, Void> {
+		@Override
+		protected Void doInBackground(String... params) {
+
+			List<Email> emailList = new ArrayList<Email>();
+			List<ParseObject> emailPOList = emailDAO.getEmailsForUser(ParseUser
+					.getCurrentUser().getEmail());
+			if (emailPOList != null) {
+				for (int i = 0; i < emailPOList.size(); i++) {
+					ParseObject tempEmailPO = emailPOList.get(i);
+					Email tempMeeting = globalVariable
+							.convertPOtoEmail(tempEmailPO);
+					emailList.add(tempMeeting);
+				}
+				globalVariable.setEmailList(emailList);
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+		}// onPostExecute()
+
+	}// Asyn
 
 	private class FetchMeetingsAsynTask extends AsyncTask<String, Void, Void> {
 
@@ -249,30 +286,65 @@ public class LoginActivity extends Activity {
 
 	}// Asyn
 
-	private class FetchEmailsAsynTask extends
-			AsyncTask<String, Void, List<ParseObject>> {
-		@Override
-		protected List<ParseObject> doInBackground(String... params) {
+	private class FetchMeetingsOwnAsynTask extends
+			AsyncTask<Boolean, Void, Void> {
 
-			List<Email> emailList = new ArrayList<Email>();
-			List<ParseObject> emailPOList = emailDAO.getEmailsForUser(ParseUser
-					.getCurrentUser().getEmail());
-			if (emailPOList != null) {
-				for (int i = 0; i < emailPOList.size(); i++) {
-					ParseObject tempEmailPO = emailPOList.get(i);
-					Email tempMeeting = globalVariable
-							.convertPOtoEmail(tempEmailPO);
-					emailList.add(tempMeeting);
+		@Override
+		protected Void doInBackground(Boolean... params) {
+
+			List<Meeting> meetingList = new ArrayList<Meeting>();
+			List<ParseObject> meetingsPOList = meetingDAO
+					.getOwnMeetingsForUser(ParseUser.getCurrentUser());
+
+			System.out.println("size is  :  " + meetingsPOList.size());
+			// make a list of meetings including response
+			for (int i = 0; i < meetingsPOList.size(); i++) {
+				meetingsPOList.get(i).put("from", ParseUser.getCurrentUser());
+				ParseObject tempMeetingPO = meetingsPOList.get(i);
+				Meeting tempMeeting = globalVariable
+						.convertPOtoMeeting(tempMeetingPO);
+				List<ParseObject> allResponsesPO = responseToMeetingDAO
+						.getAllResponsesForMeeting(tempMeetingPO);
+				if (allResponsesPO != null) {
+					tempMeeting.setResponses(allResponsesPO);
+					System.out.println("not nullla");
+				} else {
+					System.out.println("nullla");
 				}
-				globalVariable.setEmailList(emailList);
-			}
-			return emailPOList;
+				meetingList.add(tempMeeting);
+			}// for()
+			globalVariable.setMeetingOwnList(meetingList);
+			return null;
 		}
 
 		@Override
-		protected void onPostExecute(final List<ParseObject> emailPOList) {
-			super.onPostExecute(emailPOList);
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+		}// onPostExec
+
+	}// Asyn
+
+	private class FetchAllUsersAsynTask extends AsyncTask<Boolean, Void, Void> {
+
+		@Override
+		protected Void doInBackground(Boolean... params) {
+			List<ParseUser> userList = userDAO.getAllUsers();
+
+			for (int i = 0; i < userList.size(); i++) {
+				if (userList.get(i).getObjectId()
+						.equals(ParseUser.getCurrentUser().getObjectId())) {
+					userList.remove(i);
+					break;
+				}
+			}
+			globalVariable.setUserList(userList);
+			return null;
 		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+		}// onPostExecute()
 
 	}// Asyn
 

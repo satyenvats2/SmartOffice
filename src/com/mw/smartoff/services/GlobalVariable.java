@@ -1,5 +1,14 @@
 package com.mw.smartoff.services;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -7,7 +16,6 @@ import android.graphics.Path;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.widget.EditText;
 
 import com.mw.smartoff.model.Email;
 import com.mw.smartoff.model.Meeting;
@@ -18,15 +26,6 @@ import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
-
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 
 public class GlobalVariable extends android.app.Application {
 
@@ -52,13 +51,11 @@ public class GlobalVariable extends android.app.Application {
 	HashMap<String, Integer> myMap;
 
 	public GlobalVariable() {
-		System.out.println(">>>>>>> Globallll  1");
 	}
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		System.out.println(">>>>>>> Globallll  2");
 
 		String[] alphabets = getResources().getStringArray(R.array.alphabets);
 		int[] hexCodes = getResources().getIntArray(R.array.hex_codes);
@@ -153,8 +150,8 @@ public class GlobalVariable extends android.app.Application {
 	}
 
 	public Email convertPOtoEmail(ParseObject emailPO) {
-		ParseUser parseUser = emailPO.getParseUser("from");
-		System.out.println("sender's email   :  " + parseUser.getEmail());
+//		ParseUser parseUser = emailPO.getParseUser("from");
+//		System.out.println("sender's email   :  " + parseUser.getEmail());
 		return new Email(emailPO.getObjectId(),
 				convertParseObjectToUser(emailPO.getParseUser("from")),
 				emailPO.getString("subject"), emailPO.getString("content"),
