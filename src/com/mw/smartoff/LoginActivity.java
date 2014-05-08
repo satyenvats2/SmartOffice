@@ -1,5 +1,8 @@
 package com.mw.smartoff;
 
+import java.util.ArrayList;
+import java.util.List;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,19 +18,14 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
-
 import com.mw.smartoff.DAO.EmailDAO;
 import com.mw.smartoff.DAO.MeetingDAO;
 import com.mw.smartoff.DAO.ResponseToMeetingDAO;
 import com.mw.smartoff.DAO.UserDAO;
-import com.mw.smartoff.adapter.ContactsAdapter;
-import com.mw.smartoff.adapter.MeetingsAdapter;
 import com.mw.smartoff.model.Email;
 import com.mw.smartoff.model.Meeting;
 import com.mw.smartoff.services.GlobalVariable;
@@ -35,9 +33,6 @@ import com.mw.smartoffice.R;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.PushService;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class LoginActivity extends Activity {
 
@@ -119,7 +114,6 @@ public class LoginActivity extends Activity {
 					public boolean onEditorAction(TextView v, int actionId,
 							KeyEvent event) {
 						if (actionId == EditorInfo.IME_ACTION_DONE) {
-							// TODO: do something
 							onLogin(null);
 						}
 						return false;
@@ -141,7 +135,7 @@ public class LoginActivity extends Activity {
 		if (ParseUser.getCurrentUser() != null) {
 			System.out
 					.println(">>>>>>> LoginActivity::onCreate -> user is present in preferences");
-			collectUserData();
+//			collectUserData();
 			startActivity(nextIntent);
 		}
 
@@ -182,6 +176,7 @@ public class LoginActivity extends Activity {
 	private class LoginUserAsynTask extends AsyncTask<String, Void, ParseUser> {
 		// ParseUser user;
 
+		@SuppressLint("DefaultLocale")
 		@Override
 		protected ParseUser doInBackground(String... params) {
 			ParseUser user = userDAO.loginUser(emailET.getText().toString()
@@ -197,7 +192,7 @@ public class LoginActivity extends Activity {
 				System.out
 						.println(">>>>>>> LoginActivity::onPostCreate() - user is "
 								+ user.getUsername());
-				collectUserData();
+//				collectUserData();
 				PushService.subscribe(LoginActivity.this, ParseUser
 						.getCurrentUser().getUsername(), MainActivity.class);
 				startActivity(nextIntent);
@@ -215,14 +210,14 @@ public class LoginActivity extends Activity {
 		// FetchEmailsAsynTask asynTask = new FetchEmailsAsynTask();
 		// asynTask.execute(new String[] { "Hello Worlkd" });
 
-		FetchMeetingsAsynTask asynTask2 = new FetchMeetingsAsynTask();
-		asynTask2.execute(new String[] { "Hello Worlkd" });
+//		FetchMeetingsAsynTask asynTask2 = new FetchMeetingsAsynTask();
+//		asynTask2.execute(new String[] { "Hello Worlkd" });
 
 //		FetchMeetingsOwnAsynTask asynTask3 = new FetchMeetingsOwnAsynTask();
 //		asynTask3.execute(true);
 
-		FetchAllUsersAsynTask asynTask4 = new FetchAllUsersAsynTask();
-		asynTask4.execute(true);
+//		FetchAllUsersAsynTask asynTask4 = new FetchAllUsersAsynTask();
+//		asynTask4.execute(true);
 	}
 
 	private class FetchEmailsAsynTask extends AsyncTask<String, Void, Void> {

@@ -128,10 +128,10 @@ public class EmailFragment extends Fragment {
 				notifyEmailTV.setVisibility(View.VISIBLE);
 			} else {
 				emailLV.onRefreshComplete();
-//				if(getActivity() == null)
-//				{
-//					System.out.println(">>>>>>>activity null");
-//				}
+				if(getActivity() == null)
+				{
+					System.out.println(">>>>>>>activity null");
+				}
 				adapter = new EmailsAdapter(getActivity(), emailList);
 				emailLV.setAdapter(adapter);
 
@@ -147,8 +147,6 @@ public class EmailFragment extends Fragment {
 							emailList.set(position - 1, tempEmail);
 
 							MarkEmailAsReadAsynTask asynTask = new MarkEmailAsReadAsynTask();
-							// asynTask.execute(new ParseObject[] { emailPOList
-							// .get(position - 1) });
 							asynTask.execute(tempEmail.getObjectID());
 						}
 						nextIntent = new Intent(getActivity(),

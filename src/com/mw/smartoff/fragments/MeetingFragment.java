@@ -82,53 +82,6 @@ public class MeetingFragment extends Fragment {
     {
         super.onPause();
     }
-
-	//
-	private class FetchMeetingsAsynTask extends
-			AsyncTask<String, Void, List<Meeting>> {
-
-		@Override
-		protected List<Meeting> doInBackground(String... params) {
-			List<Meeting> meetingList = new ArrayList<Meeting>();
-			List<ParseObject> meetingsPOList = dao
-					.getMeetingsForUser(ParseUser.getCurrentUser().getEmail());
-
-			// make a list of meetings including response
-			for (int i = 0; i < meetingsPOList.size(); i++) {
-				ParseObject tempMeetingPO = meetingsPOList.get(i);
-				Meeting tempMeeting = globalVariable
-						.convertPOtoMeeting(meetingsPOList.get(i));
-				ParseObject checkResponsePO = dao2
-						.getCurrentResponseForMeeting(
-								ParseUser.getCurrentUser(), tempMeetingPO);
-				if (checkResponsePO != null) {
-					tempMeeting.setHasBeenResponsedTo(true);
-					tempMeeting.setCurrentResponse(checkResponsePO
-							.getBoolean("isAttending"));
-				}
-				meetingList.add(tempMeeting);
-			}// for()
-			globalVariable.setMeetingList(meetingList);
-			return meetingList;
-		}
-
-		@Override
-		protected void onPostExecute(final List<Meeting> meetingList) {
-			super.onPostExecute(meetingList);
-			
-			FragmentStatePagerAdapter adapter = new GoogleMusicAdapter(getActivity()
-					.getSupportFragmentManager());
-
-			ViewPager pager = (ViewPager) getActivity().findViewById(R.id.pager);
-			pager.setAdapter(adapter);
-
-			TabPageIndicator indicator = (TabPageIndicator) getActivity()
-					.findViewById(R.id.indicator);
-			indicator.setViewPager(pager);
-
-		}// onPostExec
-
-	}// Asyn
 	
 	class GoogleMusicAdapter extends FragmentStatePagerAdapter {
 		public GoogleMusicAdapter(

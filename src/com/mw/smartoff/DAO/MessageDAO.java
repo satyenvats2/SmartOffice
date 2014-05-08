@@ -68,7 +68,8 @@ public class MessageDAO {
 
         ParsePush push = new ParsePush();
         push.setChannel(toPU.getUsername()); // Notice we use setChannels not setChannel
-        push.setMessage(data.toString());
+//        push.setMessage(data.toString());
+        push.setData(data);
         push.sendInBackground();
 
         // comment to be removed. for github.
