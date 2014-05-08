@@ -60,6 +60,7 @@ public class MessageDAO {
         try {
             data.put("action", "com.mw.smartoff.STATUS_UPDATE");
             data.put("type", 2);
+            data.put("alert", "asdf");
             data.put("fromUserId", fromPU.getObjectId());
         } catch (JSONException e) {
             e.printStackTrace();

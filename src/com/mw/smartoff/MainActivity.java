@@ -1,5 +1,8 @@
 package com.mw.smartoff;
 
+import java.util.ArrayList;
+import java.util.Set;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -18,6 +21,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.mw.smartoff.adapter.NavDrawerListAdapter;
 import com.mw.smartoff.fragments.ContactFragment;
 import com.mw.smartoff.fragments.EmailFragment;
@@ -28,9 +32,6 @@ import com.mw.smartoffice.R;
 import com.parse.ParseAnalytics;
 import com.parse.ParseUser;
 import com.parse.PushService;
-
-import java.util.ArrayList;
-import java.util.Set;
 
 public class MainActivity extends FragmentActivity {
 
@@ -260,11 +261,12 @@ public class MainActivity extends FragmentActivity {
 		globalVariable.setMeetingList(null);
 		globalVariable.setMeetingOwnList(null);
 		globalVariable.setMeetingPendingList(null);
-
+		GlobalVariable.resetOnLogout();
 		ParseUser.logOut();
-		finish();
 
 		nextIntent = new Intent(this, LoginActivity.class);
+		nextIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+				| Intent.FLAG_ACTIVITY_CLEAR_TASK);
 		startActivity(nextIntent);
 	}
 

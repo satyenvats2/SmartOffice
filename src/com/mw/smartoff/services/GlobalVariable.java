@@ -7,6 +7,7 @@ import android.graphics.Path;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.widget.EditText;
 
 import com.mw.smartoff.model.Email;
 import com.mw.smartoff.model.Meeting;
@@ -33,8 +34,7 @@ public class GlobalVariable extends android.app.Application {
 	public static boolean FROM_VERIFY_PIN;
 
 	public static int TYPE_NOTIFICATION = -1;
-	
-	
+
 	public static boolean RESPONDED_TO_MEETING;
 	public static boolean RESPONSE_TO_MEETING;
 
@@ -67,8 +67,7 @@ public class GlobalVariable extends android.app.Application {
 			myMap.put(alphabets[i], hexCodes[i]);
 		}
 
-		
-		if(myMap == null)
+		if (myMap == null)
 			System.out.println("map null");
 		else
 			System.out.println("map not null");
@@ -286,5 +285,12 @@ public class GlobalVariable extends android.app.Application {
 				"dd MMM, hh:mm");
 		String stringDate = simpleDateFormat.format(date);
 		return stringDate;
+	}
+
+	public static void resetOnLogout() {
+		PIN = 0;
+		FROM_VERIFY_PIN = false;
+		RESPONDED_TO_MEETING = false;
+		RESPONSE_TO_MEETING = false;
 	}
 }

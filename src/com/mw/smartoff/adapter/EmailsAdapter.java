@@ -7,8 +7,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +21,7 @@ import com.mw.smartoff.services.CharacterDrawable;
 import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
 
+@SuppressLint("DefaultLocale")
 public class EmailsAdapter extends BaseAdapter {
 
 	Context context;
@@ -54,6 +55,7 @@ public class EmailsAdapter extends BaseAdapter {
 		protected TextView subjectTV;
 		protected TextView dateTV;
 		protected TextView contentTV;
+		protected ImageView unreadIV;
 	}
 
 	@Override
@@ -76,6 +78,8 @@ public class EmailsAdapter extends BaseAdapter {
 					.findViewById(R.id.date_TV);
 			viewHolder.contentTV = (TextView) convertView
 					.findViewById(R.id.content_TV);
+			viewHolder.unreadIV = (ImageView) convertView
+					.findViewById(R.id.unread_email_IV);
 			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
@@ -84,8 +88,6 @@ public class EmailsAdapter extends BaseAdapter {
 		Email tempEmail = emailList.get(position);
 		System.out.println("int  " + myMap.get(tempEmail.getFrom()
 				.getUsername().toUpperCase().charAt(0)) );
-//		CharacterDrawable drawable = new CharacterDrawable(tempEmail.getFrom()
-//				.getUsername().toUpperCase().charAt(0), 0xFF805781);
 		CharacterDrawable drawable = new CharacterDrawable(tempEmail.getFrom()
 				.getUsername().toUpperCase().charAt(0), myMap.get(tempEmail.getFrom()
 						.getUsername().toUpperCase().charAt(0)+""));
@@ -93,16 +95,17 @@ public class EmailsAdapter extends BaseAdapter {
 		viewHolder.senderIV.setImageDrawable(drawable);
 
 		viewHolder.nameTV.setText(tempEmail.getFrom().getName());
-		if (!tempEmail.isEmailRead())
-			viewHolder.nameTV.setTypeface(Typeface.SERIF, Typeface.BOLD_ITALIC);
+		if (!tempEmail.isEmailRead()){
+			viewHolder.unreadIV.setVisibility(View.VISIBLE);
+		}
 		viewHolder.subjectTV.setText(tempEmail.getSubject());
-		// System.out.println(tempEmail.getCreatedAt());
 		viewHolder.dateTV.setText(formatDate(tempEmail.getCreatedAt()));
 		viewHolder.contentTV.setText(tempEmail.getContent());
 
 		return convertView;
 	}
 
+	@SuppressLint("SimpleDateFormat")
 	private String formatDate(Date date) {
 		boolean isYesterday = false;
 
