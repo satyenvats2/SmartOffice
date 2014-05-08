@@ -35,7 +35,7 @@ public class MessageDAO {
 		queries.add(query2);
 
 		ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
-		mainQuery.orderByDescending("createdAt");
+		mainQuery.orderByAscending("createdAt");
 		mainQuery.include("fromUser");
 		mainQuery.include("toUser");
 		try {

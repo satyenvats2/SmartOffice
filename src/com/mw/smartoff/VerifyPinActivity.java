@@ -94,6 +94,8 @@ public class VerifyPinActivity extends Activity implements View.OnClickListener 
 		editor = sharedPreferences.edit();
 		globalVariable = (GlobalVariable) getApplicationContext();
 		nextIntent = new Intent(VerifyPinActivity.this, MainActivity.class);
+		nextIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+				| Intent.FLAG_ACTIVITY_CLEAR_TASK);
 		myVib = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
 	}
 
@@ -128,13 +130,13 @@ public class VerifyPinActivity extends Activity implements View.OnClickListener 
 		if (!isPinThereInPrefs) {
 			editor.putString("pin", pinET.getText().toString());
 			editor.commit();
-			startActivityForResult(nextIntent, MAIN_ACTIVITY);
+			startActivity(nextIntent);
 		} else if (!sharedPreferences.getString("pin", null).equals(
 				pinET.getText().toString())) {
 			errorMsgTV.setVisibility(View.VISIBLE);
 			errorMsgTV.setText("PIN is incorrect");
 		} else {
-			startActivityForResult(nextIntent, MAIN_ACTIVITY);
+			startActivity(nextIntent);
 		}
 	}
 
@@ -216,17 +218,7 @@ public class VerifyPinActivity extends Activity implements View.OnClickListener 
 		}
 	}
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == MAIN_ACTIVITY)
-			if (resultCode == RESULT_OK) {
-
-			}
-
-	}
-
-	boolean doubleBackToExitPressedOnce = false;
+//	boolean doubleBackToExitPressedOnce = false;
 
 	public void onLogOut(View view) {
 
@@ -253,6 +245,7 @@ public class VerifyPinActivity extends Activity implements View.OnClickListener 
 		globalVariable.setMeetingList(null);
 		globalVariable.setMeetingOwnList(null);
 		globalVariable.setMeetingPendingList(null);
+		globalVariable.setUserList(null);
 		GlobalVariable.resetOnLogout();
 		nextIntent = new Intent(this, LoginActivity.class);
 		nextIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK

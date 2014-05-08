@@ -261,6 +261,7 @@ public class MainActivity extends FragmentActivity {
 		globalVariable.setMeetingList(null);
 		globalVariable.setMeetingOwnList(null);
 		globalVariable.setMeetingPendingList(null);
+		globalVariable.setUserList(null);
 		GlobalVariable.resetOnLogout();
 		ParseUser.logOut();
 

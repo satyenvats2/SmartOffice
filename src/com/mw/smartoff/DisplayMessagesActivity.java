@@ -42,6 +42,8 @@ public class DisplayMessagesActivity extends ListActivity {
 	CreateDialog createDialog;
 	ProgressDialog progressDialog;
 
+	List<Message> msgsList;
+
 	private void findThings() {
 		notificationTV = (TextView) findViewById(R.id.notification_TV);
 		messagesET = (TextView) findViewById(R.id.message_ET);
@@ -90,7 +92,6 @@ public class DisplayMessagesActivity extends ListActivity {
 				});
 	}
 
-	List<Message> msgsList;
 
 	private class FetchMsgsAsynTask extends AsyncTask<String, Void, Void> {
 		@Override
@@ -150,9 +151,12 @@ public class DisplayMessagesActivity extends ListActivity {
 			adapter = new MessagesAdapter(DisplayMessagesActivity.this,
 					msgsList);
 			setListAdapter(adapter);
+			notificationTV.setVisibility(View.INVISIBLE);
 		} else
 			adapter.notifyDataSetChanged();
 
+		setSelection(adapter.getCount() - 1);
+		
 		SaveMsgAsynTask asynTask = new SaveMsgAsynTask();
 		asynTask.execute(new String[] { messagesET.getText().toString().trim() });
 
