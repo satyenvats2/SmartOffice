@@ -79,6 +79,7 @@
             android:name="com.mw.smartoff.JustADialogActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
+        
         <!-- Push notification with Parse -->
         <service android:name="com.parse.PushService" />
 

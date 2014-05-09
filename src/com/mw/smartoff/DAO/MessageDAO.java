@@ -62,13 +62,13 @@ public class MessageDAO {
             data.put("type", 2);
             data.put("alert", "asdf");
             data.put("fromUserId", fromPU.getObjectId());
+            data.put("message", message);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         ParsePush push = new ParsePush();
         push.setChannel(toPU.getUsername()); // Notice we use setChannels not setChannel
-//        push.setMessage(data.toString());
         push.setData(data);
         push.sendInBackground();
 

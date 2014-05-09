@@ -1,67 +1,101 @@
 package com.mw.smartoff;
 
-import com.mw.smartoff.services.CreateDialog;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
+
+import com.mw.smartoff.services.CreateDialog;
+import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
 
 public class JustADialogActivity extends Activity {
 	CreateDialog createDialog;
 	AlertDialog.Builder alertDialogBuilder;
 	AlertDialog alertDialog;
+
 	Intent nextIntent;
+
+	int notificationType = 0;
+	String userId = null;
+
+	GlobalVariable globalVariable;
+	Intent previousIntent;
+
+	String dialogNoteTitle = null;
+	String dialogNoteMessage = null;
+
+	private void initThings() {
+		globalVariable = (GlobalVariable) getApplicationContext();
+		createDialog = new CreateDialog(this);
+		previousIntent = getIntent();
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.broadcast_alert);
-		Intent previousIntent = getIntent();
+		initThings();
+
 		Bundle extras = previousIntent.getExtras();
-		int notificationType = 0;
-//        String userId = null;
 		if (extras != null) {
 			notificationType = extras.getInt("type");
-//            userId = extras.getString("fromUserId");
-			System.out.println(">>>>>>>" + notificationType );
+			userId = extras.getString("fromUserId");
+			System.out.println(">>>>>>>" + notificationType + "<<<<<<<" + userId);
 		}
-
-		String dialogNoteTitle = null;
-		String dialogNoteMessage = null;
 
 		switch (notificationType) {
 		case 0:
-//			nextIntent = new Intent(this, DisplayEmailActivity.class);
 			nextIntent = new Intent(this, MainActivity.class);
 			nextIntent.putExtra("type", notificationType);
+
 			dialogNoteTitle = "New Email";
 			dialogNoteMessage = "You have a new Email";
+			showDialog(dialogNoteTitle, dialogNoteMessage);
 			break;
 		case 1:
-//			nextIntent = new Intent(this, DisplayMeetingActivity.class);
 			nextIntent = new Intent(this, MainActivity.class);
 			nextIntent.putExtra("type", notificationType);
+
 			dialogNoteTitle = "New Meeting Invite";
 			dialogNoteMessage = "You have a new Meeting Invite";
+			showDialog(dialogNoteTitle, dialogNoteMessage);
 			break;
 		case 2:
-//			nextIntent = new Intent(this, DisplayMessagesActivity.class);
 			nextIntent = new Intent(this, MainActivity.class);
 			nextIntent.putExtra("type", notificationType);
-//          nextIntent.putExtra("fromUserId", userId);
-			dialogNoteTitle = "New Message";
-			dialogNoteMessage = "You have a new Message";
+
+			if (globalVariable.getChatPerson() != null) {
+				if (userId.equals(globalVariable.getChatPerson().getObjectId())) {
+					// refresh chat list
+					Intent intent = new Intent("new_message");
+					// add data
+//					intent.putExtra("message", "data");
+					LocalBroadcastManager.getInstance(this).sendBroadcast(
+							intent);
+				} else {
+					// update preferences for contacts page
+
+					// if(contacts page is open)
+					// {
+					// refresh contacts page
+					// }
+				}
+			}
+
+			// dialogNoteTitle = "New Message";
+			// dialogNoteMessage = "You have a new Message";
 			break;
 		default:
 			break;
 		}
 
-		createDialog = new CreateDialog(this);
+	}
 
+	private void showDialog(String dialogNoteTitle, String dialogNoteMessage) {
 		alertDialogBuilder = createDialog.createAlertDialog(dialogNoteTitle,
 				dialogNoteMessage, false);
 		alertDialogBuilder.setPositiveButton("Read now",
@@ -80,7 +114,6 @@ public class JustADialogActivity extends Activity {
 
 		alertDialog = alertDialogBuilder.create();
 		alertDialog.show();
-
 	}
 
 }

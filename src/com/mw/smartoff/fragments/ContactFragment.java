@@ -85,7 +85,7 @@ public class ContactFragment extends Fragment {
 			super.onPostExecute(usersListPOForDBUpdate);
 //			progressBar.setVisibility(View.INVISIBLE);
 
-			List<ParseUser> usersListPO = globalVariable.getUserList();
+			final List<ParseUser> usersListPO = globalVariable.getUserList();
 			if (usersListPO != null && usersListPO.size() > 0) {
 				adapter = new ContactsAdapter(getActivity(), usersListPO);
 				contactLV.setAdapter(adapter);
@@ -96,7 +96,8 @@ public class ContactFragment extends Fragment {
 							int position, long id) {
 						nextIntent = new Intent(getActivity(),
 								DisplayMessagesActivity.class);
-						nextIntent.putExtra("position", position);
+						globalVariable.setChatPerson(usersListPO.get(position));
+//						nextIntent.putExtra("position", position);
 						startActivity(nextIntent);
 					}
 				});

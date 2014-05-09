@@ -5,9 +5,13 @@ import java.util.List;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -16,7 +20,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mw.smartoff.DAO.MessageDAO;
-import com.mw.smartoff.DAO.UserDAO;
 import com.mw.smartoff.adapter.MessagesAdapter;
 import com.mw.smartoff.model.Message;
 import com.mw.smartoff.services.CreateDialog;
@@ -36,14 +39,30 @@ public class DisplayMessagesActivity extends ListActivity {
 	GlobalVariable globalVariable;
 	MessageDAO dao;
 	TextView notificationTV;
-TextView usernameTV;
-	
+	TextView usernameTV;
+
 	MessagesAdapter adapter;
 
 	CreateDialog createDialog;
 	ProgressDialog progressDialog;
 
 	List<Message> msgsList;
+
+	private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			// Extract data included in the Intent
+			// String message = intent.getStringExtra("message");
+			Message tempMessage = new Message(null,
+					globalVariable.getChatPerson(), ParseUser.getCurrentUser(),
+					intent.getStringExtra("message"));
+			msgsList.add(tempMessage);
+			adapter.notifyDataSetChanged();
+			setSelection(adapter.getCount() - 1);
+			System.out.println(">>>>>>>>>>>suyccesese");
+
+		}
+	};
 
 	private void findThings() {
 		notificationTV = (TextView) findViewById(R.id.notification_TV);
@@ -55,13 +74,14 @@ TextView usernameTV;
 		globalVariable = (GlobalVariable) getApplicationContext();
 		previousIntent = getIntent();
 		dao = new MessageDAO(this);
-		if (previousIntent.hasExtra("fromUserId")) {
-			selectedContactPU = new UserDAO(this).getUserById(previousIntent
-					.getStringExtra("fromUserId"));
-		} else {
-			selectedContactPU = globalVariable.getUserList().get(
-					(previousIntent.getIntExtra("position", -1)));
-		}
+		// if (previousIntent.hasExtra("fromUserId")) {
+		// selectedContactPU = new UserDAO(this).getUserById(previousIntent
+		// .getStringExtra("fromUserId"));
+		// } else {
+		// selectedContactPU = globalVariable.getUserList().get(
+		// (previousIntent.getIntExtra("position", -1)));
+		selectedContactPU = globalVariable.getChatPerson();
+		// }
 		createDialog = new CreateDialog(this);
 		progressDialog = createDialog.createProgressDialog("Loading",
 				"Fetching Meetings", true, null);
@@ -94,7 +114,6 @@ TextView usernameTV;
 					}
 				});
 	}
-
 
 	private class FetchMsgsAsynTask extends AsyncTask<String, Void, Void> {
 		@Override
@@ -159,7 +178,7 @@ TextView usernameTV;
 			adapter.notifyDataSetChanged();
 
 		setSelection(adapter.getCount() - 1);
-		
+
 		SaveMsgAsynTask asynTask = new SaveMsgAsynTask();
 		asynTask.execute(new String[] { messagesET.getText().toString().trim() });
 
@@ -167,6 +186,7 @@ TextView usernameTV;
 	}
 
 	public void onBack(View view) {
+		globalVariable.setChatPerson(null);
 		finish();
 	}
 
@@ -180,17 +200,20 @@ TextView usernameTV;
 			startActivity(nextIntent);
 		}
 		GlobalVariable.PIN++;
+
+		LocalBroadcastManager.getInstance(this).registerReceiver(
+				mMessageReceiver, new IntentFilter("new_message"));
 	}
 
-	@Override
-	public void onRestart() {
-
-		super.onRestart();
-
-	}
+	// @Override
+	// public void onRestart() {
+	// super.onRestart();
+	// }
 
 	@Override
 	public void onPause() {
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(
+				mMessageReceiver);
 		super.onPause();
 	}
 
@@ -200,4 +223,11 @@ TextView usernameTV;
 		super.onStop();
 		GlobalVariable.PIN--;
 	}
+
+	@Override
+	public void onBackPressed() {
+		globalVariable.setChatPerson(null);
+		super.onBackPressed();
+	}
+
 }

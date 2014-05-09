@@ -37,6 +37,7 @@ public class GlobalVariable extends android.app.Application {
 	public static boolean RESPONDED_TO_MEETING;
 	public static boolean RESPONSE_TO_MEETING;
 
+	// Used in DisplayMeetingActivity.java
 	public static int MEETINGS_ALL = 1;
 	public static int MEETINGS_PENDING = 10;
 	public static int MEETINGS_MY = 100;
@@ -48,6 +49,8 @@ public class GlobalVariable extends android.app.Application {
 	List<Email> emailList;
 	List<ParseUser> userList;
 
+	ParseUser chatPerson;
+	
 	HashMap<String, Integer> myMap;
 
 	public GlobalVariable() {
@@ -101,28 +104,20 @@ public class GlobalVariable extends android.app.Application {
 
 	}
 
+	public List<Meeting> getMeetingList() {
+		return meetingList;
+	}
+
+	public void setMeetingList(List<Meeting> meetingList) {
+		this.meetingList = meetingList;
+	}
+
 	public List<Meeting> getMeetingPendingList() {
 		return meetingPendingList;
 	}
 
 	public void setMeetingPendingList(List<Meeting> meetingPendingList) {
 		this.meetingPendingList = meetingPendingList;
-	}
-
-	public List<ParseUser> getUserList() {
-		return userList;
-	}
-
-	public void setUserList(List<ParseUser> userList) {
-		this.userList = userList;
-	}
-
-	public List<Email> getEmailList() {
-		return emailList;
-	}
-
-	public void setEmailList(List<Email> emailList) {
-		this.emailList = emailList;
 	}
 
 	public List<Meeting> getMeetingOwnList() {
@@ -133,12 +128,28 @@ public class GlobalVariable extends android.app.Application {
 		this.meetingOwnList = meetingOwnList;
 	}
 
-	public List<Meeting> getMeetingList() {
-		return meetingList;
+	public List<Email> getEmailList() {
+		return emailList;
 	}
 
-	public void setMeetingList(List<Meeting> meetingList) {
-		this.meetingList = meetingList;
+	public void setEmailList(List<Email> emailList) {
+		this.emailList = emailList;
+	}
+
+	public List<ParseUser> getUserList() {
+		return userList;
+	}
+
+	public void setUserList(List<ParseUser> userList) {
+		this.userList = userList;
+	}
+
+	public ParseUser getChatPerson() {
+		return chatPerson;
+	}
+
+	public void setChatPerson(ParseUser chatPerson) {
+		this.chatPerson = chatPerson;
 	}
 
 	public HashMap<String, Integer> getMyMap() {
