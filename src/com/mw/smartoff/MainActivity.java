@@ -241,6 +241,7 @@ public class MainActivity extends FragmentActivity {
 
 		// Satyen: we are removing PIN here
 		editor.remove("pin");
+		editor.clear();
 		editor.commit();
 
 		// Satyen: unsubscribing to channels

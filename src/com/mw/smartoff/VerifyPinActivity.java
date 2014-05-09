@@ -226,6 +226,7 @@ public class VerifyPinActivity extends Activity implements View.OnClickListener 
 		// {
 		// Satyen: we are removing PIN here
 		editor.remove("pin");
+		editor.clear();
 		editor.commit();
 
 		// Satyen: unsubscribing to channels

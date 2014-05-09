@@ -2,7 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingRight="20dp" android:paddingLeft="10dp" android:paddingTop="10dp" android:paddingBottom="10dp">
+    android:paddingBottom="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="20dp"
+    android:paddingTop="10dp" >
 
     <ImageView
         android:id="@+id/sender_IV"
@@ -19,19 +22,24 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="false"
         android:layout_alignParentTop="false"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/sender_IV"
         android:singleLine="true"
         android:text="Satyen Vats"
         android:textIsSelectable="false"
         android:textSize="18sp"
-        android:typeface="serif" android:layout_toRightOf="@+id/sender_IV" android:layout_toLeftOf="@+id/date_TV"
-        android:layout_centerInParent="true" android:layout_marginLeft="10dp"/>
+        android:typeface="serif" />
+
     <!-- COMMENTING IT OUT FOR NOW -->
-	<!--<ImageView-->
-        <!--android:id="@+id/unread_msgs_IV"-->
-        <!--android:layout_width="30dp"-->
-        <!--android:layout_height="30dp"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_alignParentTop="false"-->
-        <!--android:layout_centerInParent="true" android:background="@android:color/holo_red_light"/>-->
+    <!-- <ImageView
+        android:id="@+id/unread_msgs_IV"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="false"
+        android:layout_centerInParent="true"
+        android:background="@android:color/holo_red_light"
+        android:visibility="invisible" /> -->
 
 </RelativeLayout>

@@ -1,22 +1,33 @@
 package com.mw.smartoff.fragments;
 
+import java.util.List;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import com.mw.smartoff.DAO.UserDAO;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.mw.smartoff.DisplayMessagesActivity;
+import com.mw.smartoff.DAO.UserDAO;
 import com.mw.smartoff.adapter.ContactsAdapter;
 import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
 import com.parse.ParseUser;
-
-import java.util.List;
 
 public class ContactFragment extends Fragment {
 	TextView welcomeDashTV;
@@ -27,6 +38,38 @@ public class ContactFragment extends Fragment {
 	GlobalVariable globalVariable;
 	ContactsAdapter adapter;
 	Intent nextIntent;
+
+	SharedPreferences sharedPreferences;
+	Editor editor;
+	
+	private BroadcastReceiver unreadMessagesCounterReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			// Extract data included in the Intent
+			// String message = intent.getStringExtra("message");
+			adapter.notifyDataSetChanged();
+			System.out.println(">>>>>>>>>>>suyccesese");
+
+		}
+	};
+	
+	
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		Toast.makeText(getActivity(), "onPasue", Toast.LENGTH_SHORT).show();
+//		LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(
+//				unreadMessagesCounterReceiver);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		Toast.makeText(getActivity(), "onRedsume", Toast.LENGTH_SHORT).show();
+//		LocalBroadcastManager.getInstance(getActivity()).registerReceiver(
+//				unreadMessagesCounterReceiver, new IntentFilter("new_message"));
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,6 +99,10 @@ public class ContactFragment extends Fragment {
 	private void initThings() {
 		globalVariable = (GlobalVariable) getActivity().getApplicationContext();
 		dao = new UserDAO(getActivity());
+		
+		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity()
+				.getApplicationContext());
+		editor = sharedPreferences.edit();
 	}
 
 	private class FetchAllUsersAsynTask extends
@@ -76,6 +123,10 @@ public class ContactFragment extends Fragment {
 					break;
 				}
 			}
+			for (int i = 0; i < userList.size(); i++) {
+				editor.putInt(userList.get(i).getObjectId(), 0);
+			}
+			editor.commit();
 			globalVariable.setUserList(userList);
 			return userList;
 		}
