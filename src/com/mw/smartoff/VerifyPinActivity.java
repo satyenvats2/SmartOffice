@@ -274,4 +274,10 @@ public class VerifyPinActivity extends Activity implements View.OnClickListener 
 		// startActivity(nextIntent);
 	}
 
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        Intent nextIntent = new Intent(this, VerifyPinActivity.class);
+        startActivity(nextIntent);
+    }
 }
