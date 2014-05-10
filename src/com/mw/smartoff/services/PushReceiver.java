@@ -1,8 +1,5 @@
 package com.mw.smartoff.services;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -11,9 +8,9 @@ import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
-import android.widget.Toast;
-
 import com.mw.smartoff.JustADialogActivity;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class PushReceiver extends BroadcastReceiver {
 	Intent nextIntent;
@@ -37,9 +34,9 @@ public class PushReceiver extends BroadcastReceiver {
 		JSONObject jsonObject;
 		try {
 			jsonObject = new JSONObject(message);
-			Toast.makeText(context,
-					"Notif received - " + jsonObject.getInt("type"),
-					Toast.LENGTH_LONG).show();
+//			Toast.makeText(context,
+//					"Notif received - " + jsonObject.getInt("type"),
+//					Toast.LENGTH_LONG).show();
 			nextIntent = new Intent(context, JustADialogActivity.class);
 			nextIntent.putExtra("type", jsonObject.getInt("type"));
 			nextIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

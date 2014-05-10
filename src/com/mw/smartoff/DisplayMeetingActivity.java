@@ -1,18 +1,10 @@
 package com.mw.smartoff;
 
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.TimeZone;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.ContentResolver;
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.*;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -21,15 +13,7 @@ import android.provider.CalendarContract.Events;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TableLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.widget.*;
 import com.mw.smartoff.DAO.MeetingDAO;
 import com.mw.smartoff.DAO.ResponseToMeetingDAO;
 import com.mw.smartoff.model.Meeting;
@@ -39,6 +23,10 @@ import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.TimeZone;
 
 @SuppressLint("DefaultLocale")
 public class DisplayMeetingActivity extends Activity {
@@ -262,14 +250,14 @@ System.out.println(">>>>>>>" + alertDialog2==null);
 	}
 
 	public void onAccept(View view) {
-		Toast.makeText(this, "accept", Toast.LENGTH_SHORT).show();
+//		Toast.makeText(this, "accept", Toast.LENGTH_SHORT).show();
 		previousIntent.putExtra("isAttending", true);
 		showPopupForNotes("Accept Invite", true);
 
 	}
 
 	public void onReject(View view) {
-		Toast.makeText(this, "reject", Toast.LENGTH_SHORT).show();
+//		Toast.makeText(this, "reject", Toast.LENGTH_SHORT).show();
 		previousIntent.putExtra("isAttending", false);
 		showPopupForNotes("Reject Invite", false);
 	}

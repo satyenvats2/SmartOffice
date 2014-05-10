@@ -136,7 +136,8 @@ public class VerifyPinActivity extends Activity implements View.OnClickListener 
 			errorMsgTV.setVisibility(View.VISIBLE);
 			errorMsgTV.setText("PIN is incorrect");
 		} else {
-			startActivity(nextIntent);
+            GlobalVariable.FROM_VERIFY_PIN = true;
+            startActivity(nextIntent);
 		}
 	}
 

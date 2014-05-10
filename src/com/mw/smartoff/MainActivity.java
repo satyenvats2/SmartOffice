@@ -1,8 +1,5 @@
 package com.mw.smartoff;
 
-import java.util.ArrayList;
-import java.util.Set;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -16,13 +13,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.AdapterView;
+import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.google.gson.Gson;
 import com.mw.smartoff.adapter.NavDrawerListAdapter;
 import com.mw.smartoff.fragments.ContactFragment;
@@ -34,6 +26,9 @@ import com.mw.smartoffice.R;
 import com.parse.ParseAnalytics;
 import com.parse.ParseUser;
 import com.parse.PushService;
+
+import java.util.ArrayList;
+import java.util.Set;
 
 public class MainActivity extends FragmentActivity {
 
@@ -151,17 +146,17 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public void onPause() {
 		super.onPause();
-		Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+//		Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
 		Gson gson = new Gson();
 		if (globalVariable.getEmailList() != null) {
-			Toast.makeText(this, "iifff", Toast.LENGTH_SHORT).show();
+//			Toast.makeText(this, "iifff", Toast.LENGTH_SHORT).show();
 
 			String json = gson.toJson(globalVariable.getEmailList());
 			editor.putString("email_list", json);
 		}
 		else
 		{
-			Toast.makeText(this, "elsing2", Toast.LENGTH_SHORT).show();
+//			Toast.makeText(this, "elsing2", Toast.LENGTH_SHORT).show();
 		}
 		if (globalVariable.getMeetingList() != null) {
 			String json = gson.toJson(globalVariable.getMeetingList());
