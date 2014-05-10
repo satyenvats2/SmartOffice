@@ -1,10 +1,6 @@
 package com.mw.smartoff;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.ListActivity;
-import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -16,17 +12,20 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.mw.smartoff.DAO.MessageDAO;
 import com.mw.smartoff.adapter.MessagesAdapter;
 import com.mw.smartoff.model.Message;
-import com.mw.smartoff.services.CreateDialog;
 import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class DisplayMessagesActivity extends ListActivity {
 
@@ -43,10 +42,11 @@ public class DisplayMessagesActivity extends ListActivity {
 
 	MessagesAdapter adapter;
 
-	CreateDialog createDialog;
-	ProgressDialog progressDialog;
+//	CreateDialog createDialog;
+//	ProgressDialog progressDialog;
 
 	List<Message> msgsList;
+    ProgressBar progressBar;
 
 	private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
 		@Override
@@ -55,7 +55,7 @@ public class DisplayMessagesActivity extends ListActivity {
 			// String message = intent.getStringExtra("message");
 			Message tempMessage = new Message(null,
 					globalVariable.getChatPerson(), ParseUser.getCurrentUser(),
-					intent.getStringExtra("message"));
+					intent.getStringExtra("message"), new Date());
 			msgsList.add(tempMessage);
 			adapter.notifyDataSetChanged();
 			setSelection(adapter.getCount() - 1);
@@ -68,7 +68,8 @@ public class DisplayMessagesActivity extends ListActivity {
 		notificationTV = (TextView) findViewById(R.id.notification_TV);
 		messagesET = (TextView) findViewById(R.id.message_ET);
 		usernameTV = (TextView) findViewById(R.id.username_TV);
-	}
+        progressBar = (ProgressBar) findViewById(R.id.progressBarMSG);
+    }
 
 	private void initThings() {
 		globalVariable = (GlobalVariable) getApplicationContext();
@@ -82,9 +83,9 @@ public class DisplayMessagesActivity extends ListActivity {
 		// (previousIntent.getIntExtra("position", -1)));
 		selectedContactPU = globalVariable.getChatPerson();
 		// }
-		createDialog = new CreateDialog(this);
-		progressDialog = createDialog.createProgressDialog("Loading",
-				"Fetching Meetings", true, null);
+//		createDialog = new CreateDialog(this);
+//		progressDialog = createDialog.createProgressDialog("Loading",
+//				"Fetching Meetings", true, null);
 	}
 
 	private void initialVisibilityOfViews() {
@@ -99,7 +100,7 @@ public class DisplayMessagesActivity extends ListActivity {
 		initThings();
 		initialVisibilityOfViews();
 
-		progressDialog.show();
+//		progressDialog.show();
 		FetchMsgsAsynTask asynTask = new FetchMsgsAsynTask();
 		asynTask.execute(new String[] { "Helelo Worldsdfsdd" });
 
@@ -136,6 +137,7 @@ public class DisplayMessagesActivity extends ListActivity {
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
+            progressBar.setVisibility(View.INVISIBLE);
 			if (msgsList == null || msgsList.size() == 0) {
 				notificationTV.setVisibility(View.VISIBLE);
 			} else {
@@ -143,7 +145,7 @@ public class DisplayMessagesActivity extends ListActivity {
 						msgsList);
 				setListAdapter(adapter);
 			}
-			progressDialog.dismiss();
+//			progressDialog.dismiss();
 		}
 
 	}// FetchMsgsAsynTask
@@ -167,7 +169,7 @@ public class DisplayMessagesActivity extends ListActivity {
 		if (messagesET.getText().toString().trim().length() == 0)
 			return;
 		Message tempMessage = new Message(null, ParseUser.getCurrentUser(),
-				selectedContactPU, messagesET.getText().toString().trim());
+				selectedContactPU, messagesET.getText().toString().trim(), null);
 		msgsList.add(tempMessage);
 		if (adapter == null) {
 			adapter = new MessagesAdapter(DisplayMessagesActivity.this,
@@ -202,7 +204,7 @@ public class DisplayMessagesActivity extends ListActivity {
 		GlobalVariable.PIN++;
 
 		LocalBroadcastManager.getInstance(this).registerReceiver(
-				mMessageReceiver, new IntentFilter("new_message"));
+                mMessageReceiver, new IntentFilter("new_message"));
 	}
 
 	// @Override

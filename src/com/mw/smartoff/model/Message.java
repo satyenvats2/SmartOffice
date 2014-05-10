@@ -1,8 +1,9 @@
 package com.mw.smartoff.model;
 
-import java.io.Serializable;
-
 import com.parse.ParseUser;
+
+import java.io.Serializable;
+import java.util.Date;
 
 public class Message implements Serializable {
 
@@ -14,14 +15,16 @@ public class Message implements Serializable {
 	ParseUser toPU;
 	
 	String message;
+    Date date;
 
 	public Message(String objectID, ParseUser fromPU, ParseUser toPU,
-			String message) {
+			String message, Date date) {
 		super();
 		this.objectID = objectID;
 		this.fromPU = fromPU;
 		this.toPU = toPU;
 		this.message = message;
+        this.date = date;
 	}
 
 	public String getObjectID() {
@@ -55,5 +58,13 @@ public class Message implements Serializable {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	
+
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 }
