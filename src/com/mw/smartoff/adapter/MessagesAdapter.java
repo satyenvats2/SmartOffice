@@ -91,10 +91,17 @@ public class MessagesAdapter extends BaseAdapter {
 	}
 
     public String getDisplayDate(Date date) {
+        if(date != null){
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
                 "dd MMM, hh:mm");
         String stringDate = simpleDateFormat.format(date);
         return stringDate;
+        }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
+                "dd MMM, hh:mm");
+        String stringDate = simpleDateFormat.format(new Date());
+        return stringDate;
+
     }
 
 }

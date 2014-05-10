@@ -1,18 +1,14 @@
 package com.mw.smartoff.fragments;
 
-import java.util.List;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,14 +16,14 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.mw.smartoff.DisplayMessagesActivity;
 import com.mw.smartoff.DAO.UserDAO;
+import com.mw.smartoff.DisplayMessagesActivity;
 import com.mw.smartoff.adapter.ContactsAdapter;
 import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
 import com.parse.ParseUser;
+
+import java.util.List;
 
 public class ContactFragment extends Fragment {
 	TextView welcomeDashTV;
@@ -58,7 +54,7 @@ public class ContactFragment extends Fragment {
 	@Override
 	public void onPause() {
 		super.onPause();
-		Toast.makeText(getActivity(), "onPasue", Toast.LENGTH_SHORT).show();
+//		Toast.makeText(getActivity(), "onPasue", Toast.LENGTH_SHORT).show();
 //		LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(
 //				unreadMessagesCounterReceiver);
 	}
@@ -66,7 +62,7 @@ public class ContactFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		Toast.makeText(getActivity(), "onRedsume", Toast.LENGTH_SHORT).show();
+//		Toast.makeText(getActivity(), "onRedsume", Toast.LENGTH_SHORT).show();
 //		LocalBroadcastManager.getInstance(getActivity()).registerReceiver(
 //				unreadMessagesCounterReceiver, new IntentFilter("new_message"));
 	}
