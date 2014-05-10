@@ -1,5 +1,14 @@
 package com.mw.smartoff.services;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -7,6 +16,7 @@ import android.graphics.Path;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+
 import com.mw.smartoff.model.Email;
 import com.mw.smartoff.model.Meeting;
 import com.mw.smartoff.model.Message;
@@ -16,15 +26,6 @@ import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
-
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 
 public class GlobalVariable extends android.app.Application {
 
@@ -41,11 +42,12 @@ public class GlobalVariable extends android.app.Application {
 	public static int MEETINGS_PENDING = 10;
 	public static int MEETINGS_MY = 100;
 
+	List<Email> emailList;
+	
 	List<Meeting> meetingList;
 	List<Meeting> meetingPendingList;
 	List<Meeting> meetingOwnList;
 
-	List<Email> emailList;
 	List<ParseUser> userList;
 
 	ParseUser chatPerson;
@@ -58,7 +60,7 @@ public class GlobalVariable extends android.app.Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-
+		System.out.println(">>>>>>>>>>> GV onCreate");
 		String[] alphabets = getResources().getStringArray(R.array.alphabets);
 		int[] hexCodes = getResources().getIntArray(R.array.hex_codes);
 		myMap = new HashMap<String, Integer>();
@@ -101,6 +103,12 @@ public class GlobalVariable extends android.app.Application {
 		// PushService.subscribe(this, "SmartOffice", MainActivity.class);
 		// }
 
+	}
+
+	@Override
+	public void onTerminate() {
+	System.out.println(">>>>>>>>>>> GV terminate");
+		super.onTerminate();
 	}
 
 	public List<Meeting> getMeetingList() {

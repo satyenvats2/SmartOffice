@@ -21,7 +21,9 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.mw.smartoff.adapter.NavDrawerListAdapter;
 import com.mw.smartoff.fragments.ContactFragment;
 import com.mw.smartoff.fragments.EmailFragment;
@@ -146,11 +148,40 @@ public class MainActivity extends FragmentActivity {
 		}
 	}
 
-	// @Override
-	// public void onPause() {
-	// super.onPause();
-	// }
-	//
+	@Override
+	public void onPause() {
+		super.onPause();
+		Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+		Gson gson = new Gson();
+		if (globalVariable.getEmailList() != null) {
+			Toast.makeText(this, "iifff", Toast.LENGTH_SHORT).show();
+
+			String json = gson.toJson(globalVariable.getEmailList());
+			editor.putString("email_list", json);
+		}
+		else
+		{
+			Toast.makeText(this, "elsing2", Toast.LENGTH_SHORT).show();
+		}
+		if (globalVariable.getMeetingList() != null) {
+			String json = gson.toJson(globalVariable.getMeetingList());
+			editor.putString("meeting_list", json);
+		}
+		if (globalVariable.getMeetingOwnList() != null) {
+			String json = gson.toJson(globalVariable.getMeetingOwnList());
+			editor.putString("meeting_own_list", json);
+		}
+		if (globalVariable.getMeetingPendingList() != null) {
+			String json = gson.toJson(globalVariable.getMeetingPendingList());
+			editor.putString("meeting_pending_list", json);
+		}
+		if (globalVariable.getMeetingPendingList() != null) {
+			String json = gson.toJson(globalVariable.getMeetingPendingList());
+			editor.putString("user_list", json);
+		}
+		editor.commit();
+	}
+
 	// @Override
 	// public void onRestart() {
 	// super.onRestart();
