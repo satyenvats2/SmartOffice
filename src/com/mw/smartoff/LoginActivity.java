@@ -1,7 +1,9 @@
 package com.mw.smartoff;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -22,6 +24,10 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.mw.smartoff.DAO.EmailDAO;
 import com.mw.smartoff.DAO.MeetingDAO;
 import com.mw.smartoff.DAO.ResponseToMeetingDAO;
@@ -135,7 +141,56 @@ public class LoginActivity extends Activity {
 		if (ParseUser.getCurrentUser() != null) {
 			System.out
 					.println(">>>>>>> LoginActivity::onCreate -> user is present in preferences");
-//			collectUserData();
+			// collectUserData();
+
+			// retrieve data from preferences
+			Gson gson = new Gson();
+			if (sharedPreferences.contains("email_list")) {
+				String value = sharedPreferences.getString("email_list", null);
+				if (value != null) {
+					Type listType = (Type) new TypeToken<ArrayList<Email>>() {
+                    }.getType();
+					globalVariable.setEmailList((List<Email>)gson.fromJson(value, listType));
+				}
+			}
+			if (sharedPreferences.contains("meeting_list")) {
+				String value = sharedPreferences.getString("meeting_list", null);
+				if (value != null) {
+					Type listType = (Type) new TypeToken<ArrayList<Meeting>>() {
+                    }.getType();
+					globalVariable.setMeetingList((List<Meeting>)gson.fromJson(value, listType));
+				}
+			}
+			if (sharedPreferences.contains("meeting_own_list")) {
+				String value = sharedPreferences.getString("meeting_list", null);
+				if (value != null) {
+					Type listType = (Type) new TypeToken<ArrayList<Meeting>>() {
+                    }.getType();
+					globalVariable.setMeetingOwnList((List<Meeting>)gson.fromJson(value, listType));
+				}
+			}
+			if (sharedPreferences.contains("meeting_pending_list")) {
+				String value = sharedPreferences.getString("meeting_pending_list", null);
+				if (value != null) {
+					Type listType = (Type) new TypeToken<ArrayList<Meeting>>() {
+                    }.getType();
+					globalVariable.setMeetingPendingList((List<Meeting>)gson.fromJson(value, listType));
+				}
+			}
+			if (sharedPreferences.contains("user_list")) {
+				String value = sharedPreferences.getString("user_list", null);
+				if (value != null) {
+					Type listType = (Type) new TypeToken<ArrayList<Email>>() {
+                    }.getType();
+					globalVariable.setUserList((List<ParseUser>)gson.fromJson(value, listType));
+				}
+			}
+//			else
+//			{
+//				System.out.println("elsing");
+//				Toast.makeText(this, "elseing", Toast.LENGTH_SHORT).show();
+//			}
+
 			startActivity(nextIntent);
 		}
 
@@ -192,7 +247,7 @@ public class LoginActivity extends Activity {
 				System.out
 						.println(">>>>>>> LoginActivity::onPostCreate() - user is "
 								+ user.getUsername());
-//				collectUserData();
+				// collectUserData();
 				PushService.subscribe(LoginActivity.this, ParseUser
 						.getCurrentUser().getUsername(), MainActivity.class);
 				startActivity(nextIntent);
@@ -210,14 +265,14 @@ public class LoginActivity extends Activity {
 		// FetchEmailsAsynTask asynTask = new FetchEmailsAsynTask();
 		// asynTask.execute(new String[] { "Hello Worlkd" });
 
-//		FetchMeetingsAsynTask asynTask2 = new FetchMeetingsAsynTask();
-//		asynTask2.execute(new String[] { "Hello Worlkd" });
+		// FetchMeetingsAsynTask asynTask2 = new FetchMeetingsAsynTask();
+		// asynTask2.execute(new String[] { "Hello Worlkd" });
 
-//		FetchMeetingsOwnAsynTask asynTask3 = new FetchMeetingsOwnAsynTask();
-//		asynTask3.execute(true);
+		// FetchMeetingsOwnAsynTask asynTask3 = new FetchMeetingsOwnAsynTask();
+		// asynTask3.execute(true);
 
-//		FetchAllUsersAsynTask asynTask4 = new FetchAllUsersAsynTask();
-//		asynTask4.execute(true);
+		// FetchAllUsersAsynTask asynTask4 = new FetchAllUsersAsynTask();
+		// asynTask4.execute(true);
 	}
 
 	private class FetchEmailsAsynTask extends AsyncTask<String, Void, Void> {
