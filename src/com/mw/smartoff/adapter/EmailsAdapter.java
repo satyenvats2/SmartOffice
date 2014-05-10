@@ -1,25 +1,25 @@
 package com.mw.smartoff.adapter;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.mw.smartoff.model.Email;
 import com.mw.smartoff.services.CharacterDrawable;
 import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 @SuppressLint("DefaultLocale")
 public class EmailsAdapter extends BaseAdapter {
@@ -96,12 +96,17 @@ public class EmailsAdapter extends BaseAdapter {
 		viewHolder.senderIV.setImageDrawable(drawable);
 
 		viewHolder.nameTV.setText(tempEmail.getFrom().getName());
-		if (!tempEmail.isEmailRead()) {
+        viewHolder.subjectTV.setText(tempEmail.getSubject());
+        viewHolder.dateTV.setText(formatDate(tempEmail.getCreatedAt()));
+        viewHolder.contentTV.setText(tempEmail.getContent());
+
+        if (!tempEmail.isEmailRead()) {
+            viewHolder.nameTV.setTypeface(Typeface.SERIF, Typeface.BOLD);
+            viewHolder.subjectTV.setTypeface(Typeface.SERIF, Typeface.BOLD);
+            viewHolder.dateTV.setTypeface(Typeface.SERIF, Typeface.BOLD);
+            viewHolder.contentTV.setTypeface(Typeface.SERIF, Typeface.BOLD);
 			viewHolder.unreadIV.setVisibility(View.VISIBLE);
 		}
-		viewHolder.subjectTV.setText(tempEmail.getSubject());
-		viewHolder.dateTV.setText(formatDate(tempEmail.getCreatedAt()));
-		viewHolder.contentTV.setText(tempEmail.getContent());
 
 		return convertView;
 	}

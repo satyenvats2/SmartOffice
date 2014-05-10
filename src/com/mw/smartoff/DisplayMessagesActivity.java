@@ -185,7 +185,19 @@ public class DisplayMessagesActivity extends ListActivity {
 		asynTask.execute(new String[] { messagesET.getText().toString().trim() });
 
 		messagesET.setText("");
-	}
+
+//        ((RelativeLayout) findViewById(R.id.messages_list_RL))
+//                .setOnTouchListener(new OnTouchListener() {
+//                    @Override
+//                    public boolean onTouch(View v, MotionEvent event) {
+                        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(getCurrentFocus()
+                                .getWindowToken(), 0);
+//                        return false;
+//                    }
+//                });
+
+    }
 
 	public void onBack(View view) {
 		globalVariable.setChatPerson(null);

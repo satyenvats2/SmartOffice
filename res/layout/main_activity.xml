@@ -92,7 +92,7 @@
             android:id="@+id/fakeActionBarLL"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bottom_border"
+            android:background="@drawable/bottom_border_drawer"
             android:orientation="horizontal"
             android:paddingBottom="16dp"
             android:paddingTop="16dp" >

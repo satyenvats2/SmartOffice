@@ -1,9 +1,5 @@
 package com.mw.smartoff.fragments;
 
-import java.util.ArrayList;
-import java.util.List;
-
-//import android.app.Fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,22 +11,20 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.costum.android.widget.PullAndLoadListView;
 import com.costum.android.widget.PullToRefreshListView;
-import com.mw.smartoff.DisplayEmailActivity;
 import com.mw.smartoff.DAO.EmailDAO;
+import com.mw.smartoff.DisplayEmailActivity;
 import com.mw.smartoff.adapter.EmailsAdapter;
 import com.mw.smartoff.model.Email;
 import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
-import com.parse.Parse;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
-import com.parse.SaveCallback;
+import com.parse.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+//import android.app.Fragment;
 
 public class EmailFragment extends Fragment {
 	PullAndLoadListView emailLV;
@@ -175,15 +169,15 @@ public class EmailFragment extends Fragment {
 
 			if (emailPO != null) {
 				emailPO.put("isMailRead", true);
-				emailPO.saveEventually(new SaveCallback() {
-
-					@Override
-					public void done(ParseException arg0) {
-						Toast.makeText(getActivity(), "marked as read",
-								Toast.LENGTH_SHORT).show();
-
-					}
-				});
+//				emailPO.saveEventually(new SaveCallback() {
+//
+//					@Override
+//					public void done(ParseException arg0) {
+//						Toast.makeText(getActivity(), "marked as read",
+//								Toast.LENGTH_SHORT).show();
+//
+//					}
+//				});
 			}
 			return null;
 		}
