@@ -32,7 +32,7 @@
         android:typeface="serif" />
 
     <!-- COMMENTING IT OUT FOR NOW -->
-    <!-- <ImageView
+     <ImageView
         android:id="@+id/unread_msgs_IV"
         android:layout_width="30dp"
         android:layout_height="30dp"
@@ -40,6 +40,6 @@
         android:layout_alignParentTop="false"
         android:layout_centerInParent="true"
         android:background="@android:color/holo_red_light"
-        android:visibility="invisible" /> -->
+        android:visibility="invisible" />
 
 </RelativeLayout>

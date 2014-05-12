@@ -146,7 +146,7 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public void onPause() {
 		super.onPause();
-//		Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+		Toast.makeText(this, "onPause MainA", Toast.LENGTH_SHORT).show();
 		Gson gson = new Gson();
 		if (globalVariable.getEmailList() != null) {
 //			Toast.makeText(this, "iifff", Toast.LENGTH_SHORT).show();

@@ -28,7 +28,7 @@ import java.util.List;
 public class ContactFragment extends Fragment {
 	TextView welcomeDashTV;
 	ListView contactLV;
-//	ProgressBar progressBar;
+	// ProgressBar progressBar;
 
 	UserDAO dao;
 	GlobalVariable globalVariable;
@@ -37,7 +37,7 @@ public class ContactFragment extends Fragment {
 
 	SharedPreferences sharedPreferences;
 	Editor editor;
-	
+
 	private BroadcastReceiver unreadMessagesCounterReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -48,23 +48,22 @@ public class ContactFragment extends Fragment {
 
 		}
 	};
-	
-	
-	
+
 	@Override
 	public void onPause() {
 		super.onPause();
-//		Toast.makeText(getActivity(), "onPasue", Toast.LENGTH_SHORT).show();
-//		LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(
-//				unreadMessagesCounterReceiver);
+		// Toast.makeText(getActivity(), "onPasue", Toast.LENGTH_SHORT).show();
+		// LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(
+		// unreadMessagesCounterReceiver);
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-//		Toast.makeText(getActivity(), "onRedsume", Toast.LENGTH_SHORT).show();
-//		LocalBroadcastManager.getInstance(getActivity()).registerReceiver(
-//				unreadMessagesCounterReceiver, new IntentFilter("new_message"));
+		// Toast.makeText(getActivity(), "onRedsume",
+		// Toast.LENGTH_SHORT).show();
+		// LocalBroadcastManager.getInstance(getActivity()).registerReceiver(
+		// unreadMessagesCounterReceiver, new IntentFilter("new_message"));
 	}
 
 	@Override
@@ -88,16 +87,17 @@ public class ContactFragment extends Fragment {
 
 	private void findThings() {
 		contactLV = (ListView) getActivity().findViewById(R.id.contacts_LV);
-//		progressBar = (ProgressBar) getActivity()
-//				.findViewById(R.id.progressBar);
+		// progressBar = (ProgressBar) getActivity()
+		// .findViewById(R.id.progressBar);
 	}
 
 	private void initThings() {
 		globalVariable = (GlobalVariable) getActivity().getApplicationContext();
 		dao = new UserDAO(getActivity());
-		
-		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity()
-				.getApplicationContext());
+
+		sharedPreferences = PreferenceManager
+				.getDefaultSharedPreferences(getActivity()
+						.getApplicationContext());
 		editor = sharedPreferences.edit();
 	}
 
@@ -106,10 +106,10 @@ public class ContactFragment extends Fragment {
 
 		@Override
 		protected List<ParseUser> doInBackground(Boolean... params) {
-			if (globalVariable.getUserList() != null && params[0]){
-                return null;
-            }
-			
+			if (globalVariable.getUserList() != null && params[0]) {
+				return null;
+			}
+
 			List<ParseUser> userList = dao.getAllUsers();
 
 			for (int i = 0; i < userList.size(); i++) {
@@ -120,7 +120,9 @@ public class ContactFragment extends Fragment {
 				}
 			}
 			for (int i = 0; i < userList.size(); i++) {
-				editor.putInt(userList.get(i).getObjectId(), 0);
+				if (!sharedPreferences.contains(userList.get(i).getObjectId())) {
+					editor.putInt(userList.get(i).getObjectId(), 0);
+				}
 			}
 			editor.commit();
 			globalVariable.setUserList(userList);
@@ -130,7 +132,7 @@ public class ContactFragment extends Fragment {
 		@Override
 		protected void onPostExecute(List<ParseUser> usersListPOForDBUpdate) {
 			super.onPostExecute(usersListPOForDBUpdate);
-//			progressBar.setVisibility(View.INVISIBLE);
+			// progressBar.setVisibility(View.INVISIBLE);
 
 			final List<ParseUser> usersListPO = globalVariable.getUserList();
 			if (usersListPO != null && usersListPO.size() > 0) {
@@ -144,7 +146,10 @@ public class ContactFragment extends Fragment {
 						nextIntent = new Intent(getActivity(),
 								DisplayMessagesActivity.class);
 						globalVariable.setChatPerson(usersListPO.get(position));
-//						nextIntent.putExtra("position", position);
+						editor.putInt(usersListPO.get(position).getObjectId(), 0);
+						editor.commit();
+						adapter.notifyDataSetChanged();
+						// nextIntent.putExtra("position", position);
 						startActivity(nextIntent);
 					}
 				});

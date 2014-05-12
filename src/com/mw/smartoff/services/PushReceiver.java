@@ -56,17 +56,17 @@ public class PushReceiver extends BroadcastReceiver {
 					}
 				} else {
 					// update preferences for contacts page
-//					if (sharedPreferences.contains(jsonObject
-//							.getString("fromUserId"))) {
-//						editor.putInt(
-//								jsonObject.getString("fromUserId"),
-//								sharedPreferences.getInt(
-//										jsonObject.getString("fromUserId"), 0) + 1);
-//						editor.commit();
-//					} else {
-//						editor.putInt(jsonObject.getString("fromUserId"), 1);
-//						editor.commit();
-//					}
+					if (sharedPreferences.contains(jsonObject
+							.getString("fromUserId"))) {
+						editor.putInt(
+								jsonObject.getString("fromUserId"),
+								sharedPreferences.getInt(
+										jsonObject.getString("fromUserId"), 0) + 1);
+						editor.commit();
+					} else {
+						editor.putInt(jsonObject.getString("fromUserId"), 1);
+						editor.commit();
+					}
 //					Intent nextIntent = new Intent("unread_messages_count");
 //					LocalBroadcastManager.getInstance(context)
 //							.sendBroadcast(nextIntent);
