@@ -15,6 +15,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.mw.smartoff.DAO.MessageDAO;
 import com.mw.smartoff.adapter.MessagesAdapter;
 import com.mw.smartoff.model.Message;
@@ -233,7 +235,7 @@ public class DisplayMessagesActivity extends ListActivity {
 
 	@Override
 	public void onStop() {
-
+Toast.makeText(this, "onStop", Toast.LENGTH_SHORT).show();
 		super.onStop();
 		GlobalVariable.PIN--;
 	}

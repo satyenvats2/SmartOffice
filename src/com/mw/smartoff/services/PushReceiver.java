@@ -67,9 +67,9 @@ public class PushReceiver extends BroadcastReceiver {
 						editor.putInt(jsonObject.getString("fromUserId"), 1);
 						editor.commit();
 					}
-//					Intent nextIntent = new Intent("unread_messages_count");
-//					LocalBroadcastManager.getInstance(context)
-//							.sendBroadcast(nextIntent);
+					Intent nextIntent = new Intent("unread_messages_count");
+					LocalBroadcastManager.getInstance(context)
+							.sendBroadcast(nextIntent);
 				}
 			} else {
 				context.startActivity(nextIntent);
