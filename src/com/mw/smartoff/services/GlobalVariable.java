@@ -5,6 +5,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -55,6 +56,9 @@ public class GlobalVariable extends android.app.Application {
 	HashMap<String, Integer> myMap;
 
 	public GlobalVariable() {
+		emailList = new ArrayList<Email>();
+		meetingList = new ArrayList<Meeting>();
+		meetingOwnList = new ArrayList<Meeting>();
 	}
 
 	@Override

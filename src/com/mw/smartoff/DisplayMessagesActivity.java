@@ -44,11 +44,11 @@ public class DisplayMessagesActivity extends ListActivity {
 
 	MessagesAdapter adapter;
 
-//	CreateDialog createDialog;
-//	ProgressDialog progressDialog;
+	// CreateDialog createDialog;
+	// ProgressDialog progressDialog;
 
 	List<Message> msgsList;
-    ProgressBar progressBar;
+	ProgressBar progressBar;
 
 	private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
 		@Override
@@ -70,24 +70,14 @@ public class DisplayMessagesActivity extends ListActivity {
 		notificationTV = (TextView) findViewById(R.id.notification_TV);
 		messagesET = (TextView) findViewById(R.id.message_ET);
 		usernameTV = (TextView) findViewById(R.id.username_TV);
-        progressBar = (ProgressBar) findViewById(R.id.progressBarMSG);
-    }
+		progressBar = (ProgressBar) findViewById(R.id.progressBarMSG);
+	}
 
 	private void initThings() {
 		globalVariable = (GlobalVariable) getApplicationContext();
 		previousIntent = getIntent();
 		dao = new MessageDAO(this);
-		// if (previousIntent.hasExtra("fromUserId")) {
-		// selectedContactPU = new UserDAO(this).getUserById(previousIntent
-		// .getStringExtra("fromUserId"));
-		// } else {
-		// selectedContactPU = globalVariable.getUserList().get(
-		// (previousIntent.getIntExtra("position", -1)));
 		selectedContactPU = globalVariable.getChatPerson();
-		// }
-//		createDialog = new CreateDialog(this);
-//		progressDialog = createDialog.createProgressDialog("Loading",
-//				"Fetching Meetings", true, null);
 	}
 
 	private void initialVisibilityOfViews() {
@@ -102,7 +92,7 @@ public class DisplayMessagesActivity extends ListActivity {
 		initThings();
 		initialVisibilityOfViews();
 
-//		progressDialog.show();
+		// progressDialog.show();
 		FetchMsgsAsynTask asynTask = new FetchMsgsAsynTask();
 		asynTask.execute(new String[] { "Helelo Worldsdfsdd" });
 
@@ -139,7 +129,7 @@ public class DisplayMessagesActivity extends ListActivity {
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
-            progressBar.setVisibility(View.INVISIBLE);
+			progressBar.setVisibility(View.INVISIBLE);
 			if (msgsList == null || msgsList.size() == 0) {
 				notificationTV.setVisibility(View.VISIBLE);
 			} else {
@@ -147,7 +137,7 @@ public class DisplayMessagesActivity extends ListActivity {
 						msgsList);
 				setListAdapter(adapter);
 			}
-//			progressDialog.dismiss();
+			// progressDialog.dismiss();
 		}
 
 	}// FetchMsgsAsynTask
@@ -188,18 +178,17 @@ public class DisplayMessagesActivity extends ListActivity {
 
 		messagesET.setText("");
 
-//        ((RelativeLayout) findViewById(R.id.messages_list_RL))
-//                .setOnTouchListener(new OnTouchListener() {
-//                    @Override
-//                    public boolean onTouch(View v, MotionEvent event) {
-                        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(getCurrentFocus()
-                                .getWindowToken(), 0);
-//                        return false;
-//                    }
-//                });
+		// ((RelativeLayout) findViewById(R.id.messages_list_RL))
+		// .setOnTouchListener(new OnTouchListener() {
+		// @Override
+		// public boolean onTouch(View v, MotionEvent event) {
+		InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+		// return false;
+		// }
+		// });
 
-    }
+	}
 
 	public void onBack(View view) {
 		globalVariable.setChatPerson(null);
@@ -218,7 +207,7 @@ public class DisplayMessagesActivity extends ListActivity {
 		GlobalVariable.PIN++;
 
 		LocalBroadcastManager.getInstance(this).registerReceiver(
-                mMessageReceiver, new IntentFilter("new_message"));
+				mMessageReceiver, new IntentFilter("new_message"));
 	}
 
 	// @Override
@@ -235,7 +224,7 @@ public class DisplayMessagesActivity extends ListActivity {
 
 	@Override
 	public void onStop() {
-Toast.makeText(this, "onStop", Toast.LENGTH_SHORT).show();
+		Toast.makeText(this, "onStop", Toast.LENGTH_SHORT).show();
 		super.onStop();
 		GlobalVariable.PIN--;
 	}

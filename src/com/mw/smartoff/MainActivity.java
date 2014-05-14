@@ -70,7 +70,6 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	private void initialVisibilityOfViews() {
-
 		usernameTV.setText(ParseUser.getCurrentUser().getString("name"));
 	}
 
@@ -184,7 +183,6 @@ public class MainActivity extends FragmentActivity {
 
 	@Override
 	public void onStop() {
-
 		super.onStop();
 		if (GlobalVariable.PIN != 0)
 			GlobalVariable.PIN--;

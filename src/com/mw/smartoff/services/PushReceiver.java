@@ -34,9 +34,9 @@ public class PushReceiver extends BroadcastReceiver {
 		JSONObject jsonObject;
 		try {
 			jsonObject = new JSONObject(message);
-//			Toast.makeText(context,
-//					"Notif received - " + jsonObject.getInt("type"),
-//					Toast.LENGTH_LONG).show();
+			// Toast.makeText(context,
+			// "Notif received - " + jsonObject.getInt("type"),
+			// Toast.LENGTH_LONG).show();
 			nextIntent = new Intent(context, JustADialogActivity.class);
 			nextIntent.putExtra("type", jsonObject.getInt("type"));
 			nextIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -68,8 +68,9 @@ public class PushReceiver extends BroadcastReceiver {
 						editor.commit();
 					}
 					Intent nextIntent = new Intent("unread_messages_count");
-					LocalBroadcastManager.getInstance(context)
-							.sendBroadcast(nextIntent);
+					LocalBroadcastManager.getInstance(context).sendBroadcast(
+							nextIntent);
+
 				}
 			} else {
 				context.startActivity(nextIntent);

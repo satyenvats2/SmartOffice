@@ -1,6 +1,5 @@
 package com.mw.smartoff.fragments;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -9,17 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.mw.smartoff.DAO.MeetingDAO;
 import com.mw.smartoff.DAO.ResponseToMeetingDAO;
-import com.mw.smartoff.model.Meeting;
 import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
-import com.parse.ParseObject;
-import com.parse.ParseUser;
 import com.viewpagerindicator.TabPageIndicator;
-
-import java.util.ArrayList;
-import java.util.List;
 
 //import android.app.Fragment;
 
@@ -40,8 +34,6 @@ public class MeetingFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		initThings();
-//		FetchMeetingsAsynTask asynTask = new FetchMeetingsAsynTask();
-//		asynTask.execute(new String[] { "Hello World" });
 
 		View rootView = inflater.inflate(R.layout.meeting_list_fragment,
 				container, false);

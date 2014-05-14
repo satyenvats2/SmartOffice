@@ -1,9 +1,13 @@
 package com.mw.smartoff.fragments;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,17 +15,21 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.costum.android.widget.PullAndLoadListView;
 import com.costum.android.widget.PullToRefreshListView;
 import com.mw.smartoff.DAO.EmailDAO;
 import com.mw.smartoff.DisplayEmailActivity;
 import com.mw.smartoff.adapter.EmailsAdapter;
 import com.mw.smartoff.model.Email;
+import com.mw.smartoff.model.Message;
 import com.mw.smartoff.services.GlobalVariable;
+import com.mw.smartoff.services.EmailService;
 import com.mw.smartoffice.R;
 import com.parse.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 //import android.app.Fragment;
@@ -38,6 +46,17 @@ public class EmailFragment extends Fragment {
 
 	ParseQuery<ParseObject> query;
 
+	private BroadcastReceiver emailReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			// Extract data included in the Intent
+			// String message = intent.getStringExtra("message");
+			adapter.notifyDataSetChanged();
+			System.out.println(">>>>><<<<<<<<suyccesese");
+
+		}
+	};
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -67,6 +86,9 @@ public class EmailFragment extends Fragment {
 				new FetchEmailsAsynTask().execute(false);
 			}
 		});
+		
+		Intent serviceIntent = new Intent(getActivity(), EmailService.class);
+		getActivity().startService(serviceIntent);
 	}
 
 	private void findThings() {
@@ -92,23 +114,24 @@ public class EmailFragment extends Fragment {
 		@Override
 		protected List<ParseObject> doInBackground(Boolean... params) {
 			
-			if (globalVariable.getEmailList() != null && params[0]) {
-				return null;
-			}
-			System.out.println(">>>>>>>elseseses");
-			List<Email> emailList = new ArrayList<Email>();
-			List<ParseObject> emailPOList = dao.getEmailsForUser(ParseUser
-					.getCurrentUser().getEmail());
-			if (emailPOList != null) {
-				for (int i = 0; i < emailPOList.size(); i++) {
-					ParseObject tempEmailPO = emailPOList.get(i);
-					Email tempEmail = globalVariable
-							.convertPOtoEmail(tempEmailPO);
-					emailList.add(tempEmail);
-				}
-				globalVariable.setEmailList(emailList);
-			}
-			return emailPOList;
+//			if (globalVariable.getEmailList() != null && params[0]) {
+//				return null;
+//			}
+//			System.out.println(">>>>>>>elseseses");
+//			List<Email> emailList = new ArrayList<Email>();
+//			List<ParseObject> emailPOList = dao.getEmailsForUser(ParseUser
+//					.getCurrentUser().getEmail());
+//			if (emailPOList != null) {
+//				for (int i = 0; i < emailPOList.size(); i++) {
+//					ParseObject tempEmailPO = emailPOList.get(i);
+//					Email tempEmail = globalVariable
+//							.convertPOtoEmail(tempEmailPO);
+//					emailList.add(tempEmail);
+//				}
+//				globalVariable.setEmailList(emailList);
+//			}
+//			return emailPOList;
+			return null;
 		}
 
 		@Override
@@ -194,5 +217,19 @@ public class EmailFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 		new FetchEmailsAsynTask().execute(true);
+		LocalBroadcastManager.getInstance(getActivity()).registerReceiver(
+                emailReceiver, new IntentFilter("new_email"));
 	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(
+				emailReceiver);
+	}
+	
+	
+	
+	
+	
 }
