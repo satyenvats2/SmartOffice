@@ -85,15 +85,15 @@ public class ContactFragment extends Fragment {
 		initThings();
 
 		FetchAllUsersAsynTask asynTask = new FetchAllUsersAsynTask();
-		asynTask.execute(true);
+		asynTask.execute("Hello World");
 	}
 
 	private class FetchAllUsersAsynTask extends
-			AsyncTask<Boolean, Void, List<ParseUser>> {
+			AsyncTask<String, Void, List<ParseUser>> {
 
 		@Override
-		protected List<ParseUser> doInBackground(Boolean... params) {
-			if (globalVariable.getUserList() != null && params[0]) {
+		protected List<ParseUser> doInBackground(String... params) {
+			if (globalVariable.getUserList() != null && globalVariable.getUserList().size()>0) {
 				return null;
 			}
 

@@ -6,18 +6,19 @@ import java.util.Set;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -28,8 +29,6 @@ import com.mw.smartoff.adapter.NavDrawerListAdapter;
 import com.mw.smartoff.fragments.ContactFragment;
 import com.mw.smartoff.fragments.EmailFragment;
 import com.mw.smartoff.fragments.MeetingFragment;
-import com.mw.smartoff.model.Email;
-import com.mw.smartoff.model.Meeting;
 import com.mw.smartoff.model.NavDrawerItem;
 import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
@@ -38,12 +37,12 @@ import com.parse.ParseUser;
 import com.parse.PushService;
 
 public class MainActivity extends FragmentActivity {
+	private ActionBarDrawerToggle mDrawerToggle;
 
 	DrawerLayout mDrawerLayout;
 	RelativeLayout leftDrawerRLData;
 
 	TextView usernameTV;
-	TextView headerTitleTV;
 
 	ListView leftDrawerLV;
 	ArrayList<NavDrawerItem> navDrawerItemList;
@@ -61,12 +60,17 @@ public class MainActivity extends FragmentActivity {
 
 	boolean gotoPinFlag;
 
+	NavDrawerListAdapter adapter;
+
+	private CharSequence drawerTitle;
+
+	private CharSequence appTitle;
+
 	private void findThings() {
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		leftDrawerRLData = (RelativeLayout) findViewById(R.id.leftDrawer_RL);
 		leftDrawerLV = (ListView) findViewById(R.id.leftDrawer_LV);
 		usernameTV = (TextView) findViewById(R.id.username_TV);
-		headerTitleTV = (TextView) findViewById(R.id.header_title_TV);
 	}
 
 	private void initializeThings() {
@@ -74,17 +78,50 @@ public class MainActivity extends FragmentActivity {
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this
 				.getApplicationContext());
 		editor = sharedPreferences.edit();
+
+		drawerTitle = getTitle();
+		appTitle = getTitle();
+
+		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+				R.drawable.ic_drawer, // nav menu toggle icon
+				R.string.app_name, // nav drawer open - description for
+									// accessibility
+				R.string.app_name // nav drawer close - description for
+									// accessibility
+		) {
+			public void onDrawerClosed(View view) {
+				getActionBar().setTitle(drawerTitle);
+				// calling onPrepareOptionsMenu() to show action bar icons
+				invalidateOptionsMenu();
+			}
+
+			public void onDrawerOpened(View drawerView) {
+				getActionBar().setTitle(appTitle);
+				// calling onPrepareOptionsMenu() to hide action bar icons
+				invalidateOptionsMenu();
+			}
+		};
 	}
 
 	private void initialVisibilityOfViews() {
 		usernameTV.setText(ParseUser.getCurrentUser().getString("name"));
 	}
 
+	private class SlideMenuClickListener implements
+			ListView.OnItemClickListener {
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
+			// display view for selected nav drawer item
+			displayView(position);
+		}
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		/* requestWindowFeature(Window.FEATURE_NO_TITLE); */
 		setContentView(R.layout.main_activity);
 		findThings();
 		initializeThings();
@@ -92,20 +129,14 @@ public class MainActivity extends FragmentActivity {
 		drawerConfiguration();
 		prepareLeftDrawerItems();
 
-		NavDrawerListAdapter adapter = new NavDrawerListAdapter(this,
-				navDrawerItemList);
+		mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+		leftDrawerLV.setOnItemClickListener(new SlideMenuClickListener());
+		adapter = new NavDrawerListAdapter(this, navDrawerItemList);
 		leftDrawerLV.setAdapter(adapter);
 
-		leftDrawerLV.setOnItemClickListener(new OnItemClickListener() {
-
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				System.out.println("onItemClick");
-				leftDrawerLV.clearChoices();
-				leftDrawerLV.requestLayout();
-				displayView(position);
-			}
-		});
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setHomeButtonEnabled(true);
 
 		String username = (String) ParseUser.getCurrentUser().get("name");
 		usernameTV.setText(username);
@@ -128,6 +159,19 @@ public class MainActivity extends FragmentActivity {
 		}
 
 		ParseAnalytics.trackAppOpened(getIntent());
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// toggle nav drawer on selecting action bar app icon/title
+		if (mDrawerToggle.onOptionsItemSelected(item)) {
+			return true;
+		}
+		// Handle action bar actions click
+		switch (item.getItemId()) {
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 	private void drawerConfiguration() {
@@ -155,14 +199,12 @@ public class MainActivity extends FragmentActivity {
 		Toast.makeText(this, "onPause MainA", Toast.LENGTH_SHORT).show();
 		Gson gson = new Gson();
 		if (globalVariable.getEmailList() != null) {
-//			Toast.makeText(this, "iifff", Toast.LENGTH_SHORT).show();
+			// Toast.makeText(this, "iifff", Toast.LENGTH_SHORT).show();
 
 			String json = gson.toJson(globalVariable.getEmailList());
 			editor.putString("email_list", json);
-		}
-		else
-		{
-//			Toast.makeText(this, "elsing2", Toast.LENGTH_SHORT).show();
+		} else {
+			// Toast.makeText(this, "elsing2", Toast.LENGTH_SHORT).show();
 		}
 		if (globalVariable.getMeetingList() != null) {
 			String json = gson.toJson(globalVariable.getMeetingList());
@@ -202,17 +244,14 @@ public class MainActivity extends FragmentActivity {
 		switch (position) {
 		case 0:
 			fragment = new EmailFragment();
-			headerTitleTV.setText("Mailbox");
 			tag = "EMAIL";
 			break;
 		case 1:
 			fragment = new MeetingFragment();
-			headerTitleTV.setText("Meetings");
 			tag = "MEETING";
 			break;
 		case 2:
 			fragment = new ContactFragment();
-			headerTitleTV.setText("Select Contact");
 			tag = "CONTACT";
 			break;
 		case 3:
@@ -234,7 +273,7 @@ public class MainActivity extends FragmentActivity {
 
 			leftDrawerLV.setItemChecked(position, true);
 			leftDrawerLV.setSelection(position);
-
+			setTitle(navMenuTitles[position]);
 			mDrawerLayout.closeDrawer(leftDrawerRLData);
 		} else {
 			// error in creating fragment
@@ -242,8 +281,16 @@ public class MainActivity extends FragmentActivity {
 		}
 	}
 
+	@Override
+	public void setTitle(CharSequence title) {
+		drawerTitle = title;
+		getActionBar().setTitle(drawerTitle);
+	}
+
+	String[] navMenuTitles;
+
 	private void prepareLeftDrawerItems() {
-		String[] navMenuTitles = getResources().getStringArray(
+		navMenuTitles = getResources().getStringArray(
 				R.array.nav_drawer_items_title);
 		TypedArray navMenuIcons = getResources().obtainTypedArray(
 				R.array.nav_drawer_items_icons);
@@ -262,10 +309,6 @@ public class MainActivity extends FragmentActivity {
 		// Recycle the typed array
 		navMenuIcons.recycle();
 
-	}
-
-	public void onOpenLeftDrawer(View view) {
-		mDrawerLayout.openDrawer(leftDrawerRLData);
 	}
 
 	public void onLogOut(View view) {
@@ -299,4 +342,22 @@ public class MainActivity extends FragmentActivity {
 		startActivity(nextIntent);
 	}
 
+	/**
+	 * When using the ActionBarDrawerToggle, you must call it during
+	 * onPostCreate() and onConfigurationChanged()...
+	 */
+
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		// Sync the toggle state after onRestoreInstanceState has occurred.
+		mDrawerToggle.syncState();
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		// Pass any configuration change to the drawer toggls
+		mDrawerToggle.onConfigurationChanged(newConfig);
+	}
 }
