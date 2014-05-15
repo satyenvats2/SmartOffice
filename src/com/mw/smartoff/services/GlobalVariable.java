@@ -313,4 +313,13 @@ public class GlobalVariable extends android.app.Application {
 		RESPONDED_TO_MEETING = false;
 		RESPONSE_TO_MEETING = false;
 	}
+	
+	public void resetOnLogout2()
+	{
+		setEmailList(new ArrayList<Email>());
+		setMeetingList(new ArrayList<Meeting>());
+		setMeetingOwnList(new ArrayList<Meeting>());
+		setMeetingPendingList(new ArrayList<Meeting>());
+		setUserList(new ArrayList<ParseUser>());
+	}
 }

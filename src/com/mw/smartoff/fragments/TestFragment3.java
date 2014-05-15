@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.costum.android.widget.PullAndLoadListView;
 import com.costum.android.widget.PullToRefreshListView;
@@ -30,41 +31,40 @@ import com.mw.smartoffice.R;
 
 public class TestFragment3 extends Fragment {
 	PullAndLoadListView meetingLV;
-	TextView notifyMeetingTV;
+	TextView notificationTV;
 	ProgressBar progressBar;
 
 	GlobalVariable globalVariable;
 	List<Meeting> meetingList;
-	
-	Intent nextIntent;
 	MeetingsAdapter adapter;
+
+	Intent nextIntent;
+	Intent serviceIntent;
 
 	MeetingDAO dao;
 	ResponseToMeetingDAO dao2;
 
-	Intent serviceIntent;
-	
 	private BroadcastReceiver meetingOwnReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			// Extract data included in the Intent
-			// String message = intent.getStringExtra("message");
+			progressBar.setVisibility(View.GONE);
 			meetingList = globalVariable.getMeetingOwnList();
+			if (meetingList.size() < 1) {
+				notificationTV.setVisibility(View.VISIBLE);
+			}
 			adapter.swapData(meetingList);
-			System.out.println("<><><><><><><>meetings size : "
-					+ meetingList.size());
 			meetingLV.onRefreshComplete();
 			adapter.notifyDataSetChanged();
-			System.out.println(">>>>><<<<<<<<suyccesese");
-
+			Toast.makeText(context, "TestFrag3 broad response", Toast.LENGTH_SHORT).show();
 		}
 	};
-	
+
 	private void findThings() {
 		meetingLV = (PullAndLoadListView) getActivity().findViewById(
 				R.id.meeting_LV3);
-		notifyMeetingTV = (TextView) getActivity().findViewById(
-				R.id.notify_meeting_TV);
+		notificationTV = (TextView) getActivity().findViewById(
+				R.id.notify_meeting_TV3);
 		progressBar = (ProgressBar) getActivity().findViewById(
 				R.id.progressBar3);
 	}
@@ -73,10 +73,13 @@ public class TestFragment3 extends Fragment {
 		globalVariable = (GlobalVariable) getActivity().getApplicationContext();
 		dao = new MeetingDAO(getActivity());
 		dao2 = new ResponseToMeetingDAO(getActivity());
-		
+
 		serviceIntent = new Intent(getActivity(), MeetingOwnService.class);
-		
+
 		meetingList = globalVariable.getMeetingOwnList();
+		if (meetingList.size() > 0) {
+			progressBar.setVisibility(View.GONE);
+		}
 		adapter = new MeetingsAdapter(getActivity(), meetingList);
 		meetingLV.setAdapter(adapter);
 
@@ -88,7 +91,7 @@ public class TestFragment3 extends Fragment {
 				nextIntent = new Intent(getActivity(),
 						DisplayMeetingActivity.class);
 				nextIntent.putExtra("position", position - 1);
-				nextIntent.putExtra("type", GlobalVariable.MEETINGS_ALL);
+				nextIntent.putExtra("type", GlobalVariable.MEETINGS_MY);
 				startActivity(nextIntent);
 			}
 		});
@@ -107,15 +110,12 @@ public class TestFragment3 extends Fragment {
 		super.onViewCreated(view, savedInstanceState);
 		findThings();
 		initThings();
-//		FetchMeetingsOwnAsynTask asynTask = new FetchMeetingsOwnAsynTask();
-//		asynTask.execute(true);
 
 		meetingLV
 				.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
 					public void onRefresh() {
 						// Do work to refresh the list here.
 						// new PullToRefreshDataTask().execute();
-//						new FetchMeetingsOwnAsynTask().execute(false);
 						getActivity().startService(serviceIntent);
 					}
 				});
@@ -125,7 +125,6 @@ public class TestFragment3 extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-//		new FetchMeetingsAsynTask().execute(true);
 		LocalBroadcastManager.getInstance(getActivity()).registerReceiver(
 				meetingOwnReceiver, new IntentFilter("new_meeting"));
 	}
@@ -136,72 +135,5 @@ public class TestFragment3 extends Fragment {
 		LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(
 				meetingOwnReceiver);
 	}
-	
-	
-}
-//	private class FetchMeetingsOwnAsynTask extends AsyncTask<Boolean, Void, Void> {
-//
-//		@Override
-//		protected Void doInBackground(Boolean... params) {
-//
-//			if (globalVariable.getMeetingOwnList() != null && params[0])
-//				return null;
-//
-//			List<Meeting> meetingList = new ArrayList<Meeting>();
-//			List<ParseObject> meetingsPOList = dao
-//					.getOwnMeetingsForUser(ParseUser.getCurrentUser());
-//
-//			System.out.println("size is  :  " + meetingsPOList.size());
-//			// make a list of meetings including response
-//			for (int i = 0; i < meetingsPOList.size(); i++) {
-//				meetingsPOList.get(i).put("from", ParseUser.getCurrentUser());
-//				ParseObject tempMeetingPO = meetingsPOList.get(i);
-//				Meeting tempMeeting = globalVariable
-//						.convertPOtoMeeting(tempMeetingPO);
-//				List<ParseObject> allResponsesPO = dao2
-//						.getAllResponsesForMeeting(tempMeetingPO);
-//				if (allResponsesPO != null) {
-//					tempMeeting.setResponses(allResponsesPO);
-//					System.out.println("not nullla");
-//				}
-//				else
-//					System.out.println("nullla");
-//
-//				meetingList.add(tempMeeting);
-//			}// for()
-//			globalVariable.setMeetingOwnList(meetingList);
-//			return null;
-//		}
-//
-//		@Override
-//		protected void onPostExecute(Void result) {
-//			super.onPostExecute(result);
-//
-//			progressBar.setVisibility(View.INVISIBLE);
-//
-//			final List<Meeting> meetingList = globalVariable
-//					.getMeetingOwnList();
-//			if (meetingList.size() == 0) {
-//				notifyMeetingTV.setText("No meetings found");
-//				notifyMeetingTV.setVisibility(View.VISIBLE);
-//			} else {
-//                meetingLV.onRefreshComplete();
-//				adapter = new MeetingsAdapter(getActivity(), meetingList);
-//				meetingLV.setAdapter(adapter);
-//
-//				meetingLV.setOnItemClickListener(new OnItemClickListener() {
-//					@Override
-//					public void onItemClick(AdapterView<?> parent, View v,
-//							int position, long id) {
-//						nextIntent = new Intent(getActivity(),
-//								DisplayMeetingActivity.class);
-//						nextIntent.putExtra("position", position-1);
-//						nextIntent.putExtra("type", GlobalVariable.MEETINGS_MY);
-//						startActivity(nextIntent);
-//					}
-//				});
-//			}
-//		}// onPostExec
-//
-//	}// Asyn
 
+}

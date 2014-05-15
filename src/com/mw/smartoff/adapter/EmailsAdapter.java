@@ -96,16 +96,22 @@ public class EmailsAdapter extends BaseAdapter {
 		viewHolder.senderIV.setImageDrawable(drawable);
 
 		viewHolder.nameTV.setText(tempEmail.getFrom().getName());
-        viewHolder.subjectTV.setText(tempEmail.getSubject());
-        viewHolder.dateTV.setText(formatDate(tempEmail.getCreatedAt()));
-        viewHolder.contentTV.setText(tempEmail.getContent());
+		viewHolder.subjectTV.setText(tempEmail.getSubject());
+		viewHolder.dateTV.setText(formatDate(tempEmail.getCreatedAt()));
+		viewHolder.contentTV.setText(tempEmail.getContent());
 
-        if (!tempEmail.isEmailRead()) {
-            viewHolder.nameTV.setTypeface(Typeface.SERIF, Typeface.BOLD);
-            viewHolder.subjectTV.setTypeface(Typeface.SERIF, Typeface.BOLD);
-            viewHolder.dateTV.setTypeface(Typeface.SERIF, Typeface.BOLD);
-            viewHolder.contentTV.setTypeface(Typeface.SERIF, Typeface.BOLD);
+		if (!tempEmail.isEmailRead()) {
+			viewHolder.nameTV.setTypeface(Typeface.SERIF, Typeface.BOLD);
+			viewHolder.subjectTV.setTypeface(Typeface.SERIF, Typeface.BOLD);
+			viewHolder.dateTV.setTypeface(Typeface.SERIF, Typeface.BOLD);
+			viewHolder.contentTV.setTypeface(Typeface.SERIF, Typeface.BOLD);
 			viewHolder.unreadIV.setVisibility(View.VISIBLE);
+		} else {
+			viewHolder.nameTV.setTypeface(Typeface.SERIF);
+			viewHolder.subjectTV.setTypeface(Typeface.SERIF);
+			viewHolder.dateTV.setTypeface(Typeface.SERIF);
+			viewHolder.contentTV.setTypeface(Typeface.SERIF);
+			viewHolder.unreadIV.setVisibility(View.INVISIBLE);
 		}
 
 		return convertView;

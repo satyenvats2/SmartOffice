@@ -22,13 +22,12 @@
         android:padding="10dp"
         android:background="@drawable/bottom_border"/>
 
-	<!-- WHY WE NEED THIS? -->
-    <!--<ProgressBar-->
-        <!--android:id="@+id/progressBar"-->
-        <!--style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_centerInParent="true" />-->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
 
     <ListView
         android:id="@+id/contacts_LV"

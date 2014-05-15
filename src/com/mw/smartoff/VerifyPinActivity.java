@@ -1,5 +1,7 @@
 package com.mw.smartoff;
 
+import java.util.Set;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,14 +12,16 @@ import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
 import com.parse.ParseUser;
 import com.parse.PushService;
-
-import java.util.Set;
 
 public class VerifyPinActivity extends Activity implements View.OnClickListener {
 
@@ -243,11 +247,7 @@ public class VerifyPinActivity extends Activity implements View.OnClickListener 
 		System.out.println(">>>>>>> Channels after cleared - "
 				+ setOfAllSubscriptions.toString());
 		ParseUser.logOut();
-		globalVariable.setEmailList(null);
-		globalVariable.setMeetingList(null);
-		globalVariable.setMeetingOwnList(null);
-		globalVariable.setMeetingPendingList(null);
-		globalVariable.setUserList(null);
+		globalVariable.resetOnLogout2();
 		GlobalVariable.resetOnLogout();
 		nextIntent = new Intent(this, LoginActivity.class);
 		nextIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK

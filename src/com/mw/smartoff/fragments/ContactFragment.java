@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.mw.smartoff.DisplayMessagesActivity;
@@ -31,7 +32,7 @@ import com.parse.ParseUser;
 public class ContactFragment extends Fragment {
 	TextView welcomeDashTV;
 	ListView contactLV;
-	// ProgressBar progressBar;
+	ProgressBar progressBar;
 
 	UserDAO dao;
 	GlobalVariable globalVariable;
@@ -52,21 +53,20 @@ public class ContactFragment extends Fragment {
 		}
 	};
 
-	@Override
-	public void onPause() {
-		super.onPause();
-		// Toast.makeText(getActivity(), "onPasue", Toast.LENGTH_SHORT).show();
-		 LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(
-		 unreadMessagesCounterReceiver);
+	private void findThings() {
+		contactLV = (ListView) getActivity().findViewById(R.id.contacts_LV);
+		progressBar = (ProgressBar) getActivity()
+				.findViewById(R.id.progressBar);
 	}
 
-	@Override
-	public void onResume() {
-		super.onResume();
-		// Toast.makeText(getActivity(), "onRedsume",
-		// Toast.LENGTH_SHORT).show();
-		 LocalBroadcastManager.getInstance(getActivity()).registerReceiver(
-		 unreadMessagesCounterReceiver, new IntentFilter("unread_messages_count"));
+	private void initThings() {
+		globalVariable = (GlobalVariable) getActivity().getApplicationContext();
+		dao = new UserDAO(getActivity());
+
+		sharedPreferences = PreferenceManager
+				.getDefaultSharedPreferences(getActivity()
+						.getApplicationContext());
+		editor = sharedPreferences.edit();
 	}
 
 	@Override
@@ -86,22 +86,6 @@ public class ContactFragment extends Fragment {
 
 		FetchAllUsersAsynTask asynTask = new FetchAllUsersAsynTask();
 		asynTask.execute(true);
-	}
-
-	private void findThings() {
-		contactLV = (ListView) getActivity().findViewById(R.id.contacts_LV);
-		// progressBar = (ProgressBar) getActivity()
-		// .findViewById(R.id.progressBar);
-	}
-
-	private void initThings() {
-		globalVariable = (GlobalVariable) getActivity().getApplicationContext();
-		dao = new UserDAO(getActivity());
-
-		sharedPreferences = PreferenceManager
-				.getDefaultSharedPreferences(getActivity()
-						.getApplicationContext());
-		editor = sharedPreferences.edit();
 	}
 
 	private class FetchAllUsersAsynTask extends
@@ -149,7 +133,8 @@ public class ContactFragment extends Fragment {
 						nextIntent = new Intent(getActivity(),
 								DisplayMessagesActivity.class);
 						globalVariable.setChatPerson(usersListPO.get(position));
-						editor.putInt(usersListPO.get(position).getObjectId(), 0);
+						editor.putInt(usersListPO.get(position).getObjectId(),
+								0);
 						editor.commit();
 						adapter.notifyDataSetChanged();
 						// nextIntent.putExtra("position", position);
@@ -161,4 +146,21 @@ public class ContactFragment extends Fragment {
 
 	}// Asyn
 
+	@Override
+	public void onPause() {
+		super.onPause();
+		// Toast.makeText(getActivity(), "onPasue", Toast.LENGTH_SHORT).show();
+		LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(
+				unreadMessagesCounterReceiver);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		// Toast.makeText(getActivity(), "onRedsume",
+		// Toast.LENGTH_SHORT).show();
+		LocalBroadcastManager.getInstance(getActivity()).registerReceiver(
+				unreadMessagesCounterReceiver,
+				new IntentFilter("unread_messages_count"));
+	}
 }
