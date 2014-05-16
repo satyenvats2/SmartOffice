@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.mw.smartoff.adapter.NavDrawerListAdapter;
+import com.mw.smartoff.fragments.AttendanceFragment;
 import com.mw.smartoff.fragments.ContactFragment;
 import com.mw.smartoff.fragments.EmailFragment;
 import com.mw.smartoff.fragments.MeetingFragment;
@@ -121,8 +123,14 @@ public class MainActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		/* requestWindowFeature(Window.FEATURE_NO_TITLE); */
 		setContentView(R.layout.main_activity);
+
+		int titleId = getResources().getIdentifier("action_bar_title", "id",
+				"android");
+		TextView yourTextView = (TextView) findViewById(titleId);
+		// yourTextView.setTextColor(Color.parseColor("#016AB2"));
+		yourTextView.setTypeface(Typeface.SERIF);
+
 		findThings();
 		initializeThings();
 		initialVisibilityOfViews();
@@ -255,7 +263,7 @@ public class MainActivity extends FragmentActivity {
 			tag = "CONTACT";
 			break;
 		case 3:
-			fragment = new ContactFragment();
+			fragment = new AttendanceFragment();
 			break;
 		case 4:
 			fragment = new ContactFragment();
@@ -302,9 +310,8 @@ public class MainActivity extends FragmentActivity {
 				.getResourceId(1, -1)));
 		navDrawerItemList.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons
 				.getResourceId(2, -1)));
-		// navDrawerItemList.add(new NavDrawerItem(navMenuTitles[3],
-		// navMenuIcons
-		// .getResourceId(3, -1)));
+		navDrawerItemList.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons
+				.getResourceId(3, -1)));
 
 		// Recycle the typed array
 		navMenuIcons.recycle();

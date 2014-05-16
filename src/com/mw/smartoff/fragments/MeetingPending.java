@@ -24,7 +24,7 @@ import com.mw.smartoffice.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TestFragment2 extends Fragment {
+public class MeetingPending extends Fragment {
 	PullAndLoadListView meetingLV;
 	TextView notifyMeetingTV;
 
@@ -59,7 +59,7 @@ public class TestFragment2 extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.test_fragment2, container,
+		View rootView = inflater.inflate(R.layout.meeting_pending, container,
 				false);
 		return rootView;
 	}

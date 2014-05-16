@@ -125,7 +125,7 @@ public class EmailFragment extends Fragment {
 				"sdGM0MdrbQjeVsha7pAFT9YL5WuUt7dA7f2zb0LW");
 		query = ParseQuery.getQuery("Emails");
 
-		View rootView = inflater.inflate(R.layout.email_list_fragment,
+		View rootView = inflater.inflate(R.layout.email_fragment,
 				container, false);
 		return rootView;
 

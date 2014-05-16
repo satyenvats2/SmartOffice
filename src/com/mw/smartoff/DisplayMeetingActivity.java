@@ -63,7 +63,6 @@ public class DisplayMeetingActivity extends Activity {
 	AlertDialog.Builder alertDialogBuilder2;
 	AlertDialog alertDialog2;
 
-	EditText notesET;
 
 	LinearLayout.LayoutParams lp;
 
@@ -73,6 +72,7 @@ public class DisplayMeetingActivity extends Activity {
 	View tableRowView;
 	View displayNotesView;
 	View writeNotesView;
+	EditText notesET;
 
 	GlobalVariable globalVariable;
 
@@ -130,18 +130,6 @@ public class DisplayMeetingActivity extends Activity {
 						dialog.dismiss();
 					}
 				});
-	}
-
-	public void onSeeNotes(View view) {
-		if (selectedMeeting.getResponses().get((Integer) view.getTag())
-				.getString("notes") == null)
-			Toast.makeText(this, "No notes by this user", Toast.LENGTH_SHORT)
-					.show();
-		else {
-			alertDialog.setView(displayNotesView);
-			alertDialog.show();
-		}
-
 	}
 
 	private void initialVisibilityOfViews() {
@@ -221,20 +209,12 @@ public class DisplayMeetingActivity extends Activity {
 						}
 					});
 
-			// notesET = new EditText(this);
-			// notesET.setHint("Add notes...");
-			// lp = new LinearLayout.LayoutParams(
-			// LinearLayout.LayoutParams.MATCH_PARENT,
-			// LinearLayout.LayoutParams.MATCH_PARENT);
-			// notesET.setLayoutParams(lp);
-
 			if (selectedMeeting.isHasBeenResponsedTo()) {
 				acceptRejectLL.setVisibility(View.INVISIBLE);
 			} else
 				updateB.setVisibility(View.GONE);
 		}
 		meetingSubjectTV.setText(selectedMeeting.getSubject());
-		// setTitle(selectedMeeting.getSubject());
 		senderNameTV.setText(selectedMeeting.getFrom().getName());
 		senderEmailIDTV.setText(selectedMeeting.getFrom().getEmail());
 		messageTV.setText(selectedMeeting.getContent());
@@ -257,6 +237,8 @@ public class DisplayMeetingActivity extends Activity {
 		findThings();
 		initThings();
 		initialVisibilityOfViews();
+
+		getActionBar().setHomeButtonEnabled(true);
 	}
 
 	public void onAccept(View view) {
@@ -361,9 +343,7 @@ public class DisplayMeetingActivity extends Activity {
 				});// setNegativeButton
 
 		alertDialog = alertDialogBuilder.create();
-		// if ((ViewGroup) notesET.getParent() != null)
-		// ((ViewGroup) notesET.getParent()).removeView(notesET);
-		// alertDialog.setView(notesET);
+
 		if ((ViewGroup) writeNotesView.getParent() != null)
 			((ViewGroup) writeNotesView.getParent()).removeView(writeNotesView);
 		alertDialog.setView(writeNotesView);
@@ -376,9 +356,55 @@ public class DisplayMeetingActivity extends Activity {
 		updateB.setVisibility(View.GONE);
 	}
 
-	public void onBack(View view) {
-		GlobalVariable.RESPONDED_TO_MEETING = true;
-		finish();
+	// public void onBack(View view) {
+	// GlobalVariable.RESPONDED_TO_MEETING = true;
+	// finish();
+	// }
+
+	private class RespondToMeetingAsynTask extends
+			AsyncTask<Boolean, Void, Void> {
+
+		@Override
+		protected Void doInBackground(Boolean... params) {
+			if (notesET.getText().toString().trim().length() > 0)
+				dao2.repondToMeeting(ParseUser.getCurrentUser(),
+						selectedMeetingPO, params[0], notesET.getText()
+								.toString().trim());
+			else
+				dao2.repondToMeeting(ParseUser.getCurrentUser(),
+						selectedMeetingPO, params[0], null);
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+		}// onPostExecute()
+
+	}// Asyn
+
+	public void onSeeNotes(View view) {
+		if (selectedMeeting.getResponses().get((Integer) view.getTag())
+				.getString("notes") == null)
+			Toast.makeText(this, "No notes by this user", Toast.LENGTH_SHORT)
+					.show();
+		else {
+			alertDialog.setView(displayNotesView);
+			alertDialog.show();
+		}
+
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			// app icon in action bar clicked; goto parent activity.
+			this.finish();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 	@Override
@@ -406,37 +432,4 @@ public class DisplayMeetingActivity extends Activity {
 			GlobalVariable.PIN--;
 	}
 
-	private class RespondToMeetingAsynTask extends
-			AsyncTask<Boolean, Void, Void> {
-
-		@Override
-		protected Void doInBackground(Boolean... params) {
-			if (notesET.getText().toString().trim().length() > 0)
-				dao2.repondToMeeting(ParseUser.getCurrentUser(),
-						selectedMeetingPO, params[0], notesET.getText()
-								.toString().trim());
-			else
-				dao2.repondToMeeting(ParseUser.getCurrentUser(),
-						selectedMeetingPO, params[0], null);
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(Void result) {
-			super.onPostExecute(result);
-		}// onPostExecute()
-
-	}// Asyn
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			// app icon in action bar clicked; goto parent activity.
-			this.finish();
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
 }

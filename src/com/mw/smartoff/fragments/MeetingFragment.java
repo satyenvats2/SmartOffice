@@ -35,7 +35,7 @@ public class MeetingFragment extends Fragment {
 			Bundle savedInstanceState) {
 		initThings();
 
-		View rootView = inflater.inflate(R.layout.meeting_list_fragment,
+		View rootView = inflater.inflate(R.layout.meeting_fragment,
 				container, false);
 		return rootView;
 
@@ -85,12 +85,12 @@ public class MeetingFragment extends Fragment {
 		public android.support.v4.app.Fragment getItem(int position) {
 			switch (position) {
 			case 0:
-				return new TestFragment();
+				return new MeetingAll();
 			case 1:
 //				return new TestFragment2();
-				return new TestFragment3();
+				return new MeetingMy();
 			case 2:
-				return new TestFragment3();
+				return new MeetingMy();
 			}
 			return null;
 		}

@@ -26,10 +26,10 @@ import com.mw.smartoff.DAO.ResponseToMeetingDAO;
 import com.mw.smartoff.adapter.MeetingsAdapter;
 import com.mw.smartoff.model.Meeting;
 import com.mw.smartoff.services.GlobalVariable;
-import com.mw.smartoff.services.MeetingOwnService;
+import com.mw.smartoff.services.MeetingService;
 import com.mw.smartoffice.R;
 
-public class TestFragment3 extends Fragment {
+public class MeetingAll extends Fragment {
 	PullAndLoadListView meetingLV;
 	TextView notificationTV;
 	ProgressBar progressBar;
@@ -38,35 +38,38 @@ public class TestFragment3 extends Fragment {
 	List<Meeting> meetingList;
 	MeetingsAdapter adapter;
 
-	Intent nextIntent;
-	Intent serviceIntent;
-
 	MeetingDAO dao;
 	ResponseToMeetingDAO dao2;
 
-	private BroadcastReceiver meetingOwnReceiver = new BroadcastReceiver() {
+	Intent nextIntent;
+	Intent serviceIntent;
+
+	private BroadcastReceiver meetingReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			// Extract data included in the Intent
+			// String message = intent.getStringExtra("message");
 			progressBar.setVisibility(View.GONE);
-			meetingList = globalVariable.getMeetingOwnList();
+			meetingList = globalVariable.getMeetingList();
 			if (meetingList.size() < 1) {
 				notificationTV.setVisibility(View.VISIBLE);
 			}
 			adapter.swapData(meetingList);
 			meetingLV.onRefreshComplete();
 			adapter.notifyDataSetChanged();
-			Toast.makeText(context, "TestFrag3 broad response", Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, "TestFrag1 broad response",
+					Toast.LENGTH_SHORT).show();
+
 		}
 	};
 
 	private void findThings() {
 		meetingLV = (PullAndLoadListView) getActivity().findViewById(
-				R.id.meeting_LV3);
+				R.id.meeting_LV);
 		notificationTV = (TextView) getActivity().findViewById(
-				R.id.notify_meeting_TV3);
-		progressBar = (ProgressBar) getActivity().findViewById(
-				R.id.progressBar3);
+				R.id.notification_TV);
+		progressBar = (ProgressBar) getActivity()
+				.findViewById(R.id.progressBar);
 	}
 
 	private void initThings() {
@@ -74,9 +77,9 @@ public class TestFragment3 extends Fragment {
 		dao = new MeetingDAO(getActivity());
 		dao2 = new ResponseToMeetingDAO(getActivity());
 
-		serviceIntent = new Intent(getActivity(), MeetingOwnService.class);
+		serviceIntent = new Intent(getActivity(), MeetingService.class);
 
-		meetingList = globalVariable.getMeetingOwnList();
+		meetingList = globalVariable.getMeetingList();
 		if (meetingList.size() > 0) {
 			progressBar.setVisibility(View.GONE);
 		}
@@ -91,7 +94,7 @@ public class TestFragment3 extends Fragment {
 				nextIntent = new Intent(getActivity(),
 						DisplayMeetingActivity.class);
 				nextIntent.putExtra("position", position - 1);
-				nextIntent.putExtra("type", GlobalVariable.MEETINGS_MY);
+				nextIntent.putExtra("type", GlobalVariable.MEETINGS_ALL);
 				startActivity(nextIntent);
 			}
 		});
@@ -100,7 +103,7 @@ public class TestFragment3 extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.test_fragment3, container,
+		View rootView = inflater.inflate(R.layout.meeting_all, container,
 				false);
 		return rootView;
 	}
@@ -119,21 +122,23 @@ public class TestFragment3 extends Fragment {
 						getActivity().startService(serviceIntent);
 					}
 				});
+
 		getActivity().startService(serviceIntent);
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
+		// new FetchMeetingsAsynTask().execute(true);
 		LocalBroadcastManager.getInstance(getActivity()).registerReceiver(
-				meetingOwnReceiver, new IntentFilter("new_meeting"));
+				meetingReceiver, new IntentFilter("new_meeting"));
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
 		LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(
-				meetingOwnReceiver);
+				meetingReceiver);
 	}
 
 }
