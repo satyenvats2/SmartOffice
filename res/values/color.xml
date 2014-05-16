@@ -2,5 +2,7 @@
 <resources>
 
     <color name="drawer_elements_color">@android:color/holo_blue_bright</color>
-   
+    <color name="list_background">#303030</color>
+	<color name="list_background_pressed">#992416</color>
+
 </resources>

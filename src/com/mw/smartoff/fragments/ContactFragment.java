@@ -119,7 +119,7 @@ public class ContactFragment extends Fragment {
 		@Override
 		protected void onPostExecute(List<ParseUser> usersListPOForDBUpdate) {
 			super.onPostExecute(usersListPOForDBUpdate);
-			// progressBar.setVisibility(View.INVISIBLE);
+			 progressBar.setVisibility(View.INVISIBLE);
 
 			final List<ParseUser> usersListPO = globalVariable.getUserList();
 			if (usersListPO != null && usersListPO.size() > 0) {

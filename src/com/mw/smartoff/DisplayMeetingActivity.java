@@ -11,9 +11,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.CalendarContract.Events;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+
 import com.mw.smartoff.DAO.MeetingDAO;
 import com.mw.smartoff.DAO.ResponseToMeetingDAO;
 import com.mw.smartoff.model.Meeting;
@@ -57,10 +59,10 @@ public class DisplayMeetingActivity extends Activity {
 	ProgressDialog progressDialog;
 	AlertDialog.Builder alertDialogBuilder;
 	AlertDialog alertDialog;
-	
+
 	AlertDialog.Builder alertDialogBuilder2;
 	AlertDialog alertDialog2;
-	
+
 	EditText notesET;
 
 	LinearLayout.LayoutParams lp;
@@ -70,6 +72,7 @@ public class DisplayMeetingActivity extends Activity {
 	LayoutInflater inflater;
 	View tableRowView;
 	View displayNotesView;
+	View writeNotesView;
 
 	GlobalVariable globalVariable;
 
@@ -118,9 +121,9 @@ public class DisplayMeetingActivity extends Activity {
 		for (int i = 0; i < alphabets.length; i++) {
 			myMap.put(alphabets[i], hexCodes[i]);
 		}
-		
-		alertDialogBuilder2 = createDialog.createAlertDialog("Alert", "Do you want to add to calendar?",
-				false);
+
+		alertDialogBuilder2 = createDialog.createAlertDialog("Alert",
+				"Do you want to add to calendar?", false);
 		alertDialogBuilder2.setPositiveButton("Cancel",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
@@ -155,15 +158,13 @@ public class DisplayMeetingActivity extends Activity {
 							dialog.dismiss();
 						}
 					});
-			displayNotesView = inflater.inflate(R.layout.display_notes, null,
+			displayNotesView = inflater.inflate(R.layout.notes_display, null,
 					false);
 
 			alertDialog = alertDialogBuilder.create();
-			
-System.out.println(">>>>>>>" + alertDialog2==null);
-			
-			
-			
+
+			System.out.println(">>>>>>>" + alertDialog2 == null);
+
 			footerMeetingRL.setVisibility(View.GONE);
 			responsesTL.setVisibility(View.VISIBLE);
 			if (selectedMeeting == null)
@@ -205,6 +206,12 @@ System.out.println(">>>>>>>" + alertDialog2==null);
 					responsesTL.addView(tableRowView);
 				}
 		} else {
+			// when not my meetings
+			writeNotesView = inflater
+					.inflate(R.layout.notes_write, null, false);
+			notesET = (EditText) writeNotesView.findViewById(R.id.notes_ET);
+			notesET.setHint("Add notes...");
+
 			alertDialogBuilder = createDialog.createAlertDialog("Add Notes",
 					null, false);
 			alertDialogBuilder.setPositiveButton("Cancel",
@@ -214,12 +221,12 @@ System.out.println(">>>>>>>" + alertDialog2==null);
 						}
 					});
 
-			notesET = new EditText(this);
-			notesET.setHint("Add notes...");
-			lp = new LinearLayout.LayoutParams(
-					LinearLayout.LayoutParams.MATCH_PARENT,
-					LinearLayout.LayoutParams.MATCH_PARENT);
-			notesET.setLayoutParams(lp);
+			// notesET = new EditText(this);
+			// notesET.setHint("Add notes...");
+			// lp = new LinearLayout.LayoutParams(
+			// LinearLayout.LayoutParams.MATCH_PARENT,
+			// LinearLayout.LayoutParams.MATCH_PARENT);
+			// notesET.setLayoutParams(lp);
 
 			if (selectedMeeting.isHasBeenResponsedTo()) {
 				acceptRejectLL.setVisibility(View.INVISIBLE);
@@ -227,16 +234,19 @@ System.out.println(">>>>>>>" + alertDialog2==null);
 				updateB.setVisibility(View.GONE);
 		}
 		meetingSubjectTV.setText(selectedMeeting.getSubject());
+		// setTitle(selectedMeeting.getSubject());
 		senderNameTV.setText(selectedMeeting.getFrom().getName());
 		senderEmailIDTV.setText(selectedMeeting.getFrom().getEmail());
 		messageTV.setText(selectedMeeting.getContent());
-		timeTV.setText(globalVariable.getDisplayDate(selectedMeeting.getStartTime()));
+		timeTV.setText(globalVariable.getDisplayDate(selectedMeeting
+				.getStartTime()));
 		locationTV.setText(selectedMeeting.getLocation());
 		CharacterDrawable drawable = new CharacterDrawable(selectedMeeting
-				.getFrom().getName().toUpperCase().charAt(0),
-				globalVariable.getMyMap().get(selectedMeeting.getFrom().getName().toUpperCase()
-						.charAt(0)
-						+ ""));
+				.getFrom().getName().toUpperCase().charAt(0), globalVariable
+				.getMyMap().get(
+						selectedMeeting.getFrom().getName().toUpperCase()
+								.charAt(0)
+								+ ""));
 		sendersIV.setImageDrawable(drawable);
 	}
 
@@ -250,14 +260,14 @@ System.out.println(">>>>>>>" + alertDialog2==null);
 	}
 
 	public void onAccept(View view) {
-//		Toast.makeText(this, "accept", Toast.LENGTH_SHORT).show();
+		// Toast.makeText(this, "accept", Toast.LENGTH_SHORT).show();
 		previousIntent.putExtra("isAttending", true);
 		showPopupForNotes("Accept Invite", true);
 
 	}
 
 	public void onReject(View view) {
-//		Toast.makeText(this, "reject", Toast.LENGTH_SHORT).show();
+		// Toast.makeText(this, "reject", Toast.LENGTH_SHORT).show();
 		previousIntent.putExtra("isAttending", false);
 		showPopupForNotes("Reject Invite", false);
 	}
@@ -268,7 +278,7 @@ System.out.println(">>>>>>>" + alertDialog2==null);
 					public void onClick(DialogInterface dialog, int id) {
 						selectedMeeting.setHasBeenResponsedTo(true);
 						selectedMeeting.setCurrentResponse(isAttending);
-//						 globalVariable.setMeetingPendingList(null);
+						// globalVariable.setMeetingPendingList(null);
 						System.out.println(">> response in GV : "
 								+ globalVariable
 										.getMeetingList()
@@ -278,10 +288,10 @@ System.out.println(">>>>>>>" + alertDialog2==null);
 
 						selectedMeetingPO = dao.getMeetingByID(selectedMeeting
 								.getID());
-						
+
 						RespondToMeetingAsynTask asynTask = new RespondToMeetingAsynTask();
 						asynTask.execute(isAttending);
-						
+
 						acceptRejectLL.setVisibility(View.INVISIBLE);
 						updateB.setVisibility(View.VISIBLE);
 
@@ -290,50 +300,74 @@ System.out.println(">>>>>>>" + alertDialog2==null);
 						if (isAttending) {
 							alertDialogBuilder2.setNegativeButton("Yes",
 									new DialogInterface.OnClickListener() {
-										public void onClick(DialogInterface dialog, int id) {
+										public void onClick(
+												DialogInterface dialog, int id) {
 											ContentValues cv = new ContentValues();
 											cv.put(Events.CALENDAR_ID, 1);
-											cv.put(Events.TITLE, selectedMeeting.getSubject());
+											cv.put(Events.TITLE,
+													selectedMeeting
+															.getSubject());
 											cv.put(Events.DESCRIPTION,
-													selectedMeeting.getContent());
+													selectedMeeting
+															.getContent());
 											cv.put(Events.EVENT_LOCATION,
-													selectedMeeting.getLocation());
+													selectedMeeting
+															.getLocation());
 
-											Calendar cal = Calendar.getInstance();
+											Calendar cal = Calendar
+													.getInstance();
 											TimeZone tz = cal.getTimeZone();
-											cal.setTime(selectedMeeting.getStartTime());
-											cv.put(Events.DTSTART, cal.getTimeInMillis());
+											cal.setTime(selectedMeeting
+													.getStartTime());
+											cv.put(Events.DTSTART,
+													cal.getTimeInMillis());
 											cv.put(Events.DTEND,
 													cal.getTimeInMillis() + 60 * 60 * 1000);
-											cv.put(Events.EVENT_TIMEZONE, tz.getDisplayName());
+											cv.put(Events.EVENT_TIMEZONE,
+													tz.getDisplayName());
 
 											ContentResolver cr = getContentResolver();
-											Uri uri = cr.insert(Events.CONTENT_URI, cv);
-											System.out.println("Event URI [" + uri + "]");
-											previousIntent.putExtra("isAttending", true);
+											Uri uri = cr.insert(
+													Events.CONTENT_URI, cv);
+											System.out.println("Event URI ["
+													+ uri + "]");
+											previousIntent.putExtra(
+													"isAttending", true);
 											dialog.dismiss();
-											alertDialogBuilder2 = createDialog.createAlertDialog("Alert", "Meeting added to your calendar.",
-													false);
-											alertDialogBuilder2.setPositiveButton("OK",
-													new DialogInterface.OnClickListener() {
-														public void onClick(DialogInterface dialog, int id) {
-															dialog.dismiss();
-														}
-													});
-											alertDialog2 = alertDialogBuilder2.create();
+											alertDialogBuilder2 = createDialog
+													.createAlertDialog(
+															"Alert",
+															"Meeting added to your calendar.",
+															false);
+											alertDialogBuilder2
+													.setPositiveButton(
+															"OK",
+															new DialogInterface.OnClickListener() {
+																public void onClick(
+																		DialogInterface dialog,
+																		int id) {
+																	dialog.dismiss();
+																}
+															});
+											alertDialog2 = alertDialogBuilder2
+													.create();
 											alertDialog2.show();
 										}
 									});
 							alertDialog2 = alertDialogBuilder2.create();
 							alertDialog2.show();
-						}//if
+						}// if
 					}
 				});// setNegativeButton
 
 		alertDialog = alertDialogBuilder.create();
-		if ((ViewGroup) notesET.getParent() != null)
-			((ViewGroup) notesET.getParent()).removeView(notesET);
-		alertDialog.setView(notesET);
+		// if ((ViewGroup) notesET.getParent() != null)
+		// ((ViewGroup) notesET.getParent()).removeView(notesET);
+		// alertDialog.setView(notesET);
+		if ((ViewGroup) writeNotesView.getParent() != null)
+			((ViewGroup) writeNotesView.getParent()).removeView(writeNotesView);
+		alertDialog.setView(writeNotesView);
+
 		alertDialog.show();
 	}
 
@@ -372,15 +406,15 @@ System.out.println(">>>>>>>" + alertDialog2==null);
 			GlobalVariable.PIN--;
 	}
 
-	
-	private class RespondToMeetingAsynTask extends AsyncTask<Boolean, Void, Void> {
+	private class RespondToMeetingAsynTask extends
+			AsyncTask<Boolean, Void, Void> {
 
 		@Override
 		protected Void doInBackground(Boolean... params) {
 			if (notesET.getText().toString().trim().length() > 0)
 				dao2.repondToMeeting(ParseUser.getCurrentUser(),
-						selectedMeetingPO, params[0], notesET
-								.getText().toString().trim());
+						selectedMeetingPO, params[0], notesET.getText()
+								.toString().trim());
 			else
 				dao2.repondToMeeting(ParseUser.getCurrentUser(),
 						selectedMeetingPO, params[0], null);
@@ -393,4 +427,16 @@ System.out.println(">>>>>>>" + alertDialog2==null);
 		}// onPostExecute()
 
 	}// Asyn
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			// app icon in action bar clicked; goto parent activity.
+			this.finish();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
 }

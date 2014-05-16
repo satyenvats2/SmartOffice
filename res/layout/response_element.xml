@@ -23,6 +23,7 @@
         android:layout_marginLeft="3dp"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/username_TV"
+        android:singleLine="true"
         android:text="text"
         android:textSize="18sp"
         android:typeface="serif" />

@@ -15,48 +15,24 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-		        >
+            android:layout_height="wrap_content" >
 
-            <!-- android:layout_below="@+id/header_meeting_subject_TV" -->
-
-            <RelativeLayout
-                    android:background="@drawable/custom_background_grey3"
-                android:id="@+id/fake_action_bar_RL"
+            <TextView
+                android:id="@+id/meeting_subject_TV"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <ImageButton
-                    android:id="@+id/back_B"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="16dp"
-                    android:background="@null"
-                    android:onClick="onBack"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/back_button" />
-
-                <TextView
-                    android:id="@+id/meeting_subject_TV"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@+id/back_B"
-                    android:padding="20dp"
-                    android:text="Subject"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:typeface="serif" />
-            </RelativeLayout>
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_background_grey2"
+                android:padding="20dp"
+                android:text="Subject"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:typeface="serif" />
 
             <RelativeLayout
                 android:id="@+id/sender_RL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/fake_action_bar_RL"
+                android:layout_below="@+id/meeting_subject_TV"
                 android:layout_margin="10dp"
                 android:background="@drawable/custom_background_grey2"
                 android:padding="10dp" >
@@ -80,7 +56,7 @@
                         android:layout_height="wrap_content"
                         android:text="Sender Username"
                         android:textSize="18sp"
-                        android:typeface="serif"/>
+                        android:typeface="serif" />
 
                     <TextView
                         android:id="@+id/sender_emailID_TV"
@@ -89,10 +65,10 @@
                         android:layout_below="@+id/sender_name_TV"
                         android:layout_marginTop="3dp"
                         android:text="Sender EmailID"
+                        android:textColor="@android:color/darker_gray"
                         android:textSize="12sp"
-                        android:typeface="serif"
                         android:textStyle="italic"
-                        android:textColor="@android:color/darker_gray"/>
+                        android:typeface="serif" />
                 </RelativeLayout>
             </RelativeLayout>
 
@@ -103,10 +79,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/sender_RL"
-                android:background="@drawable/custom_background_grey2"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:padding="10dp">
+                android:background="@drawable/custom_background_grey2"
+                android:padding="10dp" >
 
                 <RelativeLayout
                     android:id="@+id/time_RL"
@@ -131,8 +107,8 @@
                         android:layout_marginLeft="20dp"
                         android:layout_toRightOf="@+id/time_IV"
                         android:text="time"
-                        android:typeface="serif"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp"
+                        android:typeface="serif" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -156,8 +132,8 @@
                         android:layout_marginLeft="20dp"
                         android:layout_toRightOf="@+id/location_IV"
                         android:text="location"
-                        android:typeface="serif"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp"
+                        android:typeface="serif" />
                 </RelativeLayout>
             </RelativeLayout>
 
@@ -171,10 +147,10 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/custom_background_grey2"
                 android:padding="20dp"
+                android:singleLine="false"
                 android:text="This is text for the meeting"
                 android:textSize="14sp"
-                android:typeface="serif"
-                android:singleLine="false"/>
+                android:typeface="serif" />
             <!-- </RelativeLayout> -->
 
 
@@ -250,10 +226,10 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:background="@android:color/holo_blue_light"
             android:onClick="onUpdate"
             android:text="Update your response"
-            android:typeface="serif"
-            android:background="@android:color/holo_blue_light"/>
+            android:typeface="serif" />
     </RelativeLayout>
 
 </RelativeLayout>

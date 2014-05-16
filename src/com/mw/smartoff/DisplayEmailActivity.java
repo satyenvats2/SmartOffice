@@ -3,6 +3,7 @@ package com.mw.smartoff;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -47,7 +48,7 @@ public class DisplayEmailActivity extends Activity {
 	}
 
 	private void initialVisibilityOfViews() {
-
+//setTitle(selectedEmail.getSubject());
 		emailSubjectTV.setText(selectedEmail.getSubject());
 		senderNameTV.setText(selectedEmail.getFrom().getName());
 		senderEmailIDTV.setText(selectedEmail.getFrom().getEmail());
@@ -71,6 +72,8 @@ public class DisplayEmailActivity extends Activity {
 		findThings();
 		initThings();
 		initialVisibilityOfViews();
+		
+		getActionBar().setHomeButtonEnabled(true);
 	}
 
 	public void onBack(View view) {
@@ -107,4 +110,17 @@ public class DisplayEmailActivity extends Activity {
 		super.onStop();
 		GlobalVariable.PIN--;
 	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	        case android.R.id.home:
+	            // app icon in action bar clicked; goto parent activity.
+	            this.finish();
+	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
+
 }

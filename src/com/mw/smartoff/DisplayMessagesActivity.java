@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -40,7 +41,7 @@ public class DisplayMessagesActivity extends ListActivity {
 	GlobalVariable globalVariable;
 	MessageDAO dao;
 	TextView notificationTV;
-	TextView usernameTV;
+//	TextView usernameTV;
 
 	MessagesAdapter adapter;
 
@@ -69,7 +70,7 @@ public class DisplayMessagesActivity extends ListActivity {
 	private void findThings() {
 		notificationTV = (TextView) findViewById(R.id.notification_TV);
 		messagesET = (TextView) findViewById(R.id.message_ET);
-		usernameTV = (TextView) findViewById(R.id.username_TV);
+//		usernameTV = (TextView) findViewById(R.id.username_TV);
 		progressBar = (ProgressBar) findViewById(R.id.progressBarMSG);
 	}
 
@@ -81,7 +82,8 @@ public class DisplayMessagesActivity extends ListActivity {
 	}
 
 	private void initialVisibilityOfViews() {
-		usernameTV.setText(selectedContactPU.getString("name"));
+//		usernameTV.setText(selectedContactPU.getString("name"));
+		setTitle(selectedContactPU.getString("name"));
 	}
 
 	@Override
@@ -235,4 +237,20 @@ public class DisplayMessagesActivity extends ListActivity {
 		super.onBackPressed();
 	}
 
+	@Override
+	public void setTitle(CharSequence title) {
+		getActionBar().setTitle(title);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	        case android.R.id.home:
+	            // app icon in action bar clicked; goto parent activity.
+	            this.finish();
+	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
 }
