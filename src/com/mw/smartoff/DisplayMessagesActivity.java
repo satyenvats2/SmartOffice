@@ -20,8 +20,8 @@ import android.widget.Toast;
 
 import com.mw.smartoff.DAO.MessageDAO;
 import com.mw.smartoff.adapter.MessagesAdapter;
+import com.mw.smartoff.extras.GlobalVariable;
 import com.mw.smartoff.model.Message;
-import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -108,6 +108,9 @@ public class DisplayMessagesActivity extends ListActivity {
 						return false;
 					}
 				});
+		
+		getActionBar().setHomeButtonEnabled(true);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	private class FetchMsgsAsynTask extends AsyncTask<String, Void, Void> {

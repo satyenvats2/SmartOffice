@@ -11,7 +11,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.mw.smartoff.DAO.UserDAO;
 import com.mw.smartoff.adapter.UserAutoCompleteAdapter;
-import com.mw.smartoff.services.UserAutoCompleteTextView;
+import com.mw.smartoff.extras.UserAutoCompleteTextView;
 import com.mw.smartoffice.R;
 import com.parse.ParseObject;
 import com.parse.ParseUser;

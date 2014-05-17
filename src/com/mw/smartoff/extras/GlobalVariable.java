@@ -1,4 +1,4 @@
-package com.mw.smartoff.services;
+package com.mw.smartoff.extras;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;

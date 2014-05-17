@@ -1,4 +1,4 @@
-package com.mw.smartoff.services;
+package com.mw.smartoff.extras;
 
 import android.content.Context;
 import android.util.AttributeSet;

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mw.smartoff.DAO.EmailDAO;
+import com.mw.smartoff.extras.GlobalVariable;
 import com.mw.smartoff.model.Email;
 import com.parse.ParseObject;
 import com.parse.ParseUser;

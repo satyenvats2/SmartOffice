@@ -11,14 +11,15 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.costum.android.widget.PullAndLoadListView;
 import com.costum.android.widget.PullToRefreshListView;
 import com.mw.smartoff.DAO.MeetingDAO;
 import com.mw.smartoff.DAO.ResponseToMeetingDAO;
 import com.mw.smartoff.DisplayMeetingActivity;
 import com.mw.smartoff.adapter.MeetingsAdapter;
+import com.mw.smartoff.extras.GlobalVariable;
 import com.mw.smartoff.model.Meeting;
-import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
 
 import java.util.ArrayList;

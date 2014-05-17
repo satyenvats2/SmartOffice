@@ -24,8 +24,8 @@ import com.mw.smartoff.DisplayMeetingActivity;
 import com.mw.smartoff.DAO.MeetingDAO;
 import com.mw.smartoff.DAO.ResponseToMeetingDAO;
 import com.mw.smartoff.adapter.MeetingsAdapter;
+import com.mw.smartoff.extras.GlobalVariable;
 import com.mw.smartoff.model.Meeting;
-import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoff.services.MeetingOwnService;
 import com.mw.smartoffice.R;
 

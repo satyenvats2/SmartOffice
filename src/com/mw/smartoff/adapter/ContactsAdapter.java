@@ -15,7 +15,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.mw.smartoff.services.CharacterDrawable2;
+import com.mw.smartoff.extras.CharacterDrawable2;
 import com.mw.smartoffice.R;
 import com.parse.ParseUser;
 

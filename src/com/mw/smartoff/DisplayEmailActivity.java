@@ -8,9 +8,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mw.smartoff.extras.CharacterDrawable;
+import com.mw.smartoff.extras.GlobalVariable;
 import com.mw.smartoff.model.Email;
-import com.mw.smartoff.services.CharacterDrawable;
-import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
 
 public class DisplayEmailActivity extends Activity {
@@ -74,6 +74,7 @@ public class DisplayEmailActivity extends Activity {
 		initialVisibilityOfViews();
 		
 		getActionBar().setHomeButtonEnabled(true);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	public void onBack(View view) {

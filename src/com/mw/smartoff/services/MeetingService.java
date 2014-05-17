@@ -6,6 +6,7 @@ import java.util.List;
 import com.mw.smartoff.DAO.EmailDAO;
 import com.mw.smartoff.DAO.MeetingDAO;
 import com.mw.smartoff.DAO.ResponseToMeetingDAO;
+import com.mw.smartoff.extras.GlobalVariable;
 import com.mw.smartoff.model.Email;
 import com.mw.smartoff.model.Meeting;
 import com.parse.ParseObject;

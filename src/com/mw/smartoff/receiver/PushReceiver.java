@@ -1,4 +1,4 @@
-package com.mw.smartoff.services;
+package com.mw.smartoff.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -8,7 +8,10 @@ import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
+
 import com.mw.smartoff.JustADialogActivity;
+import com.mw.smartoff.extras.GlobalVariable;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 

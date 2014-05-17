@@ -19,7 +19,7 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.mw.smartoff.services.GlobalVariable;
+import com.mw.smartoff.extras.GlobalVariable;
 import com.mw.smartoffice.R;
 import com.parse.ParseUser;
 import com.parse.PushService;

@@ -25,7 +25,7 @@ import android.widget.TextView;
 import com.mw.smartoff.DisplayMessagesActivity;
 import com.mw.smartoff.DAO.UserDAO;
 import com.mw.smartoff.adapter.ContactsAdapter;
-import com.mw.smartoff.services.GlobalVariable;
+import com.mw.smartoff.extras.GlobalVariable;
 import com.mw.smartoffice.R;
 import com.parse.ParseUser;
 

@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,15 +25,15 @@ import com.mw.smartoff.DisplayMeetingActivity;
 import com.mw.smartoff.DAO.MeetingDAO;
 import com.mw.smartoff.DAO.ResponseToMeetingDAO;
 import com.mw.smartoff.adapter.MeetingsAdapter;
+import com.mw.smartoff.extras.GlobalVariable;
 import com.mw.smartoff.model.Meeting;
-import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoff.services.MeetingService;
 import com.mw.smartoffice.R;
 
 public class MeetingAll extends Fragment {
 	PullAndLoadListView meetingLV;
 	TextView notificationTV;
-	ProgressBar progressBar;
+	RelativeLayout progressBar_RL;
 
 	GlobalVariable globalVariable;
 	List<Meeting> meetingList;
@@ -49,7 +50,7 @@ public class MeetingAll extends Fragment {
 		public void onReceive(Context context, Intent intent) {
 			// Extract data included in the Intent
 			// String message = intent.getStringExtra("message");
-			progressBar.setVisibility(View.GONE);
+			progressBar_RL.setVisibility(View.GONE);
 			meetingList = globalVariable.getMeetingList();
 			if (meetingList.size() < 1) {
 				notificationTV.setVisibility(View.VISIBLE);
@@ -68,8 +69,8 @@ public class MeetingAll extends Fragment {
 				R.id.meeting_LV);
 		notificationTV = (TextView) getActivity().findViewById(
 				R.id.notification_TV);
-		progressBar = (ProgressBar) getActivity()
-				.findViewById(R.id.progressBar);
+		progressBar_RL = (RelativeLayout) getActivity()
+				.findViewById(R.id.progressBar_RL);
 	}
 
 	private void initThings() {
@@ -81,7 +82,7 @@ public class MeetingAll extends Fragment {
 
 		meetingList = globalVariable.getMeetingList();
 		if (meetingList.size() > 0) {
-			progressBar.setVisibility(View.GONE);
+			progressBar_RL.setVisibility(View.GONE);
 		}
 		adapter = new MeetingsAdapter(getActivity(), meetingList);
 		meetingLV.setAdapter(adapter);

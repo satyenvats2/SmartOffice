@@ -19,7 +19,6 @@ public class ResponseToMeetingDAO {
 		Parse.initialize(context, "wHhiiTucu7ntVNl3otR9f59eGg4UD1UavTlWvFzo",
 				"sdGM0MdrbQjeVsha7pAFT9YL5WuUt7dA7f2zb0LW");
 		query = ParseQuery.getQuery("ResponseToMeeting");
-
 	}
 
 	public ParseObject getCurrentResponseForMeeting(ParseUser user,

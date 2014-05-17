@@ -7,8 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.mw.smartoff.services.CreateDialog;
-import com.mw.smartoff.services.GlobalVariable;
+import com.mw.smartoff.extras.CreateDialog;
+import com.mw.smartoff.extras.GlobalVariable;
 import com.mw.smartoffice.R;
 
 public class JustADialogActivity extends Activity {

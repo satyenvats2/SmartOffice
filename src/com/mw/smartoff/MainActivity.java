@@ -27,12 +27,12 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.mw.smartoff.adapter.NavDrawerListAdapter;
+import com.mw.smartoff.extras.GlobalVariable;
 import com.mw.smartoff.fragments.AttendanceFragment;
 import com.mw.smartoff.fragments.ContactFragment;
 import com.mw.smartoff.fragments.EmailFragment;
 import com.mw.smartoff.fragments.MeetingFragment;
 import com.mw.smartoff.model.NavDrawerItem;
-import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
 import com.parse.ParseAnalytics;
 import com.parse.ParseUser;
@@ -143,6 +143,7 @@ public class MainActivity extends FragmentActivity {
 		adapter = new NavDrawerListAdapter(this, navDrawerItemList);
 		leftDrawerLV.setAdapter(adapter);
 
+		// these 2 lines are used to show the small drawer button at the left in action bar
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);
 

@@ -18,10 +18,10 @@ import android.widget.*;
 
 import com.mw.smartoff.DAO.MeetingDAO;
 import com.mw.smartoff.DAO.ResponseToMeetingDAO;
+import com.mw.smartoff.extras.CharacterDrawable;
+import com.mw.smartoff.extras.CreateDialog;
+import com.mw.smartoff.extras.GlobalVariable;
 import com.mw.smartoff.model.Meeting;
-import com.mw.smartoff.services.CharacterDrawable;
-import com.mw.smartoff.services.CreateDialog;
-import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -239,6 +239,7 @@ public class DisplayMeetingActivity extends Activity {
 		initialVisibilityOfViews();
 
 		getActionBar().setHomeButtonEnabled(true);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	public void onAccept(View view) {

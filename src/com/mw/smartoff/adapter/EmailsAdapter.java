@@ -9,9 +9,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.mw.smartoff.extras.CharacterDrawable;
+import com.mw.smartoff.extras.GlobalVariable;
 import com.mw.smartoff.model.Email;
-import com.mw.smartoff.services.CharacterDrawable;
-import com.mw.smartoff.services.GlobalVariable;
 import com.mw.smartoffice.R;
 
 import java.text.ParseException;

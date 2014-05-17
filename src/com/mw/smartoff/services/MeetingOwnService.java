@@ -9,6 +9,7 @@ import android.support.v4.content.LocalBroadcastManager;
 
 import com.mw.smartoff.DAO.MeetingDAO;
 import com.mw.smartoff.DAO.ResponseToMeetingDAO;
+import com.mw.smartoff.extras.GlobalVariable;
 import com.mw.smartoff.model.Meeting;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -48,10 +49,10 @@ public class MeetingOwnService extends IntentService {
 					.getAllResponsesForMeeting(tempMeetingPO);
 			if (allResponsesPO != null) {
 				tempMeeting.setResponses(allResponsesPO);
-				System.out.println("not nullla");
+//				System.out.println("not nullla");
 			}
-			else
-				System.out.println("nullla");
+//			else
+//				System.out.println("nullla");
 
 			meetingList.add(tempMeeting);
 		}// for()

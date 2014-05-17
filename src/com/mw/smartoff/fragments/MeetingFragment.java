@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.mw.smartoff.DAO.MeetingDAO;
 import com.mw.smartoff.DAO.ResponseToMeetingDAO;
-import com.mw.smartoff.services.GlobalVariable;
+import com.mw.smartoff.extras.GlobalVariable;
 import com.mw.smartoffice.R;
 import com.viewpagerindicator.TabPageIndicator;
 
