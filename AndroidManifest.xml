@@ -90,6 +90,8 @@
         <service android:name="com.mw.smartoff.services.EmailService" />
         <service android:name="com.mw.smartoff.services.MeetingService" />
         <service android:name="com.mw.smartoff.services.MeetingOwnService" />
+        <service android:name="com.mw.smartoff.services.AttendanceService" />
+        
         <!-- Push notification with Parse -->
         <service android:name="com.parse.PushService" />
 
