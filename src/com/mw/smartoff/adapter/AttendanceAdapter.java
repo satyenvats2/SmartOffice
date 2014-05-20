@@ -3,87 +3,106 @@ package com.mw.smartoff.adapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mw.smartoff.extras.GlobalVariable;
 import com.mw.smartoffice.R;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 
-public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
+@SuppressLint("DefaultLocale")
+public class AttendanceAdapter extends BaseAdapter implements Filterable {
 
-	private Context context;
+	Context context;
 	List<ParseUser> mainListPU;
 	List<ParseUser> origListPU;
 	LayoutInflater inflater;
+
+	GlobalVariable globalVariable;
+	List<ParseObject> attendanceListPO;
+
 	private TempFilter filter;
 
-	// Constructor
-	public UserAutoCompleteAdapter(Context context, List<ParseUser> tempListPU) {
+	public AttendanceAdapter(Context context, List<ParseUser> listPU) {
+		super();
 		this.context = context;
-		this.mainListPU = tempListPU;
+		this.mainListPU = listPU;
+
+		globalVariable = (GlobalVariable) context.getApplicationContext();
+		attendanceListPO = globalVariable.getAttendancePOList();
+
 		origListPU = this.mainListPU;
 		filter = new TempFilter();
 	}
 
-	static class ViewHolder {
-		protected TextView usernameTV;
-		protected TextView userEmailTV;
-		protected ImageView profilePicIV;
+	public void swapData() {
+		// this.listPU = listPU;
+		attendanceListPO = globalVariable.getAttendancePOList();
+	}
 
+	static class ViewHolder {
+		protected TextView nameTV;
+		protected TextView statusTV;
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		ViewHolder viewHolder;
-
+		final ViewHolder viewHolder;
+		System.out.println("getview");
 		if (convertView == null) {
 			inflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			viewHolder = new ViewHolder();
-			convertView = inflater.inflate(R.layout.element_user_auto_complete,
-					parent, false);
-			viewHolder.profilePicIV = (ImageView) convertView
-					.findViewById(R.id.profile_pic_IV);
-			viewHolder.usernameTV = (TextView) convertView
-					.findViewById(R.id.username_TV);
-			viewHolder.userEmailTV = (TextView) convertView
-					.findViewById(R.id.user_email_TV);
+			convertView = inflater.inflate(R.layout.attendance_element, parent,
+					false);
 
+			viewHolder.nameTV = (TextView) convertView
+					.findViewById(R.id.username_TV);
+			viewHolder.statusTV = (TextView) convertView
+					.findViewById(R.id.status_tv);
 			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		viewHolder.usernameTV.setText(mainListPU.get(position).getUsername());
-		viewHolder.userEmailTV.setText(mainListPU.get(position).getEmail());
-//		viewHolder.usernameTV.setText(mainList.get(position).getUsername());
-		
+		ParseObject tempPO = mainListPU.get(position);
+		for (int i = 0; i < attendanceListPO.size(); i++) {
+			ParseObject tempAttendancePO = attendanceListPO.get(i);
+			if (tempAttendancePO.getParseUser("from").getObjectId()
+					.equals(tempPO.getObjectId())) {
+				viewHolder.statusTV.setText("present.");
+				viewHolder.statusTV.setTextColor(Color.parseColor("#0000FF"));
+			} else {
+				viewHolder.statusTV.setText("not present.");
+				viewHolder.statusTV.setTextColor(Color.parseColor("#FF0000"));
+			}
+		}
+
+		viewHolder.nameTV.setText(tempPO.getString("name") + " is ");
 		return convertView;
 	}
 
 	@Override
 	public int getCount() {
-		if (mainListPU != null)
-			return mainListPU.size();
-		else
-			return 0;
+		return mainListPU.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		return mainListPU.get(position);
+		return null;
 	}
 
 	@Override
 	public long getItemId(int position) {
-		// return tempList.get(arg0).getID();
 		return 0;
 	}
 
@@ -106,8 +125,9 @@ public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
 			if (charSequence != null) {
 				if (origListPU != null && origListPU.size() > 0) {
 					for (ParseUser g : origListPU) {
-						if (g.getUsername().contains(charSequence))
+						if (g.getString("name").contains(charSequence)) {
 							results.add(g);
+						}
 					}
 				}
 				oReturn.values = results;
@@ -125,5 +145,4 @@ public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
 			notifyDataSetChanged();
 		}
 	}
-
 }

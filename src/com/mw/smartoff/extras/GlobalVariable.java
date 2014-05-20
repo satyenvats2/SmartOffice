@@ -6,6 +6,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -51,6 +52,8 @@ public class GlobalVariable extends android.app.Application {
 
 	List<ParseUser> userList;
 
+	List<ParseObject> attendancePOList;
+	
 	ParseUser chatPerson;
 	
 	HashMap<String, Integer> myMap;
@@ -59,6 +62,7 @@ public class GlobalVariable extends android.app.Application {
 		emailList = new ArrayList<Email>();
 		meetingList = new ArrayList<Meeting>();
 		meetingOwnList = new ArrayList<Meeting>();
+		attendancePOList = new ArrayList<ParseObject>();
 	}
 
 	@Override
@@ -109,12 +113,6 @@ public class GlobalVariable extends android.app.Application {
 
 	}
 
-	@Override
-	public void onTerminate() {
-	System.out.println(">>>>>>>>>>> GV terminate");
-		super.onTerminate();
-	}
-
 	public List<Meeting> getMeetingList() {
 		return meetingList;
 	}
@@ -133,6 +131,14 @@ public class GlobalVariable extends android.app.Application {
 
 	public List<Meeting> getMeetingOwnList() {
 		return meetingOwnList;
+	}
+
+	public List<ParseObject> getAttendancePOList() {
+		return attendancePOList;
+	}
+
+	public void setAttendancePOList(List<ParseObject> attendancePOList) {
+		this.attendancePOList = attendancePOList;
 	}
 
 	public void setMeetingOwnList(List<Meeting> meetingOwnList) {
@@ -321,5 +327,12 @@ public class GlobalVariable extends android.app.Application {
 		setMeetingOwnList(new ArrayList<Meeting>());
 		setMeetingPendingList(new ArrayList<Meeting>());
 		setUserList(new ArrayList<ParseUser>());
+	}
+	
+	public Date addToDate(Date date, int days) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.add(Calendar.DAY_OF_MONTH, days);
+		return cal.getTime();
 	}
 }

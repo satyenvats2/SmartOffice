@@ -1,6 +1,7 @@
 package com.mw.smartoff.DAO;
 
 import java.util.Date;
+import java.util.List;
 
 import android.content.Context;
 import android.widget.Toast;
@@ -39,5 +40,20 @@ public class AttendanceDAO {
 
 			}
 		});
+	}
+
+	public List<ParseObject> getAttendanceForDate(Date startDate, Date endDate) {
+		List<ParseObject> attendanceList = null;
+
+		query.whereGreaterThan("date", startDate);
+		query.whereLessThan("date", endDate);
+		query.include("from");
+		try {
+			attendanceList = query.find();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		System.out.println(">>>>>>" + attendanceList.size());
+		return attendanceList;
 	}
 }

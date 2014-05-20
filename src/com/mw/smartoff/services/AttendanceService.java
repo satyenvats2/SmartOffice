@@ -1,18 +1,15 @@
 package com.mw.smartoff.services;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
-import com.mw.smartoff.DAO.AttendanceDAO;
-import com.mw.smartoff.DAO.EmailDAO;
-import com.mw.smartoff.extras.GlobalVariable;
-import com.mw.smartoff.model.Email;
-import com.parse.ParseObject;
-import com.parse.ParseUser;
 
 import android.app.IntentService;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
+
+import com.mw.smartoff.DAO.AttendanceDAO;
+import com.mw.smartoff.extras.GlobalVariable;
+import com.parse.ParseObject;
 
 public class AttendanceService extends IntentService {
 
@@ -32,23 +29,20 @@ public class AttendanceService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent arg0) {
-		List<Email> emailList = new ArrayList<Email>();
-		List<ParseObject> emailPOList = dao.getEmailsForUser(ParseUser
-				.getCurrentUser().getEmail());
-		if (emailPOList != null) {
-			for (int i = 0; i < emailPOList.size(); i++) {
-				ParseObject tempEmailPO = emailPOList.get(i);
-				Email tempEmail = globalVariable.convertPOtoEmail(tempEmailPO);
-				emailList.add(tempEmail);
-			}
-			globalVariable.setEmailList(emailList);
+		Date d = new Date();
+		d.setTime(arg0.getLongExtra("selectedDate", -1));
+		System.out.println("date is :  " + d);
+		List<ParseObject> attendancePOList = dao.getAttendanceForDate(d,
+				globalVariable.addToDate(d, 1));
+		if (attendancePOList != null) {
+			globalVariable.setAttendancePOList(attendancePOList);
 		}
 	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		Intent nextIntent = new Intent("new_email");
+		Intent nextIntent = new Intent("attendance_list");
 		LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
 	}
 }

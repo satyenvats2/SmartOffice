@@ -6,15 +6,25 @@ public class User implements Serializable {
 
 	private static final long serialVersionUID = 3004248537257133681L;
 
+	String objectId;
 	String email;
 	String username;
 	String name;
 
 	public User(String email, String username, String name) {
 		super();
+//		this.objectId = objectId;
 		this.email = email;
 		this.username = username;
 		this.name = name;
+	}
+
+	public String getObjectId() {
+		return objectId;
+	}
+
+	public void setObjectId(String objectId) {
+		this.objectId = objectId;
 	}
 
 	public String getName() {

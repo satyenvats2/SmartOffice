@@ -48,7 +48,7 @@ public class DisplayEmailActivity extends Activity {
 	}
 
 	private void initialVisibilityOfViews() {
-//setTitle(selectedEmail.getSubject());
+		// setTitle(selectedEmail.getSubject());
 		emailSubjectTV.setText(selectedEmail.getSubject());
 		senderNameTV.setText(selectedEmail.getFrom().getName());
 		senderEmailIDTV.setText(selectedEmail.getFrom().getEmail());
@@ -72,7 +72,7 @@ public class DisplayEmailActivity extends Activity {
 		findThings();
 		initThings();
 		initialVisibilityOfViews();
-		
+
 		getActionBar().setHomeButtonEnabled(true);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
@@ -107,21 +107,20 @@ public class DisplayEmailActivity extends Activity {
 
 	@Override
 	public void onStop() {
-
 		super.onStop();
 		GlobalVariable.PIN--;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-	    switch (item.getItemId()) {
-	        case android.R.id.home:
-	            // app icon in action bar clicked; goto parent activity.
-	            this.finish();
-	            return true;
-	        default:
-	            return super.onOptionsItemSelected(item);
-	    }
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			// app icon in action bar clicked; goto parent activity.
+			this.finish();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 }
