@@ -65,26 +65,26 @@ public class JustADialogActivity extends Activity {
 			showDialog(dialogNoteTitle, dialogNoteMessage);
 			break;
 		case 2:
-			nextIntent = new Intent(this, MainActivity.class);
-			nextIntent.putExtra("type", notificationType);
-
-			if (globalVariable.getChatPerson() != null) {
-				if (userId.equals(globalVariable.getChatPerson().getObjectId())) {
-					// refresh chat list
-					Intent intent = new Intent("new_message");
-					// add data
-//					intent.putExtra("message", "data");
-					LocalBroadcastManager.getInstance(this).sendBroadcast(
-							intent);
-				} else {
-					// update preferences for contacts page
-
-					// if(contacts page is open)
-					// {
-					// refresh contacts page
-					// }
-				}
-			}
+//			nextIntent = new Intent(this, MainActivity.class);
+//			nextIntent.putExtra("type", notificationType);
+//
+//			if (globalVariable.getChatPerson() != null) {
+//				if (userId.equals(globalVariable.getChatPerson().getObjectId())) {
+//					// refresh chat list
+//					Intent intent = new Intent("new_message");
+//					// add data
+////					intent.putExtra("message", "data");
+//					LocalBroadcastManager.getInstance(this).sendBroadcast(
+//							intent);
+//				} else {
+//					// update preferences for contacts page
+//
+//					// if(contacts page is open)
+//					// {
+//					// refresh contacts page
+//					// }
+//				}
+//			}
 
 			// dialogNoteTitle = "New Message";
 			// dialogNoteMessage = "You have a new Message";

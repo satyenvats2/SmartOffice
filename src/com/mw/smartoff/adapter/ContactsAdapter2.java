@@ -16,14 +16,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mw.smartoff.extras.CharacterDrawable2;
+import com.mw.smartoff.model.User;
 import com.mw.smartoffice.R;
-import com.parse.ParseUser;
 
 @SuppressLint("DefaultLocale")
-public class ContactsAdapter extends BaseAdapter {
+public class ContactsAdapter2 extends BaseAdapter {
 
 	Context context;
-	List<ParseUser> listPU;
+	List<User> listPU;
 	LayoutInflater inflater;
 
 	HashMap<String, Integer> myMap;
@@ -31,7 +31,7 @@ public class ContactsAdapter extends BaseAdapter {
 	SharedPreferences sharedPreferences;
 	Editor editor;
 
-	public ContactsAdapter(Context context, List<ParseUser> listPU) {
+	public ContactsAdapter2(Context context, List<User> listPU) {
 		super();
 		this.context = context;
 		this.listPU = listPU;
@@ -47,7 +47,7 @@ public class ContactsAdapter extends BaseAdapter {
 		editor = sharedPreferences.edit();
 	}
 
-	public void swapData(List<ParseUser> listPU) {
+	public void swapData(List<User> listPU) {
 		this.listPU = listPU;
 	}
 	
@@ -78,14 +78,14 @@ public class ContactsAdapter extends BaseAdapter {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		ParseUser tempPU = listPU.get(position);
+		User tempPU = listPU.get(position);
 		CharacterDrawable2 drawable = new CharacterDrawable2(
 				String.valueOf(tempPU.getUsername().toUpperCase().charAt(0)),
 				myMap.get(tempPU.getUsername().toUpperCase().charAt(0) + ""));
 
 		viewHolder.senderIV.setImageDrawable(drawable);
 
-		viewHolder.nameTV.setText((String) tempPU.get("name"));
+		viewHolder.nameTV.setText((String) tempPU.getName());
 		if (sharedPreferences.getInt(tempPU.getObjectId(), 0) > 0) {
 			CharacterDrawable2 drawable2 = new CharacterDrawable2(
 					Integer.toString(sharedPreferences.getInt(

@@ -1,9 +1,5 @@
 package com.mw.smartoff.extras;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -11,14 +7,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Path;
 import android.graphics.Rect;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.text.TextUtils;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.Volley;
 import com.mw.smartoff.model.Email;
 import com.mw.smartoff.model.Meeting;
 import com.mw.smartoff.model.Message;
@@ -45,7 +43,7 @@ public class GlobalVariable extends android.app.Application {
 	public static int MEETINGS_MY = 100;
 
 	List<Email> emailList;
-	
+
 	List<Meeting> meetingList;
 	List<Meeting> meetingPendingList;
 	List<Meeting> meetingOwnList;
@@ -53,10 +51,17 @@ public class GlobalVariable extends android.app.Application {
 	List<ParseUser> userList;
 
 	List<ParseObject> attendancePOList;
-	
+
 	ParseUser chatPerson;
-	
+
 	HashMap<String, Integer> myMap;
+
+	public static final String TAG = GlobalVariable.class.getSimpleName();
+
+	private RequestQueue mRequestQueue;
+	private ImageLoader mImageLoader;
+
+	private static GlobalVariable myAppInstance;
 
 	public GlobalVariable() {
 		emailList = new ArrayList<Email>();
@@ -69,6 +74,7 @@ public class GlobalVariable extends android.app.Application {
 	public void onCreate() {
 		super.onCreate();
 		System.out.println(">>>>>>>>>>> GV onCreate");
+		myAppInstance = this;
 		String[] alphabets = getResources().getStringArray(R.array.alphabets);
 		int[] hexCodes = getResources().getIntArray(R.array.hex_codes);
 		myMap = new HashMap<String, Integer>();
@@ -178,33 +184,57 @@ public class GlobalVariable extends android.app.Application {
 	}
 
 	public Email convertPOtoEmail(ParseObject emailPO) {
-//		ParseUser parseUser = emailPO.getParseUser("from");
-//		System.out.println("sender's email   :  " + parseUser.getEmail());
+		// ParseUser parseUser = emailPO.getParseUser("from");
+		// System.out.println("sender's email   :  " + parseUser.getEmail());
 		return new Email(emailPO.getObjectId(),
-				convertParseObjectToUser(emailPO.getParseUser("from")),
+				convertParseUserToUser(emailPO.getParseUser("from")),
 				emailPO.getString("subject"), emailPO.getString("content"),
 				emailPO.getBoolean("isMailRead"), emailPO.getCreatedAt());
 	}
 
 	public Meeting convertPOtoMeeting(ParseObject meetingPO) {
 		return new Meeting(meetingPO.getObjectId(),
-				convertParseObjectToUser(meetingPO.getParseUser("from")),
+				convertParseUserToUser(meetingPO.getParseUser("from")),
 				meetingPO.getString("subject"),
 				meetingPO.getString("description"),
 				meetingPO.getString("location"), meetingPO.getDate("startTime"));
 	}
 
-	public User convertParseObjectToUser(ParseUser userPO) {
-		return new User(userPO.getEmail(), userPO.getUsername(),
-				userPO.getString("name"));
+	public List<User> convertPUListToUserList(List<ParseUser> userListPU) {
+		List<User> aa = new ArrayList<User>();
+		for (int i = 0; i < userListPU.size(); i++) {
+			aa.add(convertParseUserToUser(userListPU.get(i)));
+		}
+		return aa;
+	}
+
+	public List<ParseUser> convertUserListToPuList(List<User> userList) {
+		List<ParseUser> aa = new ArrayList<ParseUser>();
+		for (int i = 0; i < userList.size(); i++) {
+			aa.add(convertUserToParseUser(userList.get(i)));
+		}
+		return aa;
+	}
+
+	public User convertParseUserToUser(ParseUser userPO) {
+		return new User(userPO.getObjectId(), userPO.getEmail(),
+				userPO.getUsername(), userPO.getString("name"));
+	}
+
+	public ParseUser convertUserToParseUser(User userPO) {
+		ParseUser aa = new ParseUser();
+		aa.setObjectId(userPO.getObjectId());
+		aa.setUsername(userPO.getUsername());
+		aa.setEmail(userPO.getEmail());
+		aa.put("name", userPO.getName());
+		return aa;
 	}
 
 	public Message convertPOtoMessage(ParseObject meetingPO) {
 		return new Message(meetingPO.getObjectId(),
 				meetingPO.getParseUser("fromUser"),
 				meetingPO.getParseUser("toUser"),
-				meetingPO.getString("messageText"),
-                meetingPO.getCreatedAt());
+				meetingPO.getString("messageText"), meetingPO.getCreatedAt());
 	}
 
 	public static Bitmap getRoundedShape(Bitmap scaleBitmapImage) {
@@ -228,84 +258,6 @@ public class GlobalVariable extends android.app.Application {
 		return targetBitmap;
 	}
 
-	public boolean haveNetworkConnection() {
-
-		System.out.println("internet check");
-		boolean haveConnectedWifi = false;
-		boolean haveConnectedMobile = false;
-
-		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo[] netInfo = cm.getAllNetworkInfo();
-		for (NetworkInfo ni : netInfo) {
-			if (ni.getTypeName().equalsIgnoreCase("WIFI"))
-				if (ni.isConnected())
-					haveConnectedWifi = true;
-			if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
-				if (ni.isConnected())
-					haveConnectedMobile = true;
-		}
-		return haveConnectedWifi || haveConnectedMobile;
-	}
-
-	public static boolean hasActiveInternetConnection() {
-		HttpURLConnection urlc;
-		try {
-			urlc = (HttpURLConnection) (new URL("https://www.google.co.in/")
-					.openConnection());// http://www.google.com
-			urlc.setRequestProperty("User-Agent", "Test");
-			urlc.setRequestProperty("Connection", "close");
-			urlc.setConnectTimeout(1500);
-			urlc.connect();
-			return (urlc.getResponseCode() == 200);
-		} catch (MalformedURLException e) {
-			// e.printStackTrace();
-			System.out.println("except");
-		} catch (IOException e) {
-			// e.printStackTrace();
-			System.out.println("except");
-		}
-
-		return false;
-	}
-
-	Integer i;
-
-	public int combinedInternetTest() {
-		/*
-		 * We can't return AlertDialog.Builder from this function because it
-		 * requires context as argument & we do not have context available in
-		 * this class
-		 */
-		if (!haveNetworkConnection()) {
-			System.out.println("network problem");
-			return 1;
-		} else {
-			Thread t = new Thread(new Runnable() {
-
-				@Override
-				public void run() {
-					if (!hasActiveInternetConnection())
-						i = Integer.valueOf(5);
-				}
-			});
-			t.start();
-
-			while (!(t.getState() == Thread.State.TERMINATED)) {
-				try {
-					Thread.currentThread();
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-			if (i != null) {
-				System.out.println("internet problem");
-				return 2;
-			}
-		}
-		return 0;
-	}
-
 	public String getDisplayDate(Date date) {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
 				"dd MMM, hh:mm");
@@ -319,20 +271,57 @@ public class GlobalVariable extends android.app.Application {
 		RESPONDED_TO_MEETING = false;
 		RESPONSE_TO_MEETING = false;
 	}
-	
-	public void resetOnLogout2()
-	{
+
+	public void resetOnLogout2() {
 		setEmailList(new ArrayList<Email>());
 		setMeetingList(new ArrayList<Meeting>());
 		setMeetingOwnList(new ArrayList<Meeting>());
 		setMeetingPendingList(new ArrayList<Meeting>());
 		setUserList(new ArrayList<ParseUser>());
 	}
-	
+
 	public Date addToDate(Date date, int days) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
 		cal.add(Calendar.DAY_OF_MONTH, days);
 		return cal.getTime();
+	}
+
+	public static synchronized GlobalVariable getInstance() {
+		return myAppInstance;
+	}
+
+	public RequestQueue getRequestQueue() {
+		if (mRequestQueue == null) {
+			mRequestQueue = Volley.newRequestQueue(getApplicationContext());
+		}
+
+		return mRequestQueue;
+	}
+
+	public ImageLoader getImageLoader() {
+		getRequestQueue();
+		if (mImageLoader == null) {
+			mImageLoader = new ImageLoader(this.mRequestQueue,
+					new LruBitmapCache());
+		}
+		return this.mImageLoader;
+	}
+
+	public <T> void addToRequestQueue(Request<T> req, String tag) {
+		// set the default tag if tag is empty
+		req.setTag(TextUtils.isEmpty(tag) ? TAG : tag);
+		getRequestQueue().add(req);
+	}
+
+	public <T> void addToRequestQueue(Request<T> req) {
+		req.setTag(TAG);
+		getRequestQueue().add(req);
+	}
+
+	public void cancelPendingRequests(Object tag) {
+		if (mRequestQueue != null) {
+			mRequestQueue.cancelAll(tag);
+		}
 	}
 }

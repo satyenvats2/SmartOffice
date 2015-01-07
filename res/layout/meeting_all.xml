@@ -16,14 +16,15 @@
         android:layout_centerInParent="true"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
-        android:background="#C1CDC1"
+        android:background="@color/gray_2"
         android:padding="10dp" >
 
         <ProgressBar
             android:id="@+id/progressBar"
             style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Small"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true" />
 
         <TextView
             android:layout_width="wrap_content"

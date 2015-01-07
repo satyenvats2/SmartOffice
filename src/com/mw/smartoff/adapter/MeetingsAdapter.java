@@ -26,21 +26,21 @@ public class MeetingsAdapter extends BaseAdapter {
 	LayoutInflater inflater;
 
 	Date todayDate;
-	
+
 	HashMap<String, Integer> myMap;
-	
+
 	GlobalVariable globalVariable;
-	
+
 	public MeetingsAdapter(Context context, List<Meeting> meetingList) {
 		super();
 		this.context = context;
 		this.meetingList = meetingList;
 
 		globalVariable = (GlobalVariable) context.getApplicationContext();
-		
+
 		todayDate = new Date();
 		myMap = globalVariable.getMyMap();
-		
+
 	}
 
 	static class ViewHolder {
@@ -49,7 +49,7 @@ public class MeetingsAdapter extends BaseAdapter {
 		protected TextView senderUsernameTV;
 		protected TextView dateTV;
 		protected TextView locationTV;
-        protected TextView statusTV;
+		protected TextView statusTV;
 		protected ImageView statusDotIV;
 
 	}
@@ -57,7 +57,7 @@ public class MeetingsAdapter extends BaseAdapter {
 	public void swapData(List<Meeting> meetingList) {
 		this.meetingList = meetingList;
 	}
-	
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		final ViewHolder viewHolder;
@@ -88,28 +88,35 @@ public class MeetingsAdapter extends BaseAdapter {
 		Meeting tempMeeting = meetingList.get(position);
 		// toUpperCase(Locale.getDefault())
 		CharacterDrawable drawable = new CharacterDrawable(tempMeeting
-				.getFrom().getUsername().toUpperCase(Locale.getDefault()).charAt(0), myMap.get(tempMeeting.getFrom()
-						.getUsername().toUpperCase(Locale.getDefault()).charAt(0)+""));
+				.getFrom().getUsername().toUpperCase(Locale.getDefault())
+				.charAt(0), myMap.get(tempMeeting.getFrom().getUsername()
+				.toUpperCase(Locale.getDefault()).charAt(0)
+				+ ""));
 		viewHolder.profilePicIV.setImageDrawable(drawable);
-		
+
 		viewHolder.subjectTV.setText(tempMeeting.getSubject());
 		viewHolder.senderUsernameTV.setText(tempMeeting.getFrom().getName());
-		viewHolder.dateTV.setText(getDisplayDate(tempMeeting.getStartTime()));
+		if (tempMeeting.getStartTime() != null) {
+			viewHolder.dateTV
+					.setText(getDisplayDate(tempMeeting.getStartTime()));
+		}
 		if (tempMeeting.isHasBeenResponsedTo())
-			if (tempMeeting.isCurrentResponse()){
-                viewHolder.statusTV.setText("Accepted");
-                viewHolder.statusTV.setTextColor(context.getResources().getColor(android.R.color.holo_green_dark));
-            }
-                else {
-                viewHolder.statusTV.setText("Rejected");
-                viewHolder.statusTV.setTextColor(context.getResources().getColor(android.R.color.holo_red_dark));
-            }
+			if (tempMeeting.isCurrentResponse()) {
+				viewHolder.statusTV.setText("Accepted");
+				viewHolder.statusTV.setTextColor(context.getResources()
+						.getColor(android.R.color.holo_green_dark));
+			} else {
+				viewHolder.statusTV.setText("Rejected");
+				viewHolder.statusTV.setTextColor(context.getResources()
+						.getColor(android.R.color.holo_red_dark));
+			}
 		else {
-            viewHolder.statusTV.setText("Pending");
-//            viewHolder.statusTV.setTypeface(Typeface.DEFAULT_BOLD);
-            viewHolder.statusTV.setTextColor(context.getResources().getColor(android.R.color.holo_orange_dark));
-        }
-        return convertView;
+			viewHolder.statusTV.setText("Pending");
+			// viewHolder.statusTV.setTypeface(Typeface.DEFAULT_BOLD);
+			viewHolder.statusTV.setTextColor(context.getResources().getColor(
+					android.R.color.holo_orange_dark));
+		}
+		return convertView;
 	}
 
 	@Override
@@ -127,10 +134,11 @@ public class MeetingsAdapter extends BaseAdapter {
 		return 0;
 	}
 
-    public String getDisplayDate(Date date){
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM, HH:mm");
-        String stringDate = simpleDateFormat.format(date);
-        return stringDate;
-    }
+	public String getDisplayDate(Date date) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
+				"dd MMM, HH:mm");
+		String stringDate = simpleDateFormat.format(date);
+		return stringDate;
+	}
 
 }

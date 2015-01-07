@@ -1,5 +1,9 @@
 package com.mw.smartoff;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import android.app.ListActivity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -16,7 +20,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mw.smartoff.DAO.MessageDAO;
 import com.mw.smartoff.adapter.MessagesAdapter;
@@ -26,40 +29,47 @@ import com.mw.smartoffice.R;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 public class DisplayMessagesActivity extends ListActivity {
+
+	GlobalVariable globalVariable;
 
 	TextView messagesET;
 
-	ParseUser selectedContactPU;
-
-	Intent previousIntent;
-
-	GlobalVariable globalVariable;
-	MessageDAO dao;
 	TextView notificationTV;
-//	TextView usernameTV;
-
-	MessagesAdapter adapter;
-
-	// CreateDialog createDialog;
-	// ProgressDialog progressDialog;
-
-	List<Message> msgsList;
 	ProgressBar progressBar;
 
-	private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+	Intent previousIntent;
+	Intent nextIntent;
+
+	ParseUser selectedContactPU;
+
+	MessageDAO dao;
+	List<Message> msgsList;
+	MessagesAdapter adapter;
+
+	private BroadcastReceiver messageReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			// Extract data included in the Intent
-			// String message = intent.getStringExtra("message");
+
 			Message tempMessage = new Message(null,
 					globalVariable.getChatPerson(), ParseUser.getCurrentUser(),
 					intent.getStringExtra("message"), new Date());
 			msgsList.add(tempMessage);
+
+			if (adapter == null) {
+				adapter = new MessagesAdapter(DisplayMessagesActivity.this,
+						msgsList);
+				setListAdapter(adapter);
+
+				// if A & B are chatting & there are no messages initially. So
+				// on receiving the first message we have to remove the
+				// notification label.
+				if (notificationTV.isShown()) {
+					notificationTV.setVisibility(View.INVISIBLE);
+				}
+
+			}
 			adapter.notifyDataSetChanged();
 			setSelection(adapter.getCount() - 1);
 			System.out.println(">>>>>>>>>>>suyccesese");
@@ -70,7 +80,6 @@ public class DisplayMessagesActivity extends ListActivity {
 	private void findThings() {
 		notificationTV = (TextView) findViewById(R.id.notification_TV);
 		messagesET = (TextView) findViewById(R.id.message_ET);
-//		usernameTV = (TextView) findViewById(R.id.username_TV);
 		progressBar = (ProgressBar) findViewById(R.id.progressBarMSG);
 	}
 
@@ -82,7 +91,6 @@ public class DisplayMessagesActivity extends ListActivity {
 	}
 
 	private void initialVisibilityOfViews() {
-//		usernameTV.setText(selectedContactPU.getString("name"));
 		setTitle(selectedContactPU.getString("name"));
 	}
 
@@ -90,13 +98,16 @@ public class DisplayMessagesActivity extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.messages_list);
+
+		getActionBar().setIcon(android.R.color.transparent);
+
 		findThings();
 		initThings();
 		initialVisibilityOfViews();
 
 		// progressDialog.show();
 		FetchMsgsAsynTask asynTask = new FetchMsgsAsynTask();
-		asynTask.execute(new String[] { "Helelo Worldsdfsdd" });
+		asynTask.execute(new String[] { "HW" });
 
 		((RelativeLayout) findViewById(R.id.messages_list_RL))
 				.setOnTouchListener(new OnTouchListener() {
@@ -108,7 +119,7 @@ public class DisplayMessagesActivity extends ListActivity {
 						return false;
 					}
 				});
-		
+
 		getActionBar().setHomeButtonEnabled(true);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
@@ -127,6 +138,8 @@ public class DisplayMessagesActivity extends ListActivity {
 							.convertPOtoMessage(tempMsgPO);
 					msgsList.add(tempMessage);
 				}
+			} else {
+				System.out.println("nulkla");
 			}
 			return null;
 		}
@@ -142,7 +155,6 @@ public class DisplayMessagesActivity extends ListActivity {
 						msgsList);
 				setListAdapter(adapter);
 			}
-			// progressDialog.dismiss();
 		}
 
 	}// FetchMsgsAsynTask
@@ -183,15 +195,11 @@ public class DisplayMessagesActivity extends ListActivity {
 
 		messagesET.setText("");
 
-		// ((RelativeLayout) findViewById(R.id.messages_list_RL))
-		// .setOnTouchListener(new OnTouchListener() {
-		// @Override
-		// public boolean onTouch(View v, MotionEvent event) {
-		InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-		imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-		// return false;
-		// }
-		// });
+		// to close the keyboard
+		InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		inputManager.hideSoftInputFromWindow(
+				getCurrentFocus().getWindowToken(),
+				InputMethodManager.HIDE_NOT_ALWAYS);
 
 	}
 
@@ -199,8 +207,6 @@ public class DisplayMessagesActivity extends ListActivity {
 		globalVariable.setChatPerson(null);
 		finish();
 	}
-
-	Intent nextIntent;
 
 	@Override
 	public void onResume() {
@@ -212,24 +218,18 @@ public class DisplayMessagesActivity extends ListActivity {
 		GlobalVariable.PIN++;
 
 		LocalBroadcastManager.getInstance(this).registerReceiver(
-				mMessageReceiver, new IntentFilter("new_message"));
+				messageReceiver, new IntentFilter("new_message"));
 	}
-
-	// @Override
-	// public void onRestart() {
-	// super.onRestart();
-	// }
 
 	@Override
 	public void onPause() {
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(
-				mMessageReceiver);
+				messageReceiver);
 		super.onPause();
 	}
 
 	@Override
 	public void onStop() {
-		Toast.makeText(this, "onStop", Toast.LENGTH_SHORT).show();
 		super.onStop();
 		GlobalVariable.PIN--;
 	}
@@ -244,16 +244,16 @@ public class DisplayMessagesActivity extends ListActivity {
 	public void setTitle(CharSequence title) {
 		getActionBar().setTitle(title);
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-	    switch (item.getItemId()) {
-	        case android.R.id.home:
-	            // app icon in action bar clicked; goto parent activity.
-	            this.finish();
-	            return true;
-	        default:
-	            return super.onOptionsItemSelected(item);
-	    }
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			// app icon in action bar clicked; goto parent activity.
+			this.finish();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 }

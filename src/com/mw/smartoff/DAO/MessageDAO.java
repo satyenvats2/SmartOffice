@@ -47,6 +47,7 @@ public class MessageDAO {
 		return msgsList;
 	}
 	
+	// SmartOffice
 	public void saveMessage(ParseUser fromPU, ParseUser toPU, String message) {
 		System.out.println("message is  : " + message);
 		ParseObject parseObject = new ParseObject("Messages");
@@ -58,6 +59,7 @@ public class MessageDAO {
 
         JSONObject data = new JSONObject();
         try {
+        	// this is the String receiver will recognise
             data.put("action", "com.mw.smartoff.STATUS_UPDATE");
             data.put("type", 2);
             data.put("alert", "asdf");

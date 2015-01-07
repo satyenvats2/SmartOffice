@@ -13,12 +13,13 @@ import com.mw.smartoff.DAO.UserDAO;
 import com.mw.smartoff.adapter.UserAutoCompleteAdapter;
 import com.mw.smartoff.extras.UserAutoCompleteTextView;
 import com.mw.smartoffice.R;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 public class CreateEmailActivity extends Activity {
 	UserDAO dao;
 	UserAutoCompleteTextView userACTV;
+	UserAutoCompleteAdapter adapter;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -29,7 +30,6 @@ public class CreateEmailActivity extends Activity {
 		FetchAutoTextDataAsynTask asynTask = new FetchAutoTextDataAsynTask();
 		asynTask.execute(new String[]{"Hello World"});
 	}
-
 	private class FetchAutoTextDataAsynTask extends
 			AsyncTask<String, Void, List<ParseUser>> {
 
@@ -44,7 +44,7 @@ public class CreateEmailActivity extends Activity {
 		protected void onPostExecute(final List<ParseUser> usersList) {
 			super.onPostExecute(usersList);
 			if (usersList != null && usersList.size() > 0) {
-				UserAutoCompleteAdapter adapter = new UserAutoCompleteAdapter(
+				adapter = new UserAutoCompleteAdapter(
 						CreateEmailActivity.this, usersList);
 				userACTV.setThreshold(1);
 				userACTV.setAdapter(adapter);

@@ -87,7 +87,6 @@ public class MeetingFragment extends Fragment {
 			case 0:
 				return new MeetingAll();
 			case 1:
-//				return new TestFragment2();
 				return new MeetingMy();
 			case 2:
 				return new MeetingMy();

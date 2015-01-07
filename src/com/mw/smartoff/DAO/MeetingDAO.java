@@ -27,7 +27,7 @@ public class MeetingDAO {
 		System.out.println("email is : " + emailID);
 		List<ParseObject> meetingList = null;
 		query.whereEqualTo("to", emailID);
-		query.orderByAscending("createdAt");
+		query.orderByDescending("createdAt");
 		query.include("from");
 		try {
 			meetingList = query.find();

@@ -106,7 +106,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="20dp"
                         android:layout_toRightOf="@+id/time_IV"
-                        android:text="time"
+                        android:text="Start time not available."
                         android:textSize="14sp"
                         android:typeface="serif" />
                 </RelativeLayout>
@@ -131,7 +131,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="20dp"
                         android:layout_toRightOf="@+id/location_IV"
-                        android:text="location"
+                        android:text="Location not available"
                         android:textSize="14sp"
                         android:typeface="serif" />
                 </RelativeLayout>

@@ -128,7 +128,6 @@ public class MainActivity extends FragmentActivity {
 		int titleId = getResources().getIdentifier("action_bar_title", "id",
 				"android");
 		TextView yourTextView = (TextView) findViewById(titleId);
-		// yourTextView.setTextColor(Color.parseColor("#016AB2"));
 		yourTextView.setTypeface(Typeface.SERIF);
 
 		findThings();
@@ -205,39 +204,31 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public void onPause() {
 		super.onPause();
-		Toast.makeText(this, "onPause MainA", Toast.LENGTH_SHORT).show();
+		Toast.makeText(this, "onPause MainActivity", Toast.LENGTH_SHORT).show();
 		Gson gson = new Gson();
-		if (globalVariable.getEmailList() != null) {
-			// Toast.makeText(this, "iifff", Toast.LENGTH_SHORT).show();
-
+		if (globalVariable.getEmailList() != null && globalVariable.getEmailList().size()>0) {
 			String json = gson.toJson(globalVariable.getEmailList());
 			editor.putString("email_list", json);
 		} else {
-			// Toast.makeText(this, "elsing2", Toast.LENGTH_SHORT).show();
 		}
-		if (globalVariable.getMeetingList() != null) {
+		if (globalVariable.getMeetingList() != null && globalVariable.getMeetingList().size()>0) {
 			String json = gson.toJson(globalVariable.getMeetingList());
 			editor.putString("meeting_list", json);
 		}
-		if (globalVariable.getMeetingOwnList() != null) {
+		if (globalVariable.getMeetingOwnList() != null && globalVariable.getMeetingOwnList().size()>0) {
 			String json = gson.toJson(globalVariable.getMeetingOwnList());
 			editor.putString("meeting_own_list", json);
 		}
-		if (globalVariable.getMeetingPendingList() != null) {
+		if (globalVariable.getMeetingPendingList() != null && globalVariable.getMeetingPendingList().size()>0) {
 			String json = gson.toJson(globalVariable.getMeetingPendingList());
 			editor.putString("meeting_pending_list", json);
 		}
-		if (globalVariable.getMeetingPendingList() != null) {
-			String json = gson.toJson(globalVariable.getMeetingPendingList());
-			editor.putString("user_list", json);
-		}
+//		if (globalVariable.getUserList() != null && globalVariable.getUserList().size()>0) {
+//			String json = gson.toJson(globalVariable.getUserList());
+//			editor.putString("user_list", json);
+//		}
 		editor.commit();
 	}
-
-	// @Override
-	// public void onRestart() {
-	// super.onRestart();
-	// }
 
 	@Override
 	public void onStop() {
@@ -311,8 +302,8 @@ public class MainActivity extends FragmentActivity {
 				.getResourceId(1, -1)));
 		navDrawerItemList.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons
 				.getResourceId(2, -1)));
-		navDrawerItemList.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons
-				.getResourceId(3, -1)));
+//		navDrawerItemList.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons
+//				.getResourceId(3, -1)));
 
 		// Recycle the typed array
 		navMenuIcons.recycle();

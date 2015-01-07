@@ -21,7 +21,7 @@
         <!-- <item name="android:textViewStyle">@style/RobotoTextViewStyle</item> -->
         <!-- <item name="android:buttonStyle">@style/RobotoButtonStyle</item> -->
         <!-- <item name="android:background">@android:color/white</item> -->
-                <item name="android:homeAsUpIndicator">@drawable/back_button</item>
+                <item name="android:homeAsUpIndicator">@drawable/arrow_left_blue</item>
     </style>
 
     <!-- <style name="RobotoTextViewStyle" parent="android:Widget.TextView"> -->

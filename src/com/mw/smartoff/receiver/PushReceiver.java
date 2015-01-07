@@ -43,8 +43,13 @@ public class PushReceiver extends BroadcastReceiver {
 			nextIntent = new Intent(context, JustADialogActivity.class);
 			nextIntent.putExtra("type", jsonObject.getInt("type"));
 			nextIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+			// if(a new chat message is received)
 			if (jsonObject.getInt("type") == 2) {
+				// if (the user is already chatting with someone)
 				if (globalVariable.getChatPerson() != null) {
+					// if(the chatting person is same as the one who sent the
+					// new message)
 					if (jsonObject.getString("fromUserId").equals(
 							globalVariable.getChatPerson().getObjectId())) {
 						// refresh chat list
@@ -58,24 +63,31 @@ public class PushReceiver extends BroadcastReceiver {
 								.sendBroadcast(nextIntent);
 					}
 				} else {
-					// update preferences for contacts page
+					// update preferences for contacts page, to display the
+					// number of unread messages
+
 					if (sharedPreferences.contains(jsonObject
 							.getString("fromUserId"))) {
 						editor.putInt(
 								jsonObject.getString("fromUserId"),
 								sharedPreferences.getInt(
 										jsonObject.getString("fromUserId"), 0) + 1);
-						editor.commit();
 					} else {
 						editor.putInt(jsonObject.getString("fromUserId"), 1);
-						editor.commit();
 					}
-					Intent nextIntent = new Intent("unread_messages_count");
+					editor.commit();
+
+					// If contacts page is already open, use intent to refresh
+					// the page.
+					Intent nextIntent = new Intent(
+							"unread_messages_from_various_users_count");
 					LocalBroadcastManager.getInstance(context).sendBroadcast(
 							nextIntent);
 
 				}
 			} else {
+				// handle new email & message in next activity because they have
+				// to show an alert & that is possible from an Activity only
 				context.startActivity(nextIntent);
 			}
 		} catch (JSONException e) {

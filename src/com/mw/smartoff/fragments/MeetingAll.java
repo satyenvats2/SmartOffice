@@ -58,8 +58,8 @@ public class MeetingAll extends Fragment {
 			adapter.swapData(meetingList);
 			meetingLV.onRefreshComplete();
 			adapter.notifyDataSetChanged();
-			Toast.makeText(context, "TestFrag1 broad response",
-					Toast.LENGTH_SHORT).show();
+//			Toast.makeText(context, "MeetingAllFrag broadcast response",
+//					Toast.LENGTH_SHORT).show();
 
 		}
 	};

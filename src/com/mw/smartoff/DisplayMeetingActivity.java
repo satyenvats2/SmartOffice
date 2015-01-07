@@ -63,7 +63,6 @@ public class DisplayMeetingActivity extends Activity {
 	AlertDialog.Builder alertDialogBuilder2;
 	AlertDialog alertDialog2;
 
-
 	LinearLayout.LayoutParams lp;
 
 	ParseObject selectedMeetingPO;
@@ -136,7 +135,7 @@ public class DisplayMeetingActivity extends Activity {
 
 		// if(my meetings)
 		if (selectedMeeting.getFrom().equals(
-				globalVariable.convertParseObjectToUser(ParseUser
+				globalVariable.convertParseUserToUser(ParseUser
 						.getCurrentUser()))) {
 			alertDialogBuilder = createDialog.createAlertDialog("Notes", null,
 					false);
@@ -218,8 +217,10 @@ public class DisplayMeetingActivity extends Activity {
 		senderNameTV.setText(selectedMeeting.getFrom().getName());
 		senderEmailIDTV.setText(selectedMeeting.getFrom().getEmail());
 		messageTV.setText(selectedMeeting.getContent());
-		timeTV.setText(globalVariable.getDisplayDate(selectedMeeting
-				.getStartTime()));
+		if (selectedMeeting.getStartTime() != null) {
+			timeTV.setText(globalVariable.getDisplayDate(selectedMeeting
+					.getStartTime()));
+		}
 		locationTV.setText(selectedMeeting.getLocation());
 		CharacterDrawable drawable = new CharacterDrawable(selectedMeeting
 				.getFrom().getName().toUpperCase().charAt(0), globalVariable
@@ -427,10 +428,10 @@ public class DisplayMeetingActivity extends Activity {
 
 	@Override
 	public void onStop() {
-
 		super.onStop();
-		if (GlobalVariable.PIN != 0)
+		if (GlobalVariable.PIN != 0) {
 			GlobalVariable.PIN--;
+		}
 	}
 
 }

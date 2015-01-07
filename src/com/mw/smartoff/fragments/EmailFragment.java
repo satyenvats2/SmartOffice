@@ -16,7 +16,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.costum.android.widget.PullAndLoadListView;
 import com.costum.android.widget.PullToRefreshListView;
@@ -50,15 +49,42 @@ public class EmailFragment extends Fragment {
 			// Extract data included in the Intent
 			// String message = intent.getStringExtra("message");
 			progressBarRL.setVisibility(View.GONE);
+			
+//			usersListPU = globalVariable.getUserList();
+//			if (usersListPU != null && usersListPU.size() > 0) {
+//				if (adapter == null) {
+//					adapter = new ContactsAdapter(getActivity(), usersListPU);
+//					contactLV.setAdapter(adapter);
+//				} else {
+//					adapter.swapData(usersListPU);
+//					adapter.notifyDataSetChanged();
+//				}
+//				prog
+			
+			
+//			
+//			emailList = globalVariable.getEmailList();
+//			if (emailList.size() < 1) {
+//				notificationTV.setVisibility(View.VISIBLE);
+//			}
+//			adapter.swapData(emailList);
+//			emailLV.onRefreshComplete();
+//			adapter.notifyDataSetChanged();
+			
 			emailList = globalVariable.getEmailList();
-			if (emailList.size() < 1) {
-				notificationTV.setVisibility(View.VISIBLE);
+			if (emailList != null && emailList.size() > 0) {
+				if (adapter == null) {
+					adapter = new EmailsAdapter(getActivity(), emailList);
+					emailLV.setAdapter(adapter);
+				} else {
+					adapter.swapData(emailList);
+					adapter.notifyDataSetChanged();
+				}
+				notificationTV.setVisibility(View.INVISIBLE);
 			}
-			adapter.swapData(emailList);
-			emailLV.onRefreshComplete();
-			adapter.notifyDataSetChanged();
-			Toast.makeText(context, "EmailFrag broad response",
-					Toast.LENGTH_SHORT).show();
+			
+//			Toast.makeText(context, "EmailFrag broad response",
+//					Toast.LENGTH_SHORT).show();
 		}
 	};
 
@@ -79,7 +105,7 @@ public class EmailFragment extends Fragment {
 		nextIntent = new Intent(getActivity(), DisplayEmailActivity.class);
 
 		emailList = globalVariable.getEmailList();
-		if (emailList.size() > 0) {
+		if (emailList != null && emailList.size() > 0) {
 			progressBarRL.setVisibility(View.GONE);
 		}
 		adapter = new EmailsAdapter(getActivity(), emailList);

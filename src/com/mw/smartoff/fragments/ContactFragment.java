@@ -26,6 +26,7 @@ import com.mw.smartoff.DisplayMessagesActivity;
 import com.mw.smartoff.DAO.UserDAO;
 import com.mw.smartoff.adapter.ContactsAdapter;
 import com.mw.smartoff.extras.GlobalVariable;
+import com.mw.smartoff.services.ContactService;
 import com.mw.smartoffice.R;
 import com.parse.ParseUser;
 
@@ -35,21 +36,45 @@ public class ContactFragment extends Fragment {
 	ProgressBar progressBar;
 
 	UserDAO dao;
+
 	GlobalVariable globalVariable;
+	List<ParseUser> usersListPU;
 	ContactsAdapter adapter;
+
 	Intent nextIntent;
+	Intent serviceIntent;
 
 	SharedPreferences sharedPreferences;
 	Editor editor;
 
-	private BroadcastReceiver unreadMessagesCounterReceiver = new BroadcastReceiver() {
+	private BroadcastReceiver contactListReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			// Extract data included in the Intent
 			// String message = intent.getStringExtra("message");
-			adapter.notifyDataSetChanged();
 			System.out.println(">>>>>>>>>>>suyccesese");
+			progressBar.setVisibility(View.INVISIBLE);
 
+			usersListPU = globalVariable.getUserList();
+			if (usersListPU != null && usersListPU.size() > 0) {
+				if (adapter == null) {
+					adapter = new ContactsAdapter(getActivity(), usersListPU);
+					contactLV.setAdapter(adapter);
+				} else {
+					adapter.swapData(usersListPU);
+					adapter.notifyDataSetChanged();
+				}
+				progressBar.setVisibility(View.INVISIBLE);
+			}
+			// Toast.makeText(context, "ContactFragment broadcast response",
+			// Toast.LENGTH_SHORT).show();
+		}
+	};
+
+	private BroadcastReceiver unreadMessagesReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			adapter.notifyDataSetChanged();
 		}
 	};
 
@@ -61,12 +86,42 @@ public class ContactFragment extends Fragment {
 
 	private void initThings() {
 		globalVariable = (GlobalVariable) getActivity().getApplicationContext();
+		usersListPU = globalVariable.getUserList();
+
 		dao = new UserDAO(getActivity());
+
+		serviceIntent = new Intent(getActivity(), ContactService.class);
 
 		sharedPreferences = PreferenceManager
 				.getDefaultSharedPreferences(getActivity()
 						.getApplicationContext());
 		editor = sharedPreferences.edit();
+
+		// if users were not there in preferences, then usersListPO would be
+		// null & cause problem in adapter
+		if (usersListPU != null) {
+			adapter = new ContactsAdapter(getActivity(), usersListPU);
+			contactLV.setAdapter(adapter);
+			progressBar.setVisibility(View.INVISIBLE);
+		}
+		contactLV.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View v,
+					int position, long id) {
+				System.out.println("helloo");
+				nextIntent = new Intent(getActivity(),
+						DisplayMessagesActivity.class);
+				globalVariable.setChatPerson(usersListPU.get(position));
+				
+				// What are next 2 lines for??
+				editor.putInt(usersListPU.get(position).getObjectId(), 0);
+				editor.commit();
+				
+				adapter.notifyDataSetChanged();
+				// nextIntent.putExtra("position", position);
+				startActivity(nextIntent);
+			}
+		});
 	}
 
 	@Override
@@ -84,8 +139,9 @@ public class ContactFragment extends Fragment {
 		findThings();
 		initThings();
 
-		FetchAllUsersAsynTask asynTask = new FetchAllUsersAsynTask();
-		asynTask.execute("Hello World");
+		getActivity().startService(serviceIntent);
+		// FetchAllUsersAsynTask asynTask = new FetchAllUsersAsynTask();
+		// asynTask.execute("Hello World");
 	}
 
 	private class FetchAllUsersAsynTask extends
@@ -93,7 +149,8 @@ public class ContactFragment extends Fragment {
 
 		@Override
 		protected List<ParseUser> doInBackground(String... params) {
-			if (globalVariable.getUserList() != null && globalVariable.getUserList().size()>0) {
+			if (globalVariable.getUserList() != null
+					&& globalVariable.getUserList().size() > 0) {
 				return null;
 			}
 
@@ -119,21 +176,22 @@ public class ContactFragment extends Fragment {
 		@Override
 		protected void onPostExecute(List<ParseUser> usersListPOForDBUpdate) {
 			super.onPostExecute(usersListPOForDBUpdate);
-			 progressBar.setVisibility(View.INVISIBLE);
+			progressBar.setVisibility(View.INVISIBLE);
 
-			final List<ParseUser> usersListPO = globalVariable.getUserList();
-			if (usersListPO != null && usersListPO.size() > 0) {
-				adapter = new ContactsAdapter(getActivity(), usersListPO);
+			final List<ParseUser> usersListPU = globalVariable.getUserList();
+			if (usersListPU != null && usersListPU.size() > 0) {
+				adapter = new ContactsAdapter(getActivity(), usersListPU);
 				contactLV.setAdapter(adapter);
 
 				contactLV.setOnItemClickListener(new OnItemClickListener() {
 					@Override
 					public void onItemClick(AdapterView<?> parent, View v,
 							int position, long id) {
+						System.out.println("helloo");
 						nextIntent = new Intent(getActivity(),
 								DisplayMessagesActivity.class);
-						globalVariable.setChatPerson(usersListPO.get(position));
-						editor.putInt(usersListPO.get(position).getObjectId(),
+						globalVariable.setChatPerson(usersListPU.get(position));
+						editor.putInt(usersListPU.get(position).getObjectId(),
 								0);
 						editor.commit();
 						adapter.notifyDataSetChanged();
@@ -151,7 +209,9 @@ public class ContactFragment extends Fragment {
 		super.onPause();
 		// Toast.makeText(getActivity(), "onPasue", Toast.LENGTH_SHORT).show();
 		LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(
-				unreadMessagesCounterReceiver);
+				contactListReceiver);
+		LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(
+				unreadMessagesReceiver);
 	}
 
 	@Override
@@ -160,7 +220,9 @@ public class ContactFragment extends Fragment {
 		// Toast.makeText(getActivity(), "onRedsume",
 		// Toast.LENGTH_SHORT).show();
 		LocalBroadcastManager.getInstance(getActivity()).registerReceiver(
-				unreadMessagesCounterReceiver,
-				new IntentFilter("unread_messages_count"));
+				contactListReceiver, new IntentFilter("contacts_count"));
+		LocalBroadcastManager.getInstance(getActivity()).registerReceiver(
+				unreadMessagesReceiver,
+				new IntentFilter("unread_messages_from_various_users_count"));
 	}
 }

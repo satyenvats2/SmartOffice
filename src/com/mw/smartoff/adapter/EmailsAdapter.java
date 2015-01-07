@@ -141,7 +141,6 @@ public class EmailsAdapter extends BaseAdapter {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		// System.out.println("\naa" + date2 + "\nbb" + todayDate2);
 		if (date2.compareTo(todayDate2) == 0)
 			NEW_FORMAT = "HH:mm";
 		else {

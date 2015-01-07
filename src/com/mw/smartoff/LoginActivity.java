@@ -25,6 +25,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -35,6 +36,7 @@ import com.mw.smartoff.DAO.UserDAO;
 import com.mw.smartoff.extras.GlobalVariable;
 import com.mw.smartoff.model.Email;
 import com.mw.smartoff.model.Meeting;
+import com.mw.smartoff.model.User;
 import com.mw.smartoffice.R;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -126,9 +128,10 @@ public class LoginActivity extends Activity {
 					}
 				});
 
-		nextIntent = new Intent(LoginActivity.this, MainActivity.class);
+		nextIntent = new Intent(this, MainActivity.class);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -149,47 +152,66 @@ public class LoginActivity extends Activity {
 				String value = sharedPreferences.getString("email_list", null);
 				if (value != null) {
 					Type listType = (Type) new TypeToken<ArrayList<Email>>() {
-                    }.getType();
-					globalVariable.setEmailList((List<Email>)gson.fromJson(value, listType));
+					}.getType();
+					globalVariable.setEmailList((List<Email>) gson.fromJson(
+							value, listType));
 				}
 			}
 			if (sharedPreferences.contains("meeting_list")) {
-				String value = sharedPreferences.getString("meeting_list", null);
+				String value = sharedPreferences
+						.getString("meeting_list", null);
 				if (value != null) {
 					Type listType = (Type) new TypeToken<ArrayList<Meeting>>() {
-                    }.getType();
-					globalVariable.setMeetingList((List<Meeting>)gson.fromJson(value, listType));
+					}.getType();
+					globalVariable.setMeetingList((List<Meeting>) gson
+							.fromJson(value, listType));
+					Toast.makeText(
+							this,
+							"meeting list size : "
+									+ globalVariable.getMeetingList().size(),
+							Toast.LENGTH_SHORT).show();
 				}
 			}
 			if (sharedPreferences.contains("meeting_own_list")) {
-				String value = sharedPreferences.getString("meeting_list", null);
+				String value = sharedPreferences
+						.getString("meeting_list", null);
 				if (value != null) {
 					Type listType = (Type) new TypeToken<ArrayList<Meeting>>() {
-                    }.getType();
-					globalVariable.setMeetingOwnList((List<Meeting>)gson.fromJson(value, listType));
+					}.getType();
+					globalVariable.setMeetingOwnList((List<Meeting>) gson
+							.fromJson(value, listType));
 				}
 			}
 			if (sharedPreferences.contains("meeting_pending_list")) {
-				String value = sharedPreferences.getString("meeting_pending_list", null);
+				String value = sharedPreferences.getString(
+						"meeting_pending_list", null);
 				if (value != null) {
 					Type listType = (Type) new TypeToken<ArrayList<Meeting>>() {
-                    }.getType();
-					globalVariable.setMeetingPendingList((List<Meeting>)gson.fromJson(value, listType));
+					}.getType();
+					globalVariable.setMeetingPendingList((List<Meeting>) gson
+							.fromJson(value, listType));
 				}
 			}
+
+			// GSON will not be able to parse object/list of ParseUser, so we have convert it to a model User
 			if (sharedPreferences.contains("user_list")) {
 				String value = sharedPreferences.getString("user_list", null);
 				if (value != null) {
-					Type listType = (Type) new TypeToken<ArrayList<Email>>() {
-                    }.getType();
-					globalVariable.setUserList((List<ParseUser>)gson.fromJson(value, listType));
+					Type listType = (Type) new TypeToken<ArrayList<User>>() {
+					}.getType();
+					globalVariable.setUserList(globalVariable
+							.convertUserListToPuList((List<User>) gson
+									.fromJson(value, listType)));
+					System.out.println(globalVariable.getUserList().size()
+							+ "user list null : "
+							+ globalVariable.getUserList() == null);
+					Toast.makeText(
+							this,
+							"user list size : "
+									+ globalVariable.getUserList().size(),
+							Toast.LENGTH_SHORT).show();
 				}
 			}
-//			else
-//			{
-//				System.out.println("elsing");
-//				Toast.makeText(this, "elseing", Toast.LENGTH_SHORT).show();
-//			}
 
 			startActivity(nextIntent);
 		}
@@ -250,6 +272,7 @@ public class LoginActivity extends Activity {
 				// collectUserData();
 				PushService.subscribe(LoginActivity.this, ParseUser
 						.getCurrentUser().getUsername(), MainActivity.class);
+
 				startActivity(nextIntent);
 			} else {
 				System.out
@@ -263,10 +286,10 @@ public class LoginActivity extends Activity {
 
 	private void collectUserData() {
 		// FetchEmailsAsynTask asynTask = new FetchEmailsAsynTask();
-		// asynTask.execute(new String[] { "Hello Worlkd" });
+		// asynTask.execute(new String[] { "Hello World" });
 
 		// FetchMeetingsAsynTask asynTask2 = new FetchMeetingsAsynTask();
-		// asynTask2.execute(new String[] { "Hello Worlkd" });
+		// asynTask2.execute(new String[] { "Hello World" });
 
 		// FetchMeetingsOwnAsynTask asynTask3 = new FetchMeetingsOwnAsynTask();
 		// asynTask3.execute(true);

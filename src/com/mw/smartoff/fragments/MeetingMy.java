@@ -56,7 +56,7 @@ public class MeetingMy extends Fragment {
 			adapter.swapData(meetingList);
 			meetingLV.onRefreshComplete();
 			adapter.notifyDataSetChanged();
-			Toast.makeText(context, "TestFrag3 broad response", Toast.LENGTH_SHORT).show();
+//			Toast.makeText(context, "MeetingMyFrag broadcast response", Toast.LENGTH_SHORT).show();
 		}
 	};
 
